@@ -1,0 +1,45 @@
+:root {
+  /* Brand Primitive Colors */
+  --color-warm-ivory: #F5F0E8;
+  --color-charcoal: #20201E;
+  --color-burnt-orange: #C65D35;
+  --color-burnt-orange-hover: #B24F29;
+  --color-burnt-orange-muted: rgba(198, 93, 53, 0.15);
+
+  /* Charcoal Tonal Nuances (for Dark/Immersive Sections) */
+  --charcoal-bg: #20201E;
+  --charcoal-surface: #272725;
+  --charcoal-surface-elevated: #30302D;
+  --charcoal-border: rgba(245, 240, 232, 0.09);
+  --charcoal-border-focus: rgba(198, 93, 53, 0.5);
+  --charcoal-text-primary: #F5F0E8;
+  --charcoal-text-secondary: #A8A69E;
+  --charcoal-text-muted: #72706A;
+
+  /* Warm Ivory Tonal Nuances (for Editorial/Open Sections) */
+  --ivory-bg: #F5F0E8;
+  --ivory-surface: #FCFAF6;
+  --ivory-surface-elevated: #EBE5DB;
+  --ivory-border: rgba(32, 32, 30, 0.09);
+  --ivory-border-focus: rgba(198, 93, 53, 0.5);
+  --ivory-text-primary: #20201E;
+  --ivory-text-secondary: #575550;
+  --ivory-text-muted: #87847C;
+
+  /* Typography Stacks */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* 8pt Spacing Grid */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1.0rem;  /* 16px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2.0rem;  /* 32px */
+  --space-12: 3.0rem; /* 48px */
+  --space-16: 4.0rem; /* 64px */
+  --space-24: 6.0rem; /* 96px */
+  --space-32: 8.0rem; /* 128px */
+}

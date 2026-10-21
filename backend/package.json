@@ -1,0 +1,24 @@
+{
+  "name": "neural-flow-automation-backend",
+  "version": "1.0.0",
+  "description": "Backend services for Neural Flow lead generation and outreach system",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test:sheets": "node src/testSheets.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "googleapis": "^140.0.0",
+    "node-cron": "^3.0.3",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
