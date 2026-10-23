@@ -85,10 +85,18 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#20201E] text-[#F5F0E8] selection:bg-[#C65D35] selection:text-[#F5F0E8] relative font-sans overflow-x-hidden">
+      {/* Skip to Main Content Link for Keyboard Accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] px-4 py-2 bg-[#C65D35] text-[#F5F0E8] font-mono text-xs font-bold rounded-lg shadow-xl"
+      >
+        Skip to main content
+      </a>
+
       <CustomCursor />
       <ScrollProgress />
       
-      {/* Navigation with Blualpha Audio Toggle */}
+      {/* Navigation */}
       <Navbar 
         onOpenMobileMenu={() => setMobileMenuOpen(true)} 
         soundEnabled={soundEnabled}
@@ -96,9 +104,9 @@ export default function App() {
       />
       <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* ========================================================================= */}
-        {/* SECTION 01 — HERO (CHARCOAL #20201E)                                      */}
+        {/* HERO                                                                      */}
         {/* ========================================================================= */}
         <section 
           id="hero"
@@ -144,30 +152,30 @@ export default function App() {
                 <ScrollReveal direction="up" delay={400}>
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10">
                     <a
-                      href="#projects"
+                      href="#contact"
                       onClick={playClick}
-                      className="btn-burnt-orange text-sm font-semibold px-7 py-3.5 rounded-lg shadow-lg"
+                      className="btn-burnt-orange text-sm font-semibold px-7 py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2"
                     >
-                      <span>{siteContent.brand.primaryCTA}</span>
-                      <ArrowDown className="w-4 h-4" />
+                      <span>Start a project</span>
+                      <ArrowUpRight className="w-4 h-4" />
                     </a>
                     <a
-                      href="#contact"
+                      href="#projects"
                       onClick={playClick}
                       className="inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-lg bg-[#2A2A28] border border-[rgba(245,240,232,0.12)] text-[#F5F0E8] hover:border-[#C65D35] hover:text-[#C65D35] transition-all hover:-translate-y-0.5"
                     >
-                      <span>{siteContent.brand.secondaryCTA}</span>
-                      <ArrowUpRight className="w-4 h-4" />
+                      <span>Selected work</span>
+                      <ArrowDown className="w-4 h-4" />
                     </a>
                   </div>
                 </ScrollReveal>
 
-                {/* Blualpha-Inspired Live Capability Ticker */}
+                {/* Honest Capability Ticker */}
                 <ScrollReveal direction="up" delay={500}>
                   <div className="pt-6 border-t border-[rgba(245,240,232,0.08)] flex flex-wrap items-center gap-y-2 gap-x-6 text-xs font-mono text-[#A8A69E]">
                     <div className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                      <span>100% Shipped Code</span>
+                      <span>100% Code Handover</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[#72706A]">•</span>
@@ -175,7 +183,7 @@ export default function App() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[#72706A]">•</span>
-                      <span>Zero Agency Overhead</span>
+                      <span>Zero Bloated Templates</span>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -303,13 +311,13 @@ export default function App() {
             <ScrollReveal direction="up">
               <div className="max-w-3xl mb-12">
                 <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-3">
-                  SECTION 03 // ZEYNA 3D SHOWCASE CAROUSEL
+                  // SELECTED WORK
                 </span>
                 <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#F5F0E8] tracking-tight mb-4">
                   Verified work. Built and shipped.
                 </h2>
                 <p className="text-base text-[#A8A69E]">
-                  Explore actual production software, client concepts, and full-stack web applications wrapped in an interactive 3D curved showcase dock.
+                  Explore actual production software, client concepts, and full-stack web applications.
                 </p>
               </div>
             </ScrollReveal>
@@ -333,7 +341,7 @@ export default function App() {
             <ScrollReveal direction="up">
               <div className="max-w-3xl mb-16">
                 <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-3">
-                  SECTION 04 // CAPABILITIES & SERVICES
+                  // CAPABILITIES & SERVICES
                 </span>
                 <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#20201E] tracking-tight mb-4">
                   What I build for businesses.
@@ -405,7 +413,7 @@ export default function App() {
             <ScrollReveal direction="up">
               <div className="max-w-3xl mb-16">
                 <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-3">
-                  SECTION 05 // DELIVERY PIPELINE & VELOCITY
+                  // DELIVERY PROCESS & ESTIMATOR
                 </span>
                 <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#F5F0E8] tracking-tight mb-4">
                   Predictable, 5-step delivery.
@@ -486,7 +494,7 @@ export default function App() {
               <div className="lg:col-span-7">
                 <ScrollReveal direction="right" delay={100}>
                   <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-3">
-                    SECTION 06 // ABOUT & CAPABILITIES
+                    // ABOUT & RESEARCH
                   </span>
                   
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-[#20201E] leading-tight tracking-tight mb-6">
@@ -531,8 +539,8 @@ export default function App() {
               <div className="lg:col-span-5 flex flex-col justify-between">
                 <ScrollReveal direction="left" delay={200}>
                   <div>
-                    <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[#87847C] mb-6">
-                      // TECHNICAL SPECIFICATIONS
+                    <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[#575550] mb-6">
+                      // SKILLS & TOOLS
                     </h3>
 
                     {/* Skills Groups with TiltCards */}
@@ -555,10 +563,10 @@ export default function App() {
                       <TiltCard maxTilt={5} scale={1.015} className="rounded-xl">
                         <div className="p-5 rounded-xl bg-white border border-[#20201E]/10">
                           <span className="font-mono text-xs text-[#C65D35] font-bold block mb-3 uppercase">
-                            Interactive & Motion Systems
+                            Practical AI & APIs
                           </span>
                           <div className="flex flex-wrap gap-2">
-                            {siteContent.about.skills.creative3d.map((s, idx) => (
+                            {siteContent.about.skills.aiAndApis.map((s, idx) => (
                               <span key={idx} className="font-mono text-xs px-2.5 py-1 rounded bg-[#F5F0E8] border border-[#20201E]/10 text-[#20201E]">
                                 {s}
                               </span>
@@ -570,10 +578,10 @@ export default function App() {
                       <TiltCard maxTilt={5} scale={1.015} className="rounded-xl">
                         <div className="p-5 rounded-xl bg-white border border-[#20201E]/10">
                           <span className="font-mono text-xs text-[#C65D35] font-bold block mb-3 uppercase">
-                            APIs, Runtimes & Delivery
+                            Tools & Delivery
                           </span>
                           <div className="flex flex-wrap gap-2">
-                            {siteContent.about.skills.toolsAndApis.map((s, idx) => (
+                            {siteContent.about.skills.toolsAndDelivery.map((s, idx) => (
                               <span key={idx} className="font-mono text-xs px-2.5 py-1 rounded bg-[#F5F0E8] border border-[#20201E]/10 text-[#20201E]">
                                 {s}
                               </span>
@@ -610,7 +618,7 @@ export default function App() {
                 
                 <div className="text-center max-w-2xl mx-auto mb-12">
                   <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-3">
-                    SECTION 07 // PROJECT ENQUIRY
+                    // START A PROJECT
                   </span>
                   <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#20201E] tracking-tight mb-4">
                     {siteContent.contact.headline}
@@ -631,7 +639,7 @@ export default function App() {
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="text-left overflow-hidden">
-                      <span className="font-mono text-[10px] text-[#87847C] block uppercase">Academic / Main</span>
+                      <span className="font-mono text-[10px] text-[#575550] block uppercase">Direct Email</span>
                       <span className="text-xs font-semibold text-[#20201E] truncate block">{siteContent.socials.email}</span>
                     </div>
                   </a>
@@ -647,8 +655,8 @@ export default function App() {
                       <LinkedinIcon className="w-4 h-4" />
                     </div>
                     <div className="text-left">
-                      <span className="font-mono text-[10px] text-[#87847C] block uppercase">LinkedIn</span>
-                      <span className="text-xs font-semibold text-[#20201E]">anubhav8210</span>
+                      <span className="font-mono text-[10px] text-[#575550] block uppercase">LinkedIn</span>
+                      <span className="text-xs font-semibold text-[#20201E]">Anubhav Sharma</span>
                     </div>
                   </a>
 
@@ -745,10 +753,11 @@ export default function App() {
                           name="budget"
                           className="w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border border-[#20201E]/10 text-[#20201E] text-sm focus:border-[#C65D35] transition-colors"
                         >
-                          <option value="₹15,000 – ₹30,000 ($200 – $400)">₹15,000 – ₹30,000 ($200 – $400)</option>
-                          <option value="₹30,000 – ₹60,000 ($400 – $800)">₹30,000 – ₹60,000 ($400 – $800)</option>
-                          <option value="₹60,000+ ($800+)">₹60,000+ ($800+)</option>
-                          <option value="Custom Scope / To Be Discussed">Custom Scope / To Be Discussed</option>
+                          <option value="Under ₹25,000 ($300)">Under ₹25,000 ($300)</option>
+                          <option value="₹25,000 – ₹50,000 ($300 – $600)">₹25,000 – ₹50,000 ($300 – $600)</option>
+                          <option value="₹50,000 – ₹1,00,000 ($600 – $1,200)">₹50,000 – ₹1,00,000 ($600 – $1,200)</option>
+                          <option value="₹1,00,000+ ($1,200+)">₹1,00,000+ ($1,200+)</option>
+                          <option value="Not sure yet / Let's discuss">Not sure yet / Let's discuss</option>
                         </select>
                       </div>
                     </div>

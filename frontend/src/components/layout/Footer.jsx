@@ -22,7 +22,7 @@ export default function Footer({ onSwitchToCockpit }) {
               </span>
             </div>
             <p className="text-[#A8A69E] text-sm max-w-md leading-relaxed mb-6 font-normal">
-              Independent digital studio founded by Anubhav Sharma. Designing and building modern websites, web applications, and AI-powered solutions for ambitious businesses.
+              {siteContent.brand.supportingCopy}
             </p>
             <div className="flex items-center gap-3">
               <a
@@ -64,7 +64,7 @@ export default function Footer({ onSwitchToCockpit }) {
 
           {/* Quick Navigation */}
           <div className="md:col-span-3">
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#72706A] mb-4">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#A8A69E] mb-4">
               Navigation
             </h3>
             <ul className="space-y-2.5 text-sm">
@@ -75,7 +75,7 @@ export default function Footer({ onSwitchToCockpit }) {
               </li>
               <li>
                 <a href="#projects" className="text-[#A8A69E] hover:text-[#C65D35] transition-colors">
-                  Selected Projects
+                  Selected Work
                 </a>
               </li>
               <li>
@@ -101,10 +101,10 @@ export default function Footer({ onSwitchToCockpit }) {
             </ul>
           </div>
 
-          {/* Technical Metadata */}
+          {/* Business Outcomes & Specs */}
           <div className="md:col-span-3">
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#72706A] mb-4">
-              Engineering Specs
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#A8A69E] mb-4">
+              What you get
             </h3>
             <ul className="space-y-2 font-mono text-xs text-[#A8A69E]">
               <li className="flex items-center justify-between">
@@ -112,12 +112,12 @@ export default function Footer({ onSwitchToCockpit }) {
                 <span className="text-[#F5F0E8]">React 19 · Vite</span>
               </li>
               <li className="flex items-center justify-between">
-                <span>Styling:</span>
-                <span className="text-[#F5F0E8]">Tailwind CSS v4</span>
+                <span>Performance:</span>
+                <span className="text-[#F5F0E8]">Fast on Phones</span>
               </li>
               <li className="flex items-center justify-between">
-                <span>Platform:</span>
-                <span className="text-[#C65D35]">Neural Flow Studio</span>
+                <span>Code Ownership:</span>
+                <span className="text-[#C65D35]">100% Handover</span>
               </li>
               <li className="flex items-center justify-between">
                 <span>Location:</span>

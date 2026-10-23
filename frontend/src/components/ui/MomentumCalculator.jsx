@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, Check, Gauge, Zap, Clock, ShieldCheck } from 'lucide-react';
+import { Check, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export default function MomentumCalculator({ onSelectScope }) {
   const [platformType, setPlatformType] = useState('webapp');
-  const [timelineSpeed, setTimelineSpeed] = useState('standard');
   const [selectedAddons, setSelectedAddons] = useState(['responsive', 'seo']);
 
   const platformOptions = [
-    { id: 'webapp', name: 'Web Application / Platform', baseDays: 14, score: 94, tech: 'React 19 · Vite · TypeScript' },
-    { id: 'landing', name: 'High-Impact Brand / Product Site', baseDays: 7, score: 98, tech: 'React 19 · Tailwind · 3D' },
-    { id: 'clinic', name: 'Clinic & Patient Booking Portal', baseDays: 10, score: 96, tech: 'React · Accessible Booking UI' },
-    { id: 'ai', name: 'AI API Integration & Tool', baseDays: 12, score: 92, tech: 'React · Claude / Groq AI · Node' },
+    { id: 'landing', name: 'High-Impact Business Website', baseDays: 7, tech: 'React 19 · Vite · Tailwind' },
+    { id: 'clinic', name: 'Clinic & Appointment Portal', baseDays: 10, tech: 'React · Patient Booking UI' },
+    { id: 'webapp', name: 'Full-Stack Web App / Portal', baseDays: 14, tech: 'React / Next.js · Supabase' },
+    { id: 'ai', name: 'Practical AI Tool / Integration', baseDays: 12, tech: 'React · Claude / Groq API' },
   ];
 
   const addonOptions = [
-    { id: 'responsive', name: 'Multi-Device Responsive Matrix (360px - 1920px)' },
-    { id: 'seo', name: 'Core Web Vitals & Technical SEO Baseline' },
-    { id: 'motion', name: 'Interactive Micro-Animations & Haptic Audio' },
-    { id: 'auth', name: 'Authentication & Database (Supabase)' },
+    { id: 'responsive', name: 'Multi-device responsive layout (phones, tablets, desktop)' },
+    { id: 'seo', name: 'Fast on phones & technical SEO foundation' },
+    { id: 'a11y', name: 'Accessible keyboard navigation & contrast' },
+    { id: 'auth', name: 'Authentication & database setup (Supabase)' },
   ];
 
   const toggleAddon = (id) => {
@@ -27,11 +26,10 @@ export default function MomentumCalculator({ onSelectScope }) {
   };
 
   const currentPlatform = platformOptions.find((p) => p.id === platformType) || platformOptions[0];
-  const calculatedDays = currentPlatform.baseDays + (selectedAddons.length * 1.5) - (timelineSpeed === 'expedited' ? 3 : 0);
-  const momentumScore = Math.min(99, currentPlatform.score + (selectedAddons.length * 1));
+  const calculatedDays = currentPlatform.baseDays + (selectedAddons.length * 1.5);
 
   const handleApplyToContact = () => {
-    const summary = `${currentPlatform.name} | Timeline: ${timelineSpeed} (~${Math.round(calculatedDays)} days) | Addons: ${selectedAddons.join(', ')}`;
+    const summary = `${currentPlatform.name} (~${Math.round(calculatedDays)} days estimated) | Add-ons: ${selectedAddons.join(', ')}`;
     if (onSelectScope) {
       onSelectScope(summary);
     }
@@ -44,19 +42,19 @@ export default function MomentumCalculator({ onSelectScope }) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-[#20201E]/10">
         <div>
           <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-1">
-            SUPERCONSCIOUS-INSPIRED VELOCITY TOOL
+            PROJECT ESTIMATOR
           </span>
           <h3 className="text-2xl font-display font-bold text-[#20201E]">
-            Sprint Momentum & Scope Estimator
+            Sprint Scope & Turnaround Estimator
           </h3>
         </div>
 
-        {/* Live Momentum Gauge Pill */}
+        {/* Turnaround Badge (Unmeasured velocity removed) */}
         <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-[#F5F0E8] border border-[#20201E]/10">
-          <Gauge className="w-5 h-5 text-[#C65D35]" />
+          <Clock className="w-5 h-5 text-[#C65D35]" />
           <div>
-            <span className="font-mono text-[10px] text-[#87847C] uppercase block">Launch Momentum</span>
-            <span className="font-mono font-bold text-sm text-[#20201E]">{momentumScore}% Velocity</span>
+            <span className="font-mono text-[10px] text-[#575550] uppercase block">Typical Sprint</span>
+            <span className="font-mono font-bold text-sm text-[#20201E]">1 – 3 Weeks</span>
           </div>
         </div>
       </div>
@@ -82,7 +80,7 @@ export default function MomentumCalculator({ onSelectScope }) {
                   }`}
                 >
                   <span className="block mb-1">{opt.name}</span>
-                  <span className="font-mono text-[10px] opacity-70 block">{opt.tech}</span>
+                  <span className="font-mono text-[10px] opacity-75 block">{opt.tech}</span>
                 </button>
               ))}
             </div>
@@ -91,7 +89,7 @@ export default function MomentumCalculator({ onSelectScope }) {
           {/* Step 2: Architecture Addons */}
           <div>
             <label className="block font-mono text-xs font-bold text-[#575550] uppercase tracking-wider mb-3">
-              2. Architectural Specifications & Add-ons
+              2. Included Deliverables & Features
             </label>
             <div className="space-y-2">
               {addonOptions.map((addon) => {
@@ -122,13 +120,13 @@ export default function MomentumCalculator({ onSelectScope }) {
         {/* Right Output Scorecard */}
         <div className="lg:col-span-5 bg-[#20201E] text-[#F5F0E8] p-6 sm:p-8 rounded-2xl flex flex-col justify-between shadow-xl">
           <div>
-            <div className="flex items-center justify-between font-mono text-xs text-[#72706A] mb-4 pb-3 border-b border-[rgba(245,240,232,0.1)]">
+            <div className="flex items-center justify-between font-mono text-xs text-[#A8A69E] mb-4 pb-3 border-b border-[rgba(245,240,232,0.1)]">
               <span>ESTIMATED SPRINT</span>
-              <span className="text-[#C65D35]">DELIVERY BLUEPRINT</span>
+              <span className="text-[#C65D35]">DIRECT DELIVERY</span>
             </div>
 
             <div className="mb-6">
-              <span className="font-mono text-xs text-[#A8A69E] block mb-1">Target Delivery Timeframe:</span>
+              <span className="font-mono text-xs text-[#A8A69E] block mb-1">Estimated Turnaround:</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-display font-bold text-[#F5F0E8]">
                   ~{Math.round(calculatedDays)} Days
@@ -144,11 +142,11 @@ export default function MomentumCalculator({ onSelectScope }) {
               </div>
               <div className="flex items-center justify-between py-1.5 border-b border-[rgba(245,240,232,0.06)]">
                 <span>Communication:</span>
-                <span className="text-[#F5F0E8]">Direct with Anubhav</span>
+                <span className="text-[#F5F0E8]">Direct with Engineer</span>
               </div>
               <div className="flex items-center justify-between py-1.5 border-b border-[rgba(245,240,232,0.06)]">
-                <span>Post-Launch Warranty:</span>
-                <span className="text-[#C65D35]">14 Days Direct Fixes</span>
+                <span>Post-Launch Support:</span>
+                <span className="text-[#C65D35]">Direct Bug Fix Support</span>
               </div>
             </div>
           </div>
@@ -158,7 +156,7 @@ export default function MomentumCalculator({ onSelectScope }) {
             onClick={handleApplyToContact}
             className="w-full btn-burnt-orange text-xs py-3.5 rounded-xl font-bold flex items-center justify-center gap-2"
           >
-            <span>Lock Configuration & Inquire</span>
+            <span>Start a project with this scope</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

@@ -6,9 +6,7 @@ import {
   Layers, 
   ArrowUpRight, 
   CheckCircle2, 
-  Activity, 
   ShieldCheck, 
-  Sparkles,
   Terminal
 } from 'lucide-react';
 import TiltCard from '../motion/TiltCard';
@@ -19,57 +17,57 @@ export default function HeroStudioConsole({ onPlayClick }) {
   const capabilities = [
     {
       id: 'web-dev',
-      label: '01 // WEB DEVELOPMENT',
-      title: 'Responsive Systems & Platforms',
+      label: 'Web Dev',
+      title: 'Modern Business Websites',
       badge: 'FRONTEND ARCHITECTURE',
       icon: Code2,
-      description: 'Custom React & TypeScript business websites engineered for sub-second speeds, fluid layout responsiveness, and accessible semantics.',
+      description: 'Custom React 19 & TypeScript business websites engineered for fast load times on phones, fluid layout responsiveness, and clean semantics.',
       metrics: [
-        { label: 'Core Web Vitals', value: '99/100' },
-        { label: 'Layout Stability', value: '0.00 CLS' },
-        { label: 'Render Target', value: '60–120 FPS' }
+        { label: 'Architecture', value: 'React 19 · Vite' },
+        { label: 'Responsiveness', value: '360px to 4K' },
+        { label: 'Code Quality', value: '100% Handover' }
       ],
       stack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Vite']
     },
     {
       id: 'fullstack',
-      label: '02 // FULL-STACK',
+      label: 'Full-Stack',
       title: 'End-to-End Web Applications',
       badge: 'SCALABLE INFRASTRUCTURE',
       icon: Layers,
       description: 'Pairing clean frontend interfaces with relational database architectures, serverless endpoints, authentication, and secure APIs.',
       metrics: [
-        { label: 'API Latency', value: '< 150ms' },
-        { label: 'Data Store', value: 'Supabase / SQL' },
-        { label: 'Auth Handshake', value: 'OAuth & JWT' }
+        { label: 'Frontend', value: 'Next.js & React' },
+        { label: 'Database', value: 'Supabase / SQL' },
+        { label: 'Security', value: 'OAuth & Secure APIs' }
       ],
       stack: ['Next.js 14', 'Node.js', 'Supabase', 'PostgreSQL']
     },
     {
       id: 'ai-solutions',
-      label: '03 // AI SOLUTIONS',
+      label: 'AI Solutions',
       title: 'Practical Intelligence & APIs',
       badge: 'INTELLIGENT WORKFLOWS',
       icon: Cpu,
-      description: 'Integrating structured LLM pipelines, automated code/spend audits, and speech recognition into intuitive user workflows.',
+      description: 'Integrating structured LLM pipelines (Claude, Groq), automated data audits, and speech recognition into intuitive user workflows.',
       metrics: [
-        { label: 'LLM Runtimes', value: 'Groq · Claude' },
-        { label: 'Inference Flow', value: 'Streaming UI' },
-        { label: 'Output Schema', value: 'Structured JSON' }
+        { label: 'Model APIs', value: 'Claude & Groq' },
+        { label: 'Interfaces', value: 'Speech & Streaming' },
+        { label: 'Outputs', value: 'Structured JSON' }
       ],
-      stack: ['Claude API', 'Groq Llama-3', 'Web Speech API', 'Embeddings']
+      stack: ['Claude API', 'Groq API', 'Web Speech API', 'Node.js']
     },
     {
       id: 'automation',
-      label: '04 // AUTOMATION',
-      title: 'Background Queues & Workflows',
-      badge: 'ZERO-MANUAL PROCESS',
+      label: 'Automation',
+      title: 'Background Tasks & Workflows',
+      badge: 'STREAMLINED PROCESSES',
       icon: Zap,
       description: 'Building webhook receivers, asynchronous task workers, and automated synchronization pipelines that eliminate manual operations.',
       metrics: [
-        { label: 'Job Worker', value: 'Queue Engine' },
-        { label: 'Execution', value: '24/7 Daemon' },
-        { label: 'Retry Policy', value: 'Auto-Backoff' }
+        { label: 'Integration', value: 'REST & Webhooks' },
+        { label: 'Execution', value: 'Node Workers' },
+        { label: 'Reliability', value: 'Error Logging' }
       ],
       stack: ['Webhooks', 'Background Queues', 'REST APIs', 'Node Workers']
     }
@@ -90,11 +88,11 @@ export default function HeroStudioConsole({ onPlayClick }) {
             <div className="flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34D399]" />
               <span className="font-mono text-xs font-bold text-[#F5F0E8] tracking-wider uppercase">
-                NEURAL FLOW // STUDIO BLUEPRINT
+                NEURAL FLOW // WHAT YOU GET
               </span>
             </div>
             <span className="font-mono text-[10px] text-[#A8A69E] px-2.5 py-1 rounded-full bg-[#20201E] border border-[rgba(245,240,232,0.08)]">
-              ACTIVE SPRINT
+              DIRECT DELIVERY
             </span>
           </div>
 
@@ -119,7 +117,7 @@ export default function HeroStudioConsole({ onPlayClick }) {
                 >
                   <Icon className={`w-4 h-4 mb-2 ${isActive ? 'text-[#F5F0E8]' : 'text-[#C65D35]'}`} />
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider block truncate">
-                    {item.id.replace('-', ' ')}
+                    {item.label}
                   </span>
                 </button>
               );
@@ -146,11 +144,11 @@ export default function HeroStudioConsole({ onPlayClick }) {
               {current.description}
             </p>
 
-            {/* Live Architectural Metrics Grid */}
+            {/* Architectural Facts Grid (Unmeasured claims removed) */}
             <div className="grid grid-cols-3 gap-2 pt-3 border-t border-[rgba(245,240,232,0.06)]">
               {current.metrics.map((m, idx) => (
                 <div key={idx} className="p-2 rounded-lg bg-[#252523] text-center">
-                  <span className="font-mono text-[9px] text-[#72706A] uppercase block">
+                  <span className="font-mono text-[9px] text-[#A8A69E] uppercase block">
                     {m.label}
                   </span>
                   <span className="font-mono text-xs font-bold text-[#F5F0E8] block mt-0.5">
