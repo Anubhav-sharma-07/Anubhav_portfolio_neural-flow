@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import ProjectMockupFrame from './ProjectMockupFrame';
+import SpendLensCursorTour from './SpendLensCursorTour';
+import BeforeAfter from '../motion/BeforeAfter';
 
 export default function ZeynaShowcaseCarousel({ projects }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -128,6 +130,43 @@ export default function ZeynaShowcaseCarousel({ projects }) {
               <div className="mb-6">
                 <ProjectMockupFrame project={activeProject} isFirst={isFirst} />
               </div>
+
+              {/* Sample Data Pings (SpendLens only) */}
+              {activeProject.samplePings && activeProject.samplePings.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {activeProject.samplePings.map((ping) => (
+                    <div
+                      key={ping.id}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#252523] border border-amber-500/30 text-amber-200 text-xs font-mono"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      <span>{ping.text}</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold uppercase tracking-wider">
+                        {ping.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Interactive Cursor Tour (SpendLens only) */}
+              {activeProject.id === 'spendlens' && (
+                <div className="mb-6">
+                  <SpendLensCursorTour />
+                </div>
+              )}
+
+              {/* Draggable Before/After Slider (Hides automatically if beforeImage is missing) */}
+              {activeProject.beforeAfter && (
+                <div className="mb-6">
+                  <BeforeAfter
+                    beforeImage={activeProject.beforeAfter.beforeImage}
+                    afterImage={activeProject.beforeAfter.afterImage}
+                    beforeLabel={activeProject.beforeAfter.beforeLabel}
+                    afterLabel={activeProject.beforeAfter.afterLabel}
+                  />
+                </div>
+              )}
 
               {/* Problem Statement (Factual proof with visible TODO if pending) */}
               {activeProject.problem.includes('TODO') ? (

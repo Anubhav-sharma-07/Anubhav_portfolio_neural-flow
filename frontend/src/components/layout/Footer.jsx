@@ -117,7 +117,7 @@ export default function Footer({ onSwitchToCockpit }) {
               </li>
               <li className="flex items-center justify-between">
                 <span>Code Ownership:</span>
-                <span className="text-[#C65D35]">100% Handover</span>
+                <span className="text-[#E07A52] font-semibold">100% Handover</span>
               </li>
               <li className="flex items-center justify-between">
                 <span>Location:</span>
@@ -128,7 +128,7 @@ export default function Footer({ onSwitchToCockpit }) {
                   <button
                     type="button"
                     onClick={onSwitchToCockpit}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono text-[#72706A] hover:text-[#C65D35] transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-[#A8A69E] hover:text-[#E07A52] transition-colors"
                   >
                     <Terminal className="w-3.5 h-3.5" />
                     <span>Launch Automation Cockpit</span>
@@ -140,7 +140,7 @@ export default function Footer({ onSwitchToCockpit }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#72706A]">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#A8A69E]">
           <p>
             © {new Date().getFullYear()} Anubhav Sharma. All rights reserved.
           </p>

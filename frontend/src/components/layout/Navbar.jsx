@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Menu, Volume2, VolumeX } from 'lucide-react';
-import { siteContent } from '../../content/siteContent';
 
 export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) {
   const [scrolled, setScrolled] = useState(false);

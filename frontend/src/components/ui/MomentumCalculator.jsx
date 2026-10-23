@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Check, Clock, ArrowRight } from 'lucide-react';
 
 export default function MomentumCalculator({ onSelectScope }) {
   const [platformType, setPlatformType] = useState('webapp');

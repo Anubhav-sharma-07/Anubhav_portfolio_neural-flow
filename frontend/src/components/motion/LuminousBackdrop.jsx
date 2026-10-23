@@ -5,7 +5,8 @@ export default function LuminousBackdrop({ variant = 'charcoal', className = '' 
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (prefersReduced || !hasFinePointer) return;
 
     const container = containerRef.current;
     if (!container) return;
@@ -25,14 +26,20 @@ export default function LuminousBackdrop({ variant = 'charcoal', className = '' 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     const animate = () => {
-      currentX += (targetX - currentX) * 0.05;
-      currentY += (targetY - currentY) * 0.05;
+      // Only update if there is active delta to avoid idle RAF shifts
+      const deltaX = targetX - currentX;
+      const deltaY = targetY - currentY;
+      
+      if (Math.abs(deltaX) > 0.01 || Math.abs(deltaY) > 0.01) {
+        currentX += deltaX * 0.05;
+        currentY += deltaY * 0.05;
 
-      const orbs = container.querySelectorAll('.luminous-orb');
-      orbs.forEach((orb, i) => {
-        const factor = (i + 1) * 0.4;
-        orb.style.transform = `translate3d(${currentX * factor}px, ${currentY * factor}px, 0)`;
-      });
+        const orbs = container.querySelectorAll('.luminous-orb');
+        orbs.forEach((orb, i) => {
+          const factor = (i + 1) * 0.4;
+          orb.style.transform = `translate3d(${currentX * factor}px, ${currentY * factor}px, 0)`;
+        });
+      }
 
       rafId = requestAnimationFrame(animate);
     };
@@ -53,10 +60,11 @@ export default function LuminousBackdrop({ variant = 'charcoal', className = '' 
       className={`absolute inset-0 overflow-hidden pointer-events-none select-none ${className}`}
       aria-hidden="true"
     >
-      {/* Orb 1: Primary Burnt Orange Glow */}
+      {/* Orb 1: Primary Burnt Orange Glow (Fixed pixel anchor prevents percentage CLS) */}
       <div 
-        className="luminous-orb absolute top-[-10%] right-[10%] w-[450px] h-[450px] rounded-full blur-[110px] opacity-40 animate-drift-slow"
+        className="luminous-orb absolute -top-12 -right-12 w-[380px] h-[380px] rounded-full blur-[100px] opacity-35"
         style={{
+          contain: 'strict',
           background: isCharcoal 
             ? 'radial-gradient(circle, rgba(198, 93, 53, 0.28) 0%, rgba(198, 93, 53, 0) 70%)'
             : 'radial-gradient(circle, rgba(198, 93, 53, 0.15) 0%, rgba(198, 93, 53, 0) 70%)'
@@ -65,8 +73,9 @@ export default function LuminousBackdrop({ variant = 'charcoal', className = '' 
 
       {/* Orb 2: Secondary Accent Glow */}
       <div 
-        className="luminous-orb absolute bottom-[-10%] left-[5%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-35 animate-drift-reverse"
+        className="luminous-orb absolute -bottom-12 -left-12 w-[360px] h-[360px] rounded-full blur-[90px] opacity-30"
         style={{
+          contain: 'strict',
           background: isCharcoal
             ? 'radial-gradient(circle, rgba(245, 240, 232, 0.12) 0%, rgba(32, 32, 30, 0) 70%)'
             : 'radial-gradient(circle, rgba(198, 93, 53, 0.12) 0%, rgba(245, 240, 232, 0) 70%)'
@@ -75,8 +84,9 @@ export default function LuminousBackdrop({ variant = 'charcoal', className = '' 
 
       {/* Orb 3: Subtle Center Ambient Pulse */}
       <div 
-        className="luminous-orb absolute top-[40%] left-[35%] w-[350px] h-[350px] rounded-full blur-[120px] opacity-25 animate-pulse-glow"
+        className="luminous-orb absolute top-48 left-1/3 w-[300px] h-[300px] rounded-full blur-[110px] opacity-20"
         style={{
+          contain: 'strict',
           background: isCharcoal
             ? 'radial-gradient(circle, rgba(198, 93, 53, 0.18) 0%, transparent 70%)'
             : 'radial-gradient(circle, rgba(235, 229, 219, 0.4) 0%, transparent 70%)'

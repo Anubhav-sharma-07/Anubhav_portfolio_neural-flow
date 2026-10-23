@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Terminal, ShieldCheck, Sparkles, Layers } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function ProjectMockupFrame({ project, isFirst = false }) {
   const [imgError, setImgError] = useState(false);

@@ -42,4 +42,11 @@
   --space-16: 4.0rem; /* 64px */
   --space-24: 6.0rem; /* 96px */
   --space-32: 8.0rem; /* 128px */
+
+  /* Motion Tokens (Consistent curve & durations) */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 300ms;
+  --duration-normal: 500ms;
+  --duration-deliberate: 700ms;
+  --stagger-base: 80ms;
 }

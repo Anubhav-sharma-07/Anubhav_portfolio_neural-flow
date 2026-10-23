@@ -4,10 +4,7 @@ import {
   Cpu, 
   Zap, 
   Layers, 
-  ArrowUpRight, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Terminal
+  ArrowUpRight
 } from 'lucide-react';
 import TiltCard from '../motion/TiltCard';
 
@@ -111,11 +108,11 @@ export default function HeroStudioConsole({ onPlayClick }) {
                   }}
                   className={`p-2.5 rounded-xl text-left transition-all duration-200 cursor-pointer flex flex-col justify-between ${
                     isActive
-                      ? 'bg-[#C65D35] text-[#F5F0E8] shadow-md scale-[1.02]'
-                      : 'bg-[#20201E]/80 hover:bg-[#2A2A28] text-[#A8A69E] border border-[rgba(245,240,232,0.05)]'
+                      ? 'bg-[#B24F29] text-white shadow-md scale-[1.02]'
+                      : 'bg-[#20201E]/80 hover:bg-[#2A2A28] text-[#D4D2CA] border border-[rgba(245,240,232,0.05)]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 mb-2 ${isActive ? 'text-[#F5F0E8]' : 'text-[#C65D35]'}`} />
+                  <Icon className={`w-4 h-4 mb-2 ${isActive ? 'text-[#F5F0E8]' : 'text-[#E07A52]'}`} />
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider block truncate">
                     {item.label}
                   </span>
@@ -128,12 +125,12 @@ export default function HeroStudioConsole({ onPlayClick }) {
           <div className="p-5 rounded-2xl bg-[#1E1E1C] border border-[rgba(245,240,232,0.08)] relative z-10 mb-6">
             <div className="flex items-start justify-between gap-4 mb-2">
               <div>
-                <span className="font-mono text-[10px] text-[#C65D35] uppercase tracking-widest font-semibold block mb-1">
+                <span className="font-mono text-[10px] text-[#E07A52] uppercase tracking-widest font-semibold block mb-1">
                   {current.badge}
                 </span>
-                <h3 className="font-display font-bold text-lg text-[#F5F0E8]">
+                <h2 className="font-display font-bold text-lg text-[#F5F0E8]">
                   {current.title}
-                </h3>
+                </h2>
               </div>
               <div className="w-8 h-8 rounded-lg bg-[#C65D35]/15 text-[#C65D35] flex items-center justify-center shrink-0">
                 <current.icon className="w-4 h-4" />
