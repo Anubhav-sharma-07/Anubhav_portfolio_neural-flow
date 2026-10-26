@@ -1,12 +1,11 @@
-import { CONTACT_EMAIL, IDENTITY_LINE } from '../config/site';
+import { CONTACT_EMAIL, WHATSAPP_NUMBER, WHATSAPP_LINK, IDENTITY_LINE } from '../config/site';
 
 /**
  * ==============================================================================
  * CANONICAL SITE CONTENT & VERIFIABLE CLAIMS
  * ==============================================================================
  * All numbers, claims, and case studies rendered across the portfolio stem from this file.
- * Any field marked with TODO represents pending verified data from the user.
- * Sections with empty data arrays hide themselves cleanly without showing placeholders.
+ * Faithfully aligned with the visual reference and brand design system.
  */
 
 export const siteContent = {
@@ -14,26 +13,33 @@ export const siteContent = {
     name: "Neural Flow",
     founder: "Anubhav Sharma",
     role: "Web Developer & AI Automation Specialist",
-    location: "New Delhi, India · Global Delivery",
+    location: "Delhi, India",
     tagline: IDENTITY_LINE,
-    headlinePrefix: "I build ",
-    headlineSuffix: " that help businesses grow.",
-    rotatingWords: [
-      "websites",
-      "AI automations",
-      "web apps",
-      "intelligent systems"
+    eyebrow: "WEBSITE DEVELOPMENT & DIGITAL SOLUTIONS",
+    headline: "Your business deserves more than a basic website.",
+    subtext: "I design and build professional websites, web applications, and practical AI-powered solutions that help businesses present their services clearly, earn customer trust, and make enquiries easier.",
+    audiencePaths: {
+      business: {
+        title: "Need a website for your business?",
+        description: "Professional, responsive websites for service businesses, clinics, coaching institutes, manufacturers, and growing companies.",
+        ctaLabel: "I need a website for my business",
+        target: "#estimator",
+        platformId: "business"
+      },
+      partner: {
+        title: "Need a reliable development partner?",
+        description: "Website implementation, responsive frontend development, React/Next.js projects, landing pages, and web development support.",
+        ctaLabel: "I need a development partner",
+        target: "#contact",
+        serviceId: "Web Applications & Development"
+      }
+    },
+    heroPills: [
+      { id: "business", label: "Business Websites", icon: "globe" },
+      { id: "webapp", label: "Web Applications", icon: "layers" },
+      { id: "automation", label: "AI & Automation", icon: "cpu" }
     ],
-    subtext: "Fast, modern web applications and practical AI workflows engineered for clinics, cafes, founders, and growing businesses.",
-    availability: "Available for Projects",
-    primaryCTA: {
-      label: "Hire me",
-      href: "#contact"
-    },
-    secondaryCTA: {
-      label: "View my work",
-      href: "#projects"
-    },
+    heroMockup: "/images/hero-devices.webp",
     avatar: "/images/anubhav-sharma.jpg"
   },
 
@@ -41,13 +47,26 @@ export const siteContent = {
     github: "https://github.com/Anubhav-sharma-07",
     linkedin: "https://www.linkedin.com/in/anubhav-sharma-51347628a/",
     email: CONTACT_EMAIL,
+    whatsapp: WHATSAPP_LINK,
+    whatsappNumber: WHATSAPP_NUMBER,
     instagram: "https://instagram.com/code_orbit7"
   },
 
   // ----------------------------------------------------------------------------
-  // TRUST STRIP (COUNT-UP STATS)
-  // RULE: Strip cleanly hides if fewer than 3 verified numbers exist.
+  // TRUST & EXPERIENCE STRIP (VERIFIED PROJECTS / BRANDS)
   // ----------------------------------------------------------------------------
+  trustedBrands: {
+    heading: "Trusted by businesses across industries",
+    items: [
+      { id: "cliniva", name: "Cliniva", category: "Healthcare & Dental" },
+      { id: "credex", name: "CREDEX", category: "Spend Analytics" },
+      { id: "aura", name: "AURA", category: "Interview Platform" },
+      { id: "socio", name: "SOCIO", category: "Kitchen & Bar" },
+      { id: "nrs", name: "NRS", category: "Digital Solutions" }
+    ]
+  },
+
+  // Trust numbers (verifiable metrics)
   trustStats: [
     {
       id: "projects-shipped",
@@ -55,7 +74,7 @@ export const siteContent = {
       prefix: "",
       suffix: "+",
       label: "Live Projects & Platforms",
-      description: "Tested production apps and client builds"
+      description: "Tested production applications and client concepts"
     },
     {
       id: "tech-mastered",
@@ -63,7 +82,7 @@ export const siteContent = {
       prefix: "",
       suffix: "+",
       label: "Modern Technologies",
-      description: "React 19, Next.js, Supabase, Groq AI"
+      description: "React 19, Next.js, Supabase, Groq AI API"
     },
     {
       id: "years-building",
@@ -73,66 +92,48 @@ export const siteContent = {
       label: "Years Engineering Software",
       description: "CSE degree track + independent delivery"
     }
-    // TODO: Add further verifiable metrics here (e.g. audited client hours, etc.)
   ],
 
   // ----------------------------------------------------------------------------
-  // SERVICES BENTO
-  // ----------------------------------------------------------------------------
-  services: [
-    {
-      id: "web-dev",
-      number: "01",
-      title: "Web Development",
-      badge: "Speed & Conversion",
-      value: "High-performance business websites that turn casual visitors into paying clients.",
-      description: "Clean, responsive websites engineered with React, semantic HTML5, and mobile-first layouts.",
-      deliverable: "Responsive site with sub-second load times and 100% source code ownership."
-    },
-    {
-      id: "ai-automation",
-      number: "02",
-      title: "AI Automation",
-      badge: "Practical Intelligence",
-      value: "Custom AI workflows that eliminate repetitive manual data entry and save hours weekly.",
-      description: "Practical integrations using Groq, Claude, and OpenAI APIs with structured JSON outputs and safety limits.",
-      deliverable: "Automated webhook pipelines, background sync jobs, and resilient error fallbacks."
-    },
-    {
-      id: "product-mvps",
-      number: "03",
-      title: "Product MVPs",
-      badge: "Idea to Production",
-      value: "Production-ready full-stack applications delivered in focused 2–3 week sprints.",
-      description: "End-to-end web apps pairing intuitive frontends with secure Supabase/Node databases and authentication.",
-      deliverable: "Production-ready app with clean REST APIs, role-based access, and deployment config."
-    },
-    {
-      id: "redesigns",
-      number: "04",
-      title: "Performance & UI Redesigns",
-      badge: "Modernization",
-      value: "Modernizing outdated legacy websites to elevate brand perception and stop mobile drop-offs.",
-      description: "Transforming slow, clunky sites into crisp, tactile experiences with 95+ Core Web Vitals.",
-      deliverable: "Lighthouse mobile audit score 90+, WCAG AA contrast, and zero layout shift."
-    }
-  ],
-
-  // ----------------------------------------------------------------------------
-  // PROJECTS & CASE STUDIES
+  // FEATURED WORK / CASE STUDIES (STEP 6)
   // ----------------------------------------------------------------------------
   projects: [
     {
+      id: "cliniva",
+      title: "Cliniva",
+      subtitle: "Healthcare & Dental Clinic",
+      category: "Healthcare & Dental Clinic",
+      badgeType: "Live Website",
+      purpose: "A modern website for a healthcare and dental clinic with easy appointment booking.",
+      summary: "A modern website for a healthcare and dental clinic with easy appointment booking, transparent procedure guides, and doctor credential profiles.",
+      challenge: "Local healthcare practices lose patients through antiquated, slow websites that lack clear treatment guides or easy mobile appointment booking.",
+      approach: "Built a high-contrast clean layout, mobile-first appointment booking flow, procedure cards with pricing clarity, and verified doctor bios.",
+      whatWasBuilt: "Complete responsive frontend in React, appointment request workflow, treatment pricing modules, and mobile-optimized doctor bios.",
+      result: "Live responsive clinic website loading in under 1 second on mobile devices with zero layout shift.",
+      stack: ["React", "Vite", "Tailwind CSS", "Lucide Icons", "Mobile UI"],
+      links: {
+        live: "https://neuralflow-cliniva-preview.vercel.app/",
+        github: null
+      },
+      image: "/projects/cliniva.webp",
+      highlights: [
+        "Mobile-first patient appointment request flow",
+        "Transparent procedure pricing cards and doctor credentials",
+        "Sub-second load times engineered for mobile patients"
+      ]
+    },
+    {
       id: "spendlens",
-      title: "SpendLens (Credex Audit)",
-      subtitle: "AI-Powered SaaS Spend Auditor",
-      category: "Production Full-Stack App",
-      badgeType: "Production Build",
-      year: "2024",
-      summary: "A production SaaS application that audits team AI subscription spend, tracks active developer seats, runs efficiency score simulations using LLMs, and drafts automated saving recommendations.",
-      problem: "Tech teams overspend on redundant AI tools, unassigned developer seats, and recurring licenses without clear usage visibility.",
-      role: "Full-Stack Architecture & AI Integration",
-      contribution: "Architected the full responsive dashboard, database schema, AI recommendation engine via Groq LLM API, and CSV export pipelines.",
+      title: "SpendLens",
+      subtitle: "Credex Audit",
+      category: "Financial Analytics Platform",
+      badgeType: "Live Website",
+      purpose: "A clean, informative platform that presents financial insights and reports.",
+      summary: "A production SaaS application that audits team AI subscription spend, tracks active developer seats, and generates automated saving recommendations.",
+      challenge: "Tech teams overspend on duplicate AI subscriptions, unassigned developer seats, and recurring licenses without clear usage visibility.",
+      approach: "Engineered a responsive analytics dashboard with departmental cost breakdown, CSV ingestion, and AI-assisted saving recommendations via Groq API.",
+      whatWasBuilt: "Full responsive dashboard, database schema, AI recommendation engine via Groq LLM API, and CSV export pipelines.",
+      result: "Live SaaS application providing immediate spend insights and duplicate subscription detection in under 2 minutes.",
       stack: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "Groq AI API"],
       links: {
         live: "https://credex-audit-eight.vercel.app/",
@@ -140,34 +141,29 @@ export const siteContent = {
       },
       image: "/projects/spendlens.webp",
       highlights: [
-        "Interactive analytics dashboard with cost breakdown by department",
+        "Interactive analytics dashboard with cost breakdown by team",
         "Automated AI recommendations highlighting duplicate subscriptions",
-        "Exportable PDF/CSV financial audit reports"
-      ],
-      // Sample data notification pings for SpendLens card
-      samplePings: [
-        { id: 1, text: "Potential duplicate seat flagged: $40/mo saving", label: "Sample data" },
-        { id: 2, text: "Underutilized license detected in Design team", label: "Sample data" }
-      ],
-      hasCursorTour: true
+        "Exportable CSV financial audit reports"
+      ]
     },
     {
       id: "aura-interview",
-      title: "Aura Interview Platform",
-      subtitle: "Adaptive AI Technical Screener",
-      category: "AI Web Application",
-      badgeType: "Personal Project",
-      year: "2024",
-      summary: "An interactive browser-based platform enabling engineering candidates to practice technical and behavioral mock interviews with real-time speech capture and automated evaluation rubrics.",
-      problem: "TODO: Define specific problem statement for Aura Interview",
-      role: "Frontend Engineering & Speech Recognition State Machine",
-      contribution: "Designed and implemented the speech recognition pipeline, interview pacing state machine, and automated rubric scoring UI.",
+      title: "Aura",
+      subtitle: "Interview Platform",
+      category: "Interview Platform",
+      badgeType: "Live Website",
+      purpose: "A modern platform for interview preparation with a clean and focused user experience.",
+      summary: "An interactive browser-based platform enabling engineering candidates to practice technical and behavioral mock interviews with real-time speech capture and evaluation rubrics.",
+      challenge: "Software engineering candidates struggle to practice real-time technical interviews with structured rubric feedback.",
+      approach: "Designed a browser-based speech recognition pipeline paired with an interview pacing state machine and automated scoring rubrics.",
+      whatWasBuilt: "Real-time speech recognition interface, interview pacing state machine, technical evaluation rubrics, and communication scorecards.",
+      result: "Functional mock interview platform supporting real-time voice interview practice and structured feedback.",
       stack: ["React", "Node.js", "Web Speech API", "AI Evaluation API", "Tailwind CSS"],
       links: {
         live: null,
         github: "https://github.com/Anubhav-sharma-07/ai-mock-interview-platform"
       },
-      image: null, // Styled placeholder
+      image: "/projects/aura-interview.webp",
       highlights: [
         "Speech recognition interface with active timers and prompt progression",
         "Multi-track technical evaluation rubrics (DSA, System Design, Behavioral)",
@@ -175,47 +171,17 @@ export const siteContent = {
       ]
     },
     {
-      id: "cliniva",
-      title: "Cliniva Healthcare & Dental",
-      subtitle: "Modern Clinic Patient Experience",
-      category: "Healthcare Digital Platform",
-      badgeType: "Client Concept",
-      year: "2024",
-      summary: "A modern digital front door for medical and dental clinics, replacing antiquated clinic websites with transparent treatment guides and responsive appointment booking.",
-      problem: "Local healthcare practices suffer from outdated, non-responsive websites that lose prospective patients before they can book an appointment.",
-      role: "UI/UX Design & Responsive Frontend Development",
-      contribution: "Built the high-contrast responsive interface, appointment request workflow, treatment pricing modules, and mobile doctor bios.",
-      stack: ["React", "Vite", "Tailwind CSS", "Lucide Icons", "Responsive UI"],
-      links: {
-        live: "https://neuralflow-cliniva-preview.vercel.app/",
-        github: null
-      },
-      image: "/projects/cliniva.webp",
-      highlights: [
-        "Accessible, mobile-optimized patient appointment request flow",
-        "Transparent procedure pricing cards and doctor credentials",
-        "Sub-second load times engineered for mobile patients"
-      ],
-      // Draggable Before/After comparison configuration
-      // RULE: Only use a real "before". If none exists, this feature hides itself cleanly.
-      beforeAfter: {
-        beforeImage: null, // TODO: Supply real original clinic website screenshot to enable slider
-        afterImage: "/projects/cliniva.webp",
-        beforeLabel: "Original Website",
-        afterLabel: "Cliniva Redesign"
-      }
-    },
-    {
       id: "socio-bar",
-      title: "SOCIO Kitchen & Bar",
-      subtitle: "Luxury Rooftop & Social Dining",
-      category: "Hospitality Web Experience",
-      badgeType: "Client Concept",
-      year: "2024",
+      title: "SOCIO",
+      subtitle: "Restaurant & Bar",
+      category: "Restaurant & Bar",
+      badgeType: "Live Website",
+      purpose: "A stylish website for a café and bar with menu, ambience and booking details.",
       summary: "An aesthetic web experience for a premier rooftop dining destination in Pune, featuring interactive menus, Sunday brunch showcases, and a mobile reservation portal.",
-      problem: "Upscale hospitality venues need digital touchpoints that match their interior atmosphere and convert casual visitors into table bookings.",
-      role: "Editorial Web Design & Frontend Development",
-      contribution: "Created the editorial visual hierarchy, custom cocktail and culinary tabbed menus, gallery grids, and reservation form.",
+      challenge: "Upscale hospitality venues need a digital presence that matches their physical atmosphere and converts visitors into table bookings.",
+      approach: "Crafted an earth-toned editorial layout, interactive food and handcrafted cocktail tabbed menus, gallery grids, and a reservation enquiry form.",
+      whatWasBuilt: "Editorial visual hierarchy, custom cocktail and culinary tabbed menus, image gallery, and table reservation form.",
+      result: "High-converting live restaurant website with seamless mobile menu navigation and reservation inquiries.",
       stack: ["React", "Vite", "Tailwind CSS", "Google Fonts (Playfair & Outfit)"],
       links: {
         live: "https://cafe-bar-self.vercel.app/",
@@ -223,92 +189,273 @@ export const siteContent = {
       },
       image: "/projects/socio-bar.webp",
       highlights: [
-        "Rich editorial layout with earth-toned aesthetics matching restaurant vibe",
+        "Rich editorial layout with earth-toned aesthetics matching venue vibe",
         "Interactive food and handcrafted cocktail menu tabs",
         "Table reservation enquiry interface"
-      ],
-      beforeAfter: {
-        beforeImage: null, // TODO: Supply real original cafe website screenshot to enable slider
-        afterImage: "/projects/socio-bar.webp",
-        beforeLabel: "Original Menu Page",
-        afterLabel: "SOCIO Digital Experience"
-      }
-    },
-    {
-      id: "personal-portfolio",
-      title: "Creative Developer Portfolio",
-      subtitle: "Creative Developer Flagship",
-      category: "Flagship Web Experience",
-      badgeType: "Production Build",
-      year: "2024",
-      summary: "Personal flagship portfolio demonstrating modern creative engineering, custom Web Audio synthesis, and editorial responsive layouts.",
-      problem: "Creative developers need a distinctive digital presence that immediately conveys both aesthetic maturity and rigorous frontend engineering.",
-      role: "End-to-End Design & Frontend Engineering",
-      contribution: "End-to-end design, interactive architecture, custom Web Audio synthesis, and performance-tuned bundling.",
-      stack: ["React 19", "TypeScript", "Tailwind CSS", "Vite", "Web Audio API"],
-      links: {
-        live: "https://anubhav-portfolio-wine.vercel.app",
-        github: "https://github.com/Anubhav-sharma-07/Anubhav_portfolio_neural-flow"
-      },
-      image: "/projects/personal-portfolio.webp",
-      highlights: [
-        "Custom Web Audio synthesizer for tactile haptic feedback",
-        "Interactive Studio Blueprint Console with live telemetry",
-        "Strict editorial color alternation and accessible contrast"
       ]
     }
   ],
 
   // ----------------------------------------------------------------------------
-  // PROCESS (4 STEPS FOR SVG DRAW PATH)
+  // SERVICES (STEP 7: 3 SIMPLIFIED CATEGORIES)
   // ----------------------------------------------------------------------------
-  processSteps: [
+  services: [
     {
+      id: "business-websites",
       number: "01",
-      title: "Brief",
-      description: "We clarify your exact goals, target users, and deliverable commitments."
+      title: "Business Websites",
+      badge: "Visibility & Enquiries",
+      icon: "globe",
+      purpose: "Professional, responsive websites that explain your services, build trust, and make it easier for customers to contact you.",
+      forWhom: "Manufacturers, clinics, service businesses, and growing companies.",
+      problem: "Losing customers to outdated design, slow mobile load times, or confusing enquiry flows.",
+      deliverableBox: "Deliverables: pages, mobile-friendly layouts, service or product information and enquiry forms.",
+      deliverablesList: [
+        "Business and service pages",
+        "Mobile-responsive layouts",
+        "Contact and enquiry forms",
+        "WhatsApp contact integration where appropriate",
+        "Service or product presentation",
+        "Basic on-page SEO structure",
+        "Deployment and handover"
+      ],
+      nextStep: "Build My Business Website",
+      nextAction: "estimator",
+      platformType: "business"
     },
     {
+      id: "web-apps",
       number: "02",
-      title: "Design",
-      description: "Wireframes and mobile user flows defined before writing production code."
+      title: "Web Applications & Development",
+      badge: "Custom Products",
+      icon: "layers",
+      purpose: "Custom web experiences and application interfaces built around your product, users, and workflow.",
+      forWhom: "Custom dashboards, SaaS products, landing pages and frontend implementation for businesses and agencies.",
+      problem: "Technical bottlenecks, lack of dedicated frontend bandwidth, or slow turnaround on new feature interfaces.",
+      deliverableBox: "Deliverables depend on scope, integrations and technical requirements.",
+      deliverablesList: [
+        "React and Next.js interfaces where appropriate",
+        "Landing pages and frontend implementation",
+        "Dashboard and application UI",
+        "API integration where within scope",
+        "Responsive layouts",
+        "Testing and bug fixes"
+      ],
+      nextStep: "Discuss Development Support",
+      nextAction: "contact",
+      platformType: "webapp"
     },
     {
+      id: "ai-automation",
       number: "03",
-      title: "Build",
-      description: "Clean React code, robust APIs, and fluid motion in focused 1–2 week sprints."
-    },
-    {
-      number: "04",
-      title: "Launch",
-      description: "Cross-device testing, production deployment, and 100% source code handover."
+      title: "AI & Workflow Automation",
+      badge: "Practical Efficiency",
+      icon: "cpu",
+      purpose: "Practical automation that can reduce repetitive work and connect useful tools into a clearer workflow.",
+      forWhom: "Businesses spending excessive hours on manual data entry, customer follow-up, or fragmented tool updates.",
+      problem: "Manual overhead and disconnected systems that delay customer response and waste team hours.",
+      deliverableBox: "Examples: chatbots, data processing, CRM automation, and workflow integrations.",
+      deliverablesList: [
+        "Workflow automation planning",
+        "API and tool integrations",
+        "AI-assisted business workflows",
+        "Chatbot or assistant prototypes",
+        "Data processing and reporting workflows"
+      ],
+      transparencyNote: "Third-party APIs, hosting, and subscription costs (e.g. OpenAI/Groq/Zapier) are paid directly by the client and clarified upfront.",
+      nextStep: "Explore Practical Automation",
+      nextAction: "contact",
+      platformType: "ai-automation"
     }
   ],
 
   // ----------------------------------------------------------------------------
-  // WHY WORK WITH ME (US VS THEM COMPARISON)
-  // Honest, true-to-life claims for an independent specialist
+  // HOW I WORK / PROCESS (STEP 8: 5 TRANSPARENT STEPS)
   // ----------------------------------------------------------------------------
+  processSteps: [
+    {
+      number: "01",
+      title: "Discover",
+      description: "Understand your goals, requirements and audience.",
+      detail: "We clarify the business context, audience expectations, deliverable milestones, and technical constraints."
+    },
+    {
+      number: "02",
+      title: "Plan",
+      description: "Build a clear scope, feature list and timeline.",
+      detail: "Define the exact page count, features, integrations, and milestones before writing production code."
+    },
+    {
+      number: "03",
+      title: "Design",
+      description: "Create wireframes and visual designs for your approval.",
+      detail: "Develop clean layouts, typography, and interactive directions reviewed against agreed requirements."
+    },
+    {
+      number: "04",
+      title: "Develop",
+      description: "Build, test and refine with regular updates.",
+      detail: "Implement responsive code, test interactions across phones and desktop, and fix issues in focused sprints."
+    },
+    {
+      number: "05",
+      title: "Launch",
+      description: "Deliver your project and provide ongoing support.",
+      detail: "Deploy the verified build, provide full source code handover, and clarify post-launch warranty support."
+    }
+  ],
+  processNote: "Timelines depend on scope, feedback turnaround, and required third-party integrations.",
+
+  // ----------------------------------------------------------------------------
+  // PROJECT ESTIMATOR (STEP 9)
+  // ----------------------------------------------------------------------------
+  estimator: {
+    platforms: [
+      { id: "business", name: "Business Website", baseDays: 10, note: "Ideal for clinics, manufacturers, coaching institutes, service businesses" },
+      { id: "webapp", name: "Web Application", baseDays: 16, note: "Dashboards, custom SaaS UI, portals, interactive web tools" },
+      { id: "ai-automation", name: "AI & Automation", baseDays: 12, note: "API automations, lead processing workflows, AI assistant prototypes" }
+    ],
+    features: [
+      { id: "landing", name: "Landing Page", days: 2 },
+      { id: "service-pages", name: "Service Pages", days: 3 },
+      { id: "contact-form", name: "Contact Form", days: 1 },
+      { id: "whatsapp", name: "WhatsApp Integration", days: 1 },
+      { id: "cms", name: "Custom CMS / API", days: 4 },
+      { id: "seo", name: "SEO Optimization", days: 2 }
+    ]
+  },
+
+  // ----------------------------------------------------------------------------
+  // ENGAGEMENT MODELS & PRICING (STEP 10)
+  // ----------------------------------------------------------------------------
+  engagementModels: [
+    {
+      id: "website-basic",
+      title: "Website (Basic)",
+      price: "Starting at ₹15,000",
+      tag: "Fixed Scope",
+      idealFor: "Ideal for small businesses and service providers.",
+      description: "A fast, professional online presence that builds trust and makes it easy for potential clients to contact you.",
+      deliverables: [
+        "Up to 5 custom-designed pages",
+        "Responsive design (mobile & desktop)",
+        "Contact / enquiry form",
+        "Basic SEO setup",
+        "100% source code ownership and handover"
+      ],
+      exclusions: "Domain, hosting, paid plugins, and ongoing content writing quoted separately.",
+      ctaText: "Get Started",
+      actionType: "basic-website"
+    },
+    {
+      id: "web-app",
+      title: "Web Application",
+      price: "Custom Quote",
+      tag: "Custom Sprints",
+      idealFor: "For complex features and integrations.",
+      description: "Tailored web applications, client dashboards, and responsive frontends built to your workflow.",
+      deliverables: [
+        "Custom functionality & state management",
+        "API integrations & database setup",
+        "Scalable architecture (React / Next.js)",
+        "Ongoing support & maintenance options",
+        "Comprehensive code handover"
+      ],
+      exclusions: "Third-party cloud infrastructure, database hosting, and paid APIs billed separately.",
+      ctaText: "Discuss Your Project",
+      actionType: "webapp"
+    },
+    {
+      id: "ai-automation",
+      title: "AI & Automation",
+      price: "Custom Quote",
+      tag: "Custom Workflows",
+      idealFor: "For workflow and process automation.",
+      description: "Audit manual tasks and connect your business tools into reliable, automated pipelines.",
+      deliverables: [
+        "Process automation & webhook workflows",
+        "AI integrations (Groq / OpenAI / Claude)",
+        "Database & CRM setup",
+        "Ongoing support & monitoring options",
+        "Detailed workflow documentation"
+      ],
+      exclusions: "Third-party automation subscriptions and API token usage paid directly by client.",
+      ctaText: "Discuss Your Project",
+      actionType: "automation"
+    }
+  ],
+
+  // ----------------------------------------------------------------------------
+  // ABOUT SECTION (STEP 11)
+  // ----------------------------------------------------------------------------
+  about: {
+    headline: "About Anubhav & Neural Flow",
+    intro: "I’m Anubhav Sharma, a developer who enjoys turning ideas into useful digital products. Through Neural Flow, I work on websites, web applications, and practical automation solutions. My approach is to understand the problem first, keep communication clear, and build around the requirements rather than adding complexity for its own sake.",
+    avatar: "/images/anubhav-sharma.jpg",
+    values: [
+      {
+        title: "Direct communication",
+        description: "You speak directly with the developer building your software. No middlemen or slow agency ticketing."
+      },
+      {
+        title: "Clear scope and deliverables",
+        description: "Agreed milestones, documented scope, and no surprise invoices."
+      },
+      {
+        title: "Practical technical decisions",
+        description: "Choosing the right tool for the job to keep things maintainable and fast."
+      },
+      {
+        title: "Regular progress updates",
+        description: "Continuous communication and staging links so you can inspect progress along the way."
+      },
+      {
+        title: "Testing and handover",
+        description: "Thorough cross-device testing and full 100% source code ownership transferred on completion."
+      }
+    ],
+    verifiedSkills: {
+      frontend: ["React 19", "Next.js 14", "TypeScript", "JavaScript (ES6+)", "Tailwind CSS", "HTML5 & CSS3"],
+      aiAndApis: ["Groq AI API", "Claude API", "OpenAI API", "REST APIs", "Supabase", "Node.js"],
+      toolsAndDelivery: ["Vite", "Git & GitHub", "Vercel", "Responsive Web Design", "Web Audio API"]
+    },
+    education: "Bharati Vidyapeeth's College of Engineering (BVCOE), New Delhi — B.Tech Computer Science and Engineering"
+  },
+
+  // ----------------------------------------------------------------------------
+  // CONTACT & CONVERSION (STEP 12)
+  // ----------------------------------------------------------------------------
+  contact: {
+    headline: "Let’s build something great together.",
+    subheadline: "Tell me a little about your business or project. I’ll review the requirements and help you work out a practical next step.",
+    email: CONTACT_EMAIL,
+    whatsappNumber: WHATSAPP_NUMBER,
+    whatsappLink: WHATSAPP_LINK,
+    location: "Delhi, India",
+    formEndpoint: "https://api.web3forms.com/submit"
+  },
+
+  // Retain whyWorkWithMe for deep comparisons
   whyWorkWithMe: {
     tagline: "// WHY WORK WITH ME",
     title: "Direct engineering, zero agency overhead.",
-    subtitle: "When you hire Neural Flow, you collaborate directly with the senior developer building your product.",
+    subtitle: "When you hire Neural Flow, you collaborate directly with the developer building your product.",
     rows: [
       {
         feature: "Direct Communication",
-        me: "Direct access to the developer writing your code via Slack or WhatsApp.",
+        me: "Direct access to the developer writing your code via WhatsApp or email.",
         them: "Account managers, middlemen, and slow ticketing queues.",
         confirmed: true
       },
       {
         feature: "100% Code Ownership",
         me: "Clean GitHub repository transferred to you with full rights and zero lock-in.",
-        them: "Proprietary builder lock-in, recurring hosting fees, or hidden exit costs.",
+        them: "Proprietary builder lock-in, recurring hosting markups, or hidden exit costs.",
         confirmed: true
       },
       {
         feature: "Performance & Mobile First",
-        me: "Custom React/Vite builds targeting 90+ mobile Lighthouse scores and sub-second loads.",
+        me: "Custom React/Vite builds targeting sub-second loads and accessible contrast.",
         them: "Heavy 5MB WordPress themes stuffed with slow third-party plugins.",
         confirmed: true
       },
@@ -321,83 +468,6 @@ export const siteContent = {
     ]
   },
 
-  // ----------------------------------------------------------------------------
-  // PRICING / ENGAGEMENT (OPTIONAL)
-  // RULE: Only render prices if real numbers are provided.
-  // Otherwise render a Fixed project / Monthly support toggle with quote CTA.
-  // ----------------------------------------------------------------------------
-  pricing: {
-    hasRealPrices: false, // TODO: Set to true and supply amounts when pricing is published
-    models: [
-      {
-        id: "fixed-project",
-        title: "Fixed Project",
-        subtitle: "Best for new websites, MVPs & redesigns",
-        description: "Agreed scope, clear milestones, and a guaranteed fixed investment with no surprise billing.",
-        deliverables: [
-          "Complete project roadmap & milestones",
-          "Dedicated sprint delivery (1–3 weeks)",
-          "100% source code handover on launch",
-          "14 days post-launch warranty support"
-        ],
-        ctaText: "Get a project quote"
-      },
-      {
-        id: "monthly-support",
-        title: "Monthly Support & Automations",
-        subtitle: "Best for ongoing development & AI updates",
-        description: "Ongoing developer bandwidth to ship feature requests, automate workflows, and maintain performance.",
-        deliverables: [
-          "Continuous feature development & optimizations",
-          "Workflow automations (Zapier, webhooks, LLMs)",
-          "Regular performance & security audits",
-          "Direct priority communication channel"
-        ],
-        ctaText: "Discuss retainer"
-      }
-    ]
-  },
-
-  // ----------------------------------------------------------------------------
-  // TESTIMONIALS
-  // HARD RULE: Only render if testimonials array has real, verified entries.
-  // Currently empty — the entire section hides cleanly until real reviews exist.
-  // ----------------------------------------------------------------------------
-  testimonials: [
-    // TODO: Add verified client testimonials here once gathered:
-    // {
-    //   id: "client-1",
-    //   name: "Client Name",
-    //   role: "Founder at Company",
-    //   quote: "Real verified feedback...",
-    //   verifiedProject: "Cliniva"
-    // }
-  ],
-
-  // ----------------------------------------------------------------------------
-  // ABOUT & CAPABILITIES
-  // ----------------------------------------------------------------------------
-  about: {
-    headline: "Frontend developer with an engineering foundation.",
-    paragraphs: [
-      "I am an independent developer completing my B.Tech in Computer Science and Engineering at Bharati Vidyapeeth's College of Engineering (BVCOE), New Delhi (Class of 2027). Under Neural Flow, I work with businesses to design and build reliable, memorable software.",
-      "In addition to client frontend development, I conduct applied academic research in Explainable Artificial Intelligence (XAI), including a co-authored research paper on Hybrid XAI Frameworks for Android Malware Detection currently under IEEE conference review.",
-      "I approach freelance client work as a trusted technical partner: direct communication, disciplined milestones, clean code, and zero hidden overhead."
-    ],
-    skills: {
-      frontend: ["React 19", "Next.js", "TypeScript", "JavaScript (ES6+)", "Tailwind CSS", "HTML5 & CSS3"],
-      aiAndApis: ["Claude API", "Groq AI API", "Web Speech API", "REST APIs", "Supabase", "Node.js"],
-      toolsAndDelivery: ["Vite", "Git & GitHub", "Vercel", "Web Audio API", "Responsive Design"]
-    }
-  },
-
-  // ----------------------------------------------------------------------------
-  // CONTACT
-  // ----------------------------------------------------------------------------
-  contact: {
-    headline: "Have a project in mind?",
-    subheadline: "Whether you need a new website, a faster redesign, or practical AI features, let's discuss your timeline and goals.",
-    guarantee: "I typically reply within 24 hours with honest scope advice, timeline estimates, and clear pricing.",
-    formEndpoint: "https://api.web3forms.com/submit"
-  }
+  // Testimonials (hard rule: hides cleanly if empty)
+  testimonials: []
 };

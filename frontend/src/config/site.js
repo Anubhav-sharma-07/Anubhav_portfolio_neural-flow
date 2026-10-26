@@ -5,26 +5,32 @@
  */
 
 export const CONTACT_EMAIL = 'anubhavsharma8210@gmail.com';
+export const WHATSAPP_NUMBER = '+91 87007 74976';
+export const WHATSAPP_LINK = 'https://wa.me/918700774976';
 
 // Configurable via environment variable VITE_SITE_URL
 export const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://anubhavsharma.dev';
 
-// Single unified identity line (consistent across Hero, Title, Meta, OG tags & Footer)
+// Single unified identity line
 export const IDENTITY_LINE =
-  'Frontend developer and AI solutions builder helping businesses get modern, fast websites and practical AI tools.';
+  'I design and build professional websites, web applications, and practical AI-powered solutions that help businesses present their services clearly, earn customer trust, and make enquiries easier.';
 
 export const SITE_CONFIG = {
   brandName: 'Neural Flow',
   founder: 'Anubhav Sharma',
-  role: 'Frontend Developer & AI Solutions Builder',
-  location: 'New Delhi, India · Global Delivery',
+  role: 'Web Developer & AI Automation Specialist',
+  location: 'Delhi, India',
   contactEmail: CONTACT_EMAIL,
+  whatsappNumber: WHATSAPP_NUMBER,
+  whatsappLink: WHATSAPP_LINK,
   siteUrl: SITE_URL,
   identityLine: IDENTITY_LINE,
   socials: {
     github: 'https://github.com/Anubhav-sharma-07',
     linkedin: 'https://www.linkedin.com/in/anubhav-sharma-51347628a/',
     instagram: 'https://instagram.com/code_orbit7',
-    email: `mailto:${CONTACT_EMAIL}`
+    email: `mailto:${CONTACT_EMAIL}`,
+    whatsapp: WHATSAPP_LINK
   }
 };
+

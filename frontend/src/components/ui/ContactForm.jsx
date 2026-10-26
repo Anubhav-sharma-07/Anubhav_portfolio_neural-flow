@@ -1,33 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  ArrowUpRight, 
+  ArrowRight, 
   CheckCircle2, 
   AlertCircle, 
   Loader2, 
-  Mail, 
-  RotateCcw 
+  RotateCcw
 } from 'lucide-react';
 
-/**
- * ContactForm component
- * - HARD RULE: Never shows fake success. Only transitions to 'success' upon HTTP 200 + { success: true }.
- * - States: 'idle' | 'loading' | 'success' | 'error'
- * - Honeypot field (botcheck) for spam mitigation.
- * - Basic field validation.
- * - Actionable error state with retry and prefilled mailto fallback.
- */
 export default function ContactForm({ 
-  contactEmail,
-  inquiryScope,
+  contactEmail = 'anubhavsharma8210@gmail.com',
+  inquiryScope = '',
   onResetScope,
   onPlayClick
 }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: 'Web Development (Responsive Websites & Landing Pages)',
-    budget: 'Under ₹25,000 ($300)',
+    projectType: 'Business Website',
     message: '',
+    budget: 'Flexible / To be discussed',
+    timeline: 'Within 2–4 weeks',
     botcheck: ''
   });
 
@@ -35,24 +27,33 @@ export default function ContactForm({
   const [errorMessage, setErrorMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
 
+  // When estimator or audience CTA passes inquiryScope
+  useEffect(() => {
+    if (inquiryScope) {
+      setFormData((prev) => ({
+        ...prev,
+        message: prev.message 
+          ? prev.message 
+          : `Selected Scope: ${inquiryScope}\n\nProject goals & details: `
+      }));
+    }
+  }, [inquiryScope]);
+
   const validate = () => {
     const errors = {};
     if (!formData.name.trim()) errors.name = 'Please provide your name.';
     if (!formData.email.trim() || !formData.email.includes('@')) {
       errors.email = 'Please provide a valid email address.';
     }
-    if (!formData.message.trim() || formData.message.trim().length < 10) {
-      errors.message = 'Please describe your project in at least 10 characters.';
+    if (!formData.message.trim() || formData.message.trim().length < 8) {
+      errors.message = 'Please provide a brief description of what you need.';
     }
     return errors;
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? (checked ? 'checked' : '') : value
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (validationErrors[name]) {
       setValidationErrors((prev) => ({ ...prev, [name]: null }));
     }
@@ -62,9 +63,7 @@ export default function ContactForm({
     e.preventDefault();
     if (onPlayClick) onPlayClick();
 
-    // Check honeypot
     if (formData.botcheck) {
-      console.warn('Bot detected via honeypot');
       setStatus('error');
       setErrorMessage('Spam detection triggered. Please reach out directly via email.');
       return;
@@ -80,64 +79,70 @@ export default function ContactForm({
     setErrorMessage('');
 
     try {
-      // Use Web3Forms access key from environment or fallback public key
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY_HERE';
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
       
-      const payload = {
-        access_key: accessKey,
-        name: formData.name,
-        email: formData.email,
-        service: formData.service,
-        budget: formData.budget,
-        message: formData.message,
-        blueprint: inquiryScope || 'None',
-        subject: `New Project Inquiry from ${formData.name} [${formData.service}]`
-      };
+      // If access key is configured, post to Web3Forms
+      if (accessKey && accessKey !== 'YOUR_ACCESS_KEY_HERE') {
+        const payload = {
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          projectType: formData.projectType,
+          budget: formData.budget,
+          timeline: formData.timeline,
+          message: formData.message,
+          scopeData: inquiryScope || 'None',
+          subject: `New Project Enquiry from ${formData.name} [${formData.projectType}]`
+        };
 
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setStatus('success');
-      } else {
-        throw new Error(result.message || 'API rejected submission');
+        const result = await response.json();
+        if (response.ok && result.success) {
+          setStatus('success');
+          return;
+        } else {
+          throw new Error(result.message || 'API rejected submission');
+        }
       }
+
+      // If no remote access key is in .env, simulate clean fallback or direct email
+      // Notice: We do NOT fake a successful submission. We open mailto or prompt user.
+      const mailtoUrl = getMailtoHref();
+      window.location.href = mailtoUrl;
+      setStatus('idle');
     } catch (err) {
       console.error('Submission failed:', err);
       setStatus('error');
       setErrorMessage(
-        'Unable to complete online delivery right now. You can retry or send directly via your email client.'
+        'Unable to send via online form service right now. Please retry or click below to send directly via email or WhatsApp.'
       );
     }
   };
 
   const getMailtoHref = () => {
-    const subject = encodeURIComponent(`Project Inquiry from ${formData.name || 'Client'} [${formData.service}]`);
+    const subject = encodeURIComponent(`Project Enquiry: ${formData.projectType} — ${formData.name}`);
     const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.service}\nBudget Range: ${formData.budget}\n\nProject Scope & Goals:\n${formData.message}\n\n[Blueprint: ${inquiryScope || 'Direct Inquiry'}]`
+      `Hi Anubhav,\n\nName: ${formData.name}\nEmail / Contact: ${formData.email}\nProject Type: ${formData.projectType}\nBudget Range: ${formData.budget}\nTarget Timeline: ${formData.timeline}\n\nProject Scope & Requirements:\n${formData.message}\n\n[Blueprint / Estimator: ${inquiryScope || 'Direct Form'}]`
     );
     return `mailto:${contactEmail}?subject=${subject}&body=${body}`;
   };
 
   if (status === 'success') {
     return (
-      <div className="p-8 sm:p-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center animate-scale-in">
-        <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="w-8 h-8" />
+      <div className="p-8 sm:p-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center animate-fade-in">
+        <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4">
+          <CheckCircle2 className="w-7 h-7" />
         </div>
-        <h3 className="font-display font-bold text-2xl text-[#20201E] mb-2">
-          Project Inquiry Received
+        <h3 className="font-display font-bold text-2xl text-[#F5F0E8] mb-2">
+          Enquiry Received
         </h3>
-        <p className="text-sm text-[#575550] max-w-md mx-auto mb-6 leading-relaxed">
-          Thank you, <strong>{formData.name}</strong>. Your message has been safely delivered to Anubhav. You will receive a direct reply within 24 hours.
+        <p className="text-sm text-[#A8A69E] max-w-md mx-auto mb-6 leading-relaxed">
+          Thank you, <strong>{formData.name}</strong>. Your enquiry has been received. I review all project requirements personally and reply within 24 hours.
         </p>
         <button
           type="button"
@@ -146,205 +151,236 @@ export default function ContactForm({
             setFormData({
               name: '',
               email: '',
-              service: 'Web Development (Responsive Websites & Landing Pages)',
-              budget: 'Under ₹25,000 ($300)',
+              projectType: 'Business Website',
               message: '',
+              budget: 'Flexible / To be discussed',
+              timeline: 'Within 2–4 weeks',
               botcheck: ''
             });
+            if (onResetScope) onResetScope();
           }}
-          className="text-xs font-mono text-[#C65D35] hover:underline font-bold cursor-pointer"
+          className="font-mono text-xs text-[#C65D35] hover:text-[#E07A52] flex items-center gap-1.5 mx-auto cursor-pointer"
         >
-          Send another inquiry
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Send another enquiry</span>
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 pt-6 border-t border-[#20201E]/10" noValidate>
-      
-      {/* Honeypot field (hidden from human users) */}
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {/* Honeypot for spam mitigation */}
       <input
-        type="checkbox"
+        type="text"
         name="botcheck"
-        className="hidden"
-        style={{ display: 'none' }}
-        checked={!!formData.botcheck}
+        value={formData.botcheck}
         onChange={handleChange}
-        tabIndex={-1}
+        className="hidden"
+        tabIndex="-1"
         autoComplete="off"
       />
 
-      {/* Attached Blueprint Indicator */}
+      {/* Scope banner if prefilled */}
       {inquiryScope && (
-        <div className="p-3.5 rounded-xl bg-[#C65D35]/10 border border-[#C65D35]/30 flex items-center justify-between text-xs font-mono text-[#20201E]">
-          <span className="truncate">Attached Blueprint: <strong>{inquiryScope}</strong></span>
-          <button 
-            type="button" 
-            onClick={onResetScope}
-            className="text-[#C65D35] hover:underline font-bold ml-2 cursor-pointer"
-          >
-            Reset
-          </button>
-        </div>
-      )}
-
-      {/* Error Alert Box with Fallback */}
-      {status === 'error' && (
-        <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-mono text-[#20201E]">
-          <div className="flex items-start gap-2.5 mb-3">
-            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-            <div>
-              <strong className="block text-amber-800 uppercase font-bold mb-0.5">Delivery Interrupted</strong>
-              <span>{errorMessage}</span>
-            </div>
+        <div className="p-3.5 rounded-xl bg-[#20201E] border border-[#C65D35]/40 flex items-center justify-between text-xs font-mono text-[#E07A52]">
+          <div className="flex items-center gap-2 truncate">
+            <span className="w-2 h-2 rounded-full bg-[#C65D35] shrink-0" />
+            <span className="truncate">Attached Scope: {inquiryScope}</span>
           </div>
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-amber-500/20">
+          {onResetScope && (
             <button
-              type="submit"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C65D35] hover:underline cursor-pointer"
+              type="button"
+              onClick={onResetScope}
+              className="text-[#A8A69E] hover:text-[#F5F0E8] text-[10px] ml-2 shrink-0 underline cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Retry submission</span>
+              Clear
             </button>
-            <span className="text-[#87847C]">•</span>
-            <a
-              href={getMailtoHref()}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#20201E] hover:underline"
-            >
-              <Mail className="w-3.5 h-3.5" />
-              <span>Send prefilled email instead</span>
-            </a>
-          </div>
+          )}
         </div>
       )}
 
-      {/* Name and Email Fields */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {/* Row 1: Name & Contact Email */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="contact-name" className="block font-mono text-xs text-[#575550] mb-2 uppercase tracking-wider">
-            Your Name *
+          <label htmlFor="name" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            Your Name <span className="text-[#C65D35]">*</span>
           </label>
           <input
-            id="contact-name"
-            type="text"
+            id="name"
             name="name"
+            type="text"
+            required
             value={formData.name}
             onChange={handleChange}
-            placeholder="e.g. Alex Morgan"
-            className={`w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border text-[#20201E] placeholder-[#87847C] text-sm focus:border-[#C65D35] transition-colors ${
-              validationErrors.name ? 'border-red-500' : 'border-[#20201E]/10'
+            placeholder="e.g. Rahul Verma or Clinic Name"
+            className={`w-full px-4 py-3 rounded-xl bg-[#20201E] border text-sm text-[#F5F0E8] placeholder-[#72706A] focus:outline-none focus:ring-2 focus:ring-[#C65D35] transition-all ${
+              validationErrors.name ? 'border-red-500' : 'border-[rgba(245,240,232,0.1)]'
             }`}
           />
           {validationErrors.name && (
-            <span className="font-mono text-[11px] text-red-600 block mt-1">{validationErrors.name}</span>
+            <span className="text-red-400 font-mono text-[11px] mt-1 block">
+              {validationErrors.name}
+            </span>
           )}
         </div>
 
         <div>
-          <label htmlFor="contact-email" className="block font-mono text-xs text-[#575550] mb-2 uppercase tracking-wider">
-            Your Email *
+          <label htmlFor="email" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            Email or WhatsApp <span className="text-[#C65D35]">*</span>
           </label>
           <input
-            id="contact-email"
-            type="email"
+            id="email"
             name="email"
+            type="text"
+            required
             value={formData.email}
             onChange={handleChange}
-            placeholder="alex@company.com"
-            className={`w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border text-[#20201E] placeholder-[#87847C] text-sm focus:border-[#C65D35] transition-colors ${
-              validationErrors.email ? 'border-red-500' : 'border-[#20201E]/10'
+            placeholder="you@company.com or +91..."
+            className={`w-full px-4 py-3 rounded-xl bg-[#20201E] border text-sm text-[#F5F0E8] placeholder-[#72706A] focus:outline-none focus:ring-2 focus:ring-[#C65D35] transition-all ${
+              validationErrors.email ? 'border-red-500' : 'border-[rgba(245,240,232,0.1)]'
             }`}
           />
           {validationErrors.email && (
-            <span className="font-mono text-[11px] text-red-600 block mt-1">{validationErrors.email}</span>
+            <span className="text-red-400 font-mono text-[11px] mt-1 block">
+              {validationErrors.email}
+            </span>
           )}
         </div>
       </div>
 
-      {/* Project Type & Budget */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {/* Row 2: Project Type & Target Timeline */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="contact-service" className="block font-mono text-xs text-[#575550] mb-2 uppercase tracking-wider">
-            Project Type
+          <label htmlFor="projectType" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            Business or Project Type
           </label>
           <select
-            id="contact-service"
-            name="service"
-            value={formData.service}
+            id="projectType"
+            name="projectType"
+            value={formData.projectType}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border border-[#20201E]/10 text-[#20201E] text-sm focus:border-[#C65D35] transition-colors"
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
           >
-            <option value="Web Development (Responsive Websites & Landing Pages)">Web Development (Responsive Websites & Landing Pages)</option>
-            <option value="Full-Stack Applications (Platforms & APIs)">Full-Stack Applications (Platforms & APIs)</option>
-            <option value="AI Solutions (LLMs, Speech & Practical AI)">AI Solutions (LLMs, Speech & Practical AI)</option>
-            <option value="Automation Systems (Workflows & Pipelines)">Automation Systems (Workflows & Pipelines)</option>
+            <option value="Business Website">Business Website (Clinic, Service, Manufacturing)</option>
+            <option value="Web Application">Web Application & Frontend Dev (SaaS, Dashboard)</option>
+            <option value="AI & Automation">AI & Workflow Automation (APIs, Tool Integration)</option>
+            <option value="Agency Partner">Agency Development Partner / Frontend Support</option>
+            <option value="Website Redesign">Website Redesign & Performance Upgrade</option>
           </select>
         </div>
 
         <div>
-          <label htmlFor="contact-budget" className="block font-mono text-xs text-[#575550] mb-2 uppercase tracking-wider">
-            Estimated Budget
+          <label htmlFor="timeline" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            Target Timeline (Optional)
           </label>
           <select
-            id="contact-budget"
-            name="budget"
-            value={formData.budget}
+            id="timeline"
+            name="timeline"
+            value={formData.timeline}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border border-[#20201E]/10 text-[#20201E] text-sm focus:border-[#C65D35] transition-colors"
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
           >
-            <option value="Under ₹25,000 ($300)">Under ₹25,000 ($300)</option>
-            <option value="₹25,000 – ₹50,000 ($300 – $600)">₹25,000 – ₹50,000 ($300 – $600)</option>
-            <option value="₹50,000 – ₹1,00,000 ($600 – $1,200)">₹50,000 – ₹1,00,000 ($600 – $1,200)</option>
-            <option value="₹1,00,000+ ($1,200+)">₹1,00,000+ ($1,200+)</option>
-            <option value="Not sure yet / Let's discuss">Not sure yet / Let's discuss</option>
+            <option value="As soon as possible">As soon as possible (1–2 weeks)</option>
+            <option value="Within 2–4 weeks">Within 2–4 weeks</option>
+            <option value="Flexible / Exploring options">Flexible / Exploring options</option>
           </select>
         </div>
       </div>
 
-      {/* Message Field */}
+      {/* Project Description */}
       <div>
-        <label htmlFor="contact-message" className="block font-mono text-xs text-[#575550] mb-2 uppercase tracking-wider">
-          Project Goals & Requirements *
+        <label htmlFor="message" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+          Brief Project Description <span className="text-[#C65D35]">*</span>
         </label>
         <textarea
-          id="contact-message"
+          id="message"
           name="message"
           rows={4}
+          required
           value={formData.message}
           onChange={handleChange}
-          placeholder="Tell me about what you need built, reference sites, target timeline..."
-          className={`w-full px-4 py-3 rounded-lg bg-[#F5F0E8] border text-[#20201E] placeholder-[#87847C] text-sm focus:border-[#C65D35] transition-colors resize-none ${
-            validationErrors.message ? 'border-red-500' : 'border-[#20201E]/10'
+          placeholder="Tell me about your business, the pages or features you need, and any existing website or links..."
+          className={`w-full px-4 py-3 rounded-xl bg-[#20201E] border text-sm text-[#F5F0E8] placeholder-[#72706A] focus:outline-none focus:ring-2 focus:ring-[#C65D35] transition-all resize-y ${
+            validationErrors.message ? 'border-red-500' : 'border-[rgba(245,240,232,0.1)]'
           }`}
-        ></textarea>
+        />
         {validationErrors.message && (
-          <span className="font-mono text-[11px] text-red-600 block mt-1">{validationErrors.message}</span>
+          <span className="text-red-400 font-mono text-[11px] mt-1 block">
+            {validationErrors.message}
+          </span>
         )}
       </div>
 
-      {/* Submit Button & Status */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-        <span className="font-mono text-xs text-[#87847C]">
-          Direct response guaranteed within 24 hours.
-        </span>
+      {/* Optional Budget */}
+      <div>
+        <label htmlFor="budget" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+          Budget Expectation (Optional)
+        </label>
+        <select
+          id="budget"
+          name="budget"
+          value={formData.budget}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
+        >
+          <option value="Basic Website (₹15,000 – ₹25,000)">Basic Website (₹15,000 – ₹25,000)</option>
+          <option value="Custom Project (₹25,000 – ₹60,000)">Custom Project (₹25,000 – ₹60,000)</option>
+          <option value="Web App / Full Scope (₹60,000+ / $800+)">Web App / Full Scope (₹60,000+ / $800+)</option>
+          <option value="Flexible / Needs Quote">Flexible / Needs preliminary quote</option>
+        </select>
+      </div>
+
+      {/* Error state alert */}
+      {status === 'error' && (
+        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div className="text-xs text-red-200">
+            <p className="font-semibold mb-1">{errorMessage}</p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <a
+                href={getMailtoHref()}
+                className="underline text-red-300 hover:text-white font-mono"
+              >
+                Send via Email Client →
+              </a>
+              <span className="text-red-400">or</span>
+              <a
+                href="https://wa.me/918700774976"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-emerald-400 hover:text-emerald-300 font-mono"
+              >
+                Message on WhatsApp →
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="btn-burnt-orange w-full sm:w-auto px-8 py-3.5 text-sm font-semibold rounded-lg disabled:opacity-60 disabled:cursor-not-allowed min-h-[48px]"
+          className="btn-burnt-orange w-full sm:w-auto text-xs font-semibold px-8 py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-50"
         >
           {status === 'loading' ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Transmitting...</span>
+              <span>Sending enquiry...</span>
             </>
           ) : (
             <>
               <span>Send Project Enquiry</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" />
             </>
           )}
         </button>
+
+        <span className="font-mono text-[11px] text-[#A8A69E]">
+          Direct reply within 24 hours · No spam
+        </span>
       </div>
     </form>
   );
