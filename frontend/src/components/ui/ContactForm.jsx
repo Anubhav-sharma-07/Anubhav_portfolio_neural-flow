@@ -13,13 +13,16 @@ export default function ContactForm({
   onResetScope,
   onPlayClick
 }) {
+  const [currency, setCurrency] = useState('INR'); // 'INR' | 'USD'
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'Business Website',
+    projectType: 'Business website',
+    budget: '₹5,999–₹10,000',
+    goal: 'Get more customer enquiries',
+    timeline: 'Within a month',
     message: '',
-    budget: 'Flexible / To be discussed',
-    timeline: 'Within 2–4 weeks',
     botcheck: ''
   });
 
@@ -30,23 +33,61 @@ export default function ContactForm({
   // When estimator or audience CTA passes inquiryScope
   useEffect(() => {
     if (inquiryScope) {
-      setFormData((prev) => ({
-        ...prev,
-        message: prev.message 
-          ? prev.message 
-          : `Selected Scope: ${inquiryScope}\n\nProject goals & details: `
-      }));
+      setFormData((prev) => {
+        // If scope contains web app or automation, adjust projectType if matched
+        let inferredType = prev.projectType;
+        if (inquiryScope.toLowerCase().includes('web application')) {
+          inferredType = 'Web application';
+        } else if (inquiryScope.toLowerCase().includes('automation')) {
+          inferredType = 'AI & workflow automation';
+        } else if (inquiryScope.toLowerCase().includes('business')) {
+          inferredType = 'Business website';
+        }
+
+        return {
+          ...prev,
+          projectType: inferredType,
+          message: prev.message 
+            ? prev.message 
+            : `Selected Scope: ${inquiryScope}\n\nProject goals & details: `
+        };
+      });
     }
   }, [inquiryScope]);
+
+  // INR and USD budget brackets
+  const inrBudgets = [
+    '₹5,999–₹10,000',
+    '₹10,000–₹20,000',
+    '₹20,000–₹30,000',
+    '₹30,000+',
+    'Not sure yet'
+  ];
+
+  const usdBudgets = [
+    'Under $500',
+    '$500–$1,500',
+    '$1,500–$3,000',
+    '$3,000+',
+    'Flexible / Custom quote'
+  ];
+
+  const handleCurrencyChange = (newCurrency) => {
+    setCurrency(newCurrency);
+    setFormData((prev) => ({
+      ...prev,
+      budget: newCurrency === 'INR' ? inrBudgets[0] : usdBudgets[0]
+    }));
+  };
 
   const validate = () => {
     const errors = {};
     if (!formData.name.trim()) errors.name = 'Please provide your name.';
-    if (!formData.email.trim() || !formData.email.includes('@')) {
-      errors.email = 'Please provide a valid email address.';
+    if (!formData.email.trim()) {
+      errors.email = 'Please provide your email or WhatsApp number.';
     }
     if (!formData.message.trim() || formData.message.trim().length < 8) {
-      errors.message = 'Please provide a brief description of what you need.';
+      errors.message = 'Please provide a short description of what you need.';
     }
     return errors;
   };
@@ -88,11 +129,12 @@ export default function ContactForm({
           name: formData.name,
           email: formData.email,
           projectType: formData.projectType,
-          budget: formData.budget,
+          budget: `${formData.budget} (${currency})`,
+          goal: formData.goal,
           timeline: formData.timeline,
           message: formData.message,
           scopeData: inquiryScope || 'None',
-          subject: `New Project Enquiry from ${formData.name} [${formData.projectType}]`
+          subject: `New Project Enquiry: ${formData.projectType} — ${formData.name}`
         };
 
         const response = await fetch('https://api.web3forms.com/submit', {
@@ -110,8 +152,7 @@ export default function ContactForm({
         }
       }
 
-      // If no remote access key is in .env, simulate clean fallback or direct email
-      // Notice: We do NOT fake a successful submission. We open mailto or prompt user.
+      // If no remote access key is in .env, fallback gracefully to prefilled mailto
       const mailtoUrl = getMailtoHref();
       window.location.href = mailtoUrl;
       setStatus('idle');
@@ -119,7 +160,7 @@ export default function ContactForm({
       console.error('Submission failed:', err);
       setStatus('error');
       setErrorMessage(
-        'Unable to send via online form service right now. Please retry or click below to send directly via email or WhatsApp.'
+        'Unable to send via online form service right now. Please retry or click below to message directly via email or WhatsApp.'
       );
     }
   };
@@ -127,7 +168,7 @@ export default function ContactForm({
   const getMailtoHref = () => {
     const subject = encodeURIComponent(`Project Enquiry: ${formData.projectType} — ${formData.name}`);
     const body = encodeURIComponent(
-      `Hi Anubhav,\n\nName: ${formData.name}\nEmail / Contact: ${formData.email}\nProject Type: ${formData.projectType}\nBudget Range: ${formData.budget}\nTarget Timeline: ${formData.timeline}\n\nProject Scope & Requirements:\n${formData.message}\n\n[Blueprint / Estimator: ${inquiryScope || 'Direct Form'}]`
+      `Hi Anubhav,\n\nName: ${formData.name}\nContact (Email/WhatsApp): ${formData.email}\nProject Type: ${formData.projectType}\nEstimated Budget: ${formData.budget} (${currency})\nPrimary Goal: ${formData.goal}\nExpected Timeline: ${formData.timeline}\n\nProject Scope & Requirements:\n${formData.message}\n\n[Blueprint / Estimator: ${inquiryScope || 'Direct Form'}]`
     );
     return `mailto:${contactEmail}?subject=${subject}&body=${body}`;
   };
@@ -151,10 +192,11 @@ export default function ContactForm({
             setFormData({
               name: '',
               email: '',
-              projectType: 'Business Website',
+              projectType: 'Business website',
+              budget: inrBudgets[0],
+              goal: 'Get more customer enquiries',
+              timeline: 'Within a month',
               message: '',
-              budget: 'Flexible / To be discussed',
-              timeline: 'Within 2–4 weeks',
               botcheck: ''
             });
             if (onResetScope) onResetScope();
@@ -186,7 +228,7 @@ export default function ContactForm({
         <div className="p-3.5 rounded-xl bg-[#20201E] border border-[#C65D35]/40 flex items-center justify-between text-xs font-mono text-[#E07A52]">
           <div className="flex items-center gap-2 truncate">
             <span className="w-2 h-2 rounded-full bg-[#C65D35] shrink-0" />
-            <span className="truncate">Attached Scope: {inquiryScope}</span>
+            <span className="truncate">Prefilled Scope: {inquiryScope}</span>
           </div>
           {onResetScope && (
             <button
@@ -200,7 +242,115 @@ export default function ContactForm({
         </div>
       )}
 
-      {/* Row 1: Name & Contact Email */}
+      {/* Row 1: Project Type & Primary Goal */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="projectType" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            1. Project Type
+          </label>
+          <select
+            id="projectType"
+            name="projectType"
+            value={formData.projectType}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
+          >
+            <option value="Business website">Business website</option>
+            <option value="Web application">Web application</option>
+            <option value="AI & workflow automation">AI & workflow automation</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="goal" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            2. Primary Goal
+          </label>
+          <select
+            id="goal"
+            name="goal"
+            value={formData.goal}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
+          >
+            <option value="Get more customer enquiries">Get more customer enquiries</option>
+            <option value="Showcase products or services">Showcase products or services</option>
+            <option value="Build a web application or digital product">Build a web application or digital product</option>
+            <option value="Automate business processes">Automate business processes</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Row 2: Estimated Budget (with Currency Toggle) & Expected Timeline */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label htmlFor="budget" className="font-mono text-xs font-semibold text-[#A8A69E]">
+              3. Estimated Budget
+            </label>
+            {/* Currency Selector */}
+            <div className="flex items-center gap-1 font-mono text-[10px]">
+              <span className="text-[#72706A] mr-1">Currency:</span>
+              <button
+                type="button"
+                onClick={() => handleCurrencyChange('INR')}
+                className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
+                  currency === 'INR' 
+                    ? 'bg-[#C65D35] text-white font-bold' 
+                    : 'bg-[#20201E] text-[#A8A69E] hover:text-white'
+                }`}
+              >
+                ₹ INR
+              </button>
+              <button
+                type="button"
+                onClick={() => handleCurrencyChange('USD')}
+                className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
+                  currency === 'USD' 
+                    ? 'bg-[#C65D35] text-white font-bold' 
+                    : 'bg-[#20201E] text-[#A8A69E] hover:text-white'
+                }`}
+              >
+                $ USD / Intl
+              </button>
+            </div>
+          </div>
+
+          <select
+            id="budget"
+            name="budget"
+            value={formData.budget}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
+          >
+            {(currency === 'INR' ? inrBudgets : usdBudgets).map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="timeline" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
+            4. Expected Timeline
+          </label>
+          <select
+            id="timeline"
+            name="timeline"
+            value={formData.timeline}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
+          >
+            <option value="As soon as possible">As soon as possible (1–2 weeks)</option>
+            <option value="Within a month">Within a month</option>
+            <option value="Flexible">Flexible</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Row 3: Name & Contact Method */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
@@ -249,58 +399,19 @@ export default function ContactForm({
         </div>
       </div>
 
-      {/* Row 2: Project Type & Target Timeline */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label htmlFor="projectType" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
-            Business or Project Type
-          </label>
-          <select
-            id="projectType"
-            name="projectType"
-            value={formData.projectType}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
-          >
-            <option value="Business Website">Business Website (Clinic, Service, Manufacturing)</option>
-            <option value="Web Application">Web Application & Frontend Dev (SaaS, Dashboard)</option>
-            <option value="AI & Automation">AI & Workflow Automation (APIs, Tool Integration)</option>
-            <option value="Agency Partner">Agency Development Partner / Frontend Support</option>
-            <option value="Website Redesign">Website Redesign & Performance Upgrade</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="timeline" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
-            Target Timeline (Optional)
-          </label>
-          <select
-            id="timeline"
-            name="timeline"
-            value={formData.timeline}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
-          >
-            <option value="As soon as possible">As soon as possible (1–2 weeks)</option>
-            <option value="Within 2–4 weeks">Within 2–4 weeks</option>
-            <option value="Flexible / Exploring options">Flexible / Exploring options</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Project Description */}
+      {/* Short Project Description */}
       <div>
         <label htmlFor="message" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
-          Brief Project Description <span className="text-[#C65D35]">*</span>
+          Short Project Description <span className="text-[#C65D35]">*</span>
         </label>
         <textarea
           id="message"
           name="message"
-          rows={4}
+          rows={3}
           required
           value={formData.message}
           onChange={handleChange}
-          placeholder="Tell me about your business, the pages or features you need, and any existing website or links..."
+          placeholder="Tell me about your business, the features you're looking to build, and any existing website or references..."
           className={`w-full px-4 py-3 rounded-xl bg-[#20201E] border text-sm text-[#F5F0E8] placeholder-[#72706A] focus:outline-none focus:ring-2 focus:ring-[#C65D35] transition-all resize-y ${
             validationErrors.message ? 'border-red-500' : 'border-[rgba(245,240,232,0.1)]'
           }`}
@@ -312,26 +423,7 @@ export default function ContactForm({
         )}
       </div>
 
-      {/* Optional Budget */}
-      <div>
-        <label htmlFor="budget" className="block font-mono text-xs font-semibold text-[#A8A69E] mb-1.5">
-          Budget Expectation (Optional)
-        </label>
-        <select
-          id="budget"
-          name="budget"
-          value={formData.budget}
-          onChange={handleChange}
-          className="w-full px-4 py-3 rounded-xl bg-[#20201E] border border-[rgba(245,240,232,0.1)] text-sm text-[#F5F0E8] focus:outline-none focus:ring-2 focus:ring-[#C65D35] cursor-pointer"
-        >
-          <option value="Basic Website (₹15,000 – ₹25,000)">Basic Website (₹15,000 – ₹25,000)</option>
-          <option value="Custom Project (₹25,000 – ₹60,000)">Custom Project (₹25,000 – ₹60,000)</option>
-          <option value="Web App / Full Scope (₹60,000+ / $800+)">Web App / Full Scope (₹60,000+ / $800+)</option>
-          <option value="Flexible / Needs Quote">Flexible / Needs preliminary quote</option>
-        </select>
-      </div>
-
-      {/* Error state alert */}
+      {/* Error State Alert */}
       {status === 'error' && (
         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
@@ -358,7 +450,7 @@ export default function ContactForm({
         </div>
       )}
 
-      {/* Submit Button */}
+      {/* Submit Action */}
       <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
         <button
           type="submit"
@@ -379,7 +471,7 @@ export default function ContactForm({
         </button>
 
         <span className="font-mono text-[11px] text-[#A8A69E]">
-          Direct reply within 24 hours · No spam
+          Direct reply within 24 hours · No obligation
         </span>
       </div>
     </form>

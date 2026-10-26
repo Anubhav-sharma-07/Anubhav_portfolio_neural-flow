@@ -11,10 +11,15 @@ export default function CustomCursor() {
   const [isTouch, setIsTouch] = useState(true);
 
   useEffect(() => {
-    // Check if device supports fine pointer (mouse/trackpad)
+    // Check if device supports fine pointer (mouse/trackpad) and user doesn't prefer reduced motion
     const mediaQuery = window.matchMedia('(pointer: fine)');
-    setIsTouch(!mediaQuery.matches);
-    if (!mediaQuery.matches) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    if (!mediaQuery.matches || prefersReduced.matches) {
+      setIsTouch(true);
+      return;
+    }
+    setIsTouch(false);
 
     let animFrameId;
 

@@ -326,64 +326,65 @@ export const siteContent = {
   },
 
   // ----------------------------------------------------------------------------
-  // ENGAGEMENT MODELS & PRICING (STEP 10)
+  // PRICING & ENGAGEMENT (ONLY PUBLIC STARTING PRICE: ₹5,999 FOR WEBSITES)
   // ----------------------------------------------------------------------------
-  engagementModels: [
-    {
-      id: "website-basic",
-      title: "Website (Basic)",
-      price: "Starting at ₹15,000",
-      tag: "Fixed Scope",
-      idealFor: "Ideal for small businesses and service providers.",
-      description: "A fast, professional online presence that builds trust and makes it easy for potential clients to contact you.",
-      deliverables: [
-        "Up to 5 custom-designed pages",
-        "Responsive design (mobile & desktop)",
-        "Contact / enquiry form",
-        "Basic SEO setup",
-        "100% source code ownership and handover"
-      ],
-      exclusions: "Domain, hosting, paid plugins, and ongoing content writing quoted separately.",
-      ctaText: "Get Started",
-      actionType: "basic-website"
-    },
-    {
-      id: "web-app",
-      title: "Web Application",
-      price: "Custom Quote",
-      tag: "Custom Sprints",
-      idealFor: "For complex features and integrations.",
-      description: "Tailored web applications, client dashboards, and responsive frontends built to your workflow.",
-      deliverables: [
-        "Custom functionality & state management",
-        "API integrations & database setup",
-        "Scalable architecture (React / Next.js)",
-        "Ongoing support & maintenance options",
-        "Comprehensive code handover"
-      ],
-      exclusions: "Third-party cloud infrastructure, database hosting, and paid APIs billed separately.",
-      ctaText: "Discuss Your Project",
-      actionType: "webapp"
-    },
-    {
-      id: "ai-automation",
-      title: "AI & Automation",
-      price: "Custom Quote",
-      tag: "Custom Workflows",
-      idealFor: "For workflow and process automation.",
-      description: "Audit manual tasks and connect your business tools into reliable, automated pipelines.",
-      deliverables: [
-        "Process automation & webhook workflows",
-        "AI integrations (Groq / OpenAI / Claude)",
-        "Database & CRM setup",
-        "Ongoing support & monitoring options",
-        "Detailed workflow documentation"
-      ],
-      exclusions: "Third-party automation subscriptions and API token usage paid directly by client.",
-      ctaText: "Discuss Your Project",
-      actionType: "automation"
-    }
-  ],
+  pricing: {
+    eyebrow: "STRAIGHTFORWARD PROJECT PRICING",
+    headline: "Solutions built around your business.",
+    description: "Every business has different needs. Tell us what you're looking to build, and we'll recommend a solution based on your goals, requirements and budget.",
+    startingPriceBadge: "Website projects starting at ₹5,999",
+    supportingText: "Final pricing depends on project scope, features and requirements. Custom applications and AI solutions are quoted individually.",
+    services: [
+      {
+        id: "business-websites",
+        title: "Business Websites",
+        priceBadge: "Starting at ₹5,999",
+        isStartingPrice: true,
+        description: "Landing pages, business websites, portfolios, service pages and lead-generation websites.",
+        features: [
+          "Responsive multi-device layout",
+          "Contact & enquiry capture",
+          "WhatsApp quick-contact integration",
+          "Basic on-page SEO setup",
+          "100% source code ownership & handover"
+        ],
+        ctaText: "Discuss Your Project",
+        projectTypeId: "Business website"
+      },
+      {
+        id: "web-apps",
+        title: "Web Applications & Development",
+        priceBadge: "Custom Quote",
+        isStartingPrice: false,
+        description: "Custom dashboards, portals, SaaS products, APIs and full-stack applications.",
+        features: [
+          "Custom React / Next.js architecture",
+          "REST APIs & database integrations",
+          "Authentication & state management",
+          "Scalable production setup",
+          "Cross-browser testing & code handover"
+        ],
+        ctaText: "Discuss Your Project",
+        projectTypeId: "Web application"
+      },
+      {
+        id: "ai-automation",
+        title: "AI & Workflow Automation",
+        priceBadge: "Custom Quote",
+        isStartingPrice: false,
+        description: "AI-powered tools, business process automation, integrations and custom workflows.",
+        features: [
+          "Workflow audit & process automation",
+          "AI integrations (Groq / OpenAI / Claude)",
+          "CRM, webhook & database pipelines",
+          "Data transformation & export flows",
+          "Transparent API & hosting cost clarity"
+        ],
+        ctaText: "Discuss Your Project",
+        projectTypeId: "AI & workflow automation"
+      }
+    ]
+  },
 
   // ----------------------------------------------------------------------------
   // ABOUT SECTION (STEP 11)

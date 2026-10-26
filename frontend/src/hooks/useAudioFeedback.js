@@ -38,7 +38,7 @@ export function useAudioFeedback() {
 
       osc.start();
       osc.stop(ctx.currentTime + 0.04);
-    } catch (e) {
+    } catch {
       // Audio playback fails gracefully
     }
   };

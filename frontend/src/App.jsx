@@ -13,6 +13,7 @@ import CustomCursor from './components/motion/CustomCursor';
 import ScrollProgress from './components/motion/ScrollProgress';
 import LuminousBackdrop from './components/motion/LuminousBackdrop';
 import BackToTop from './components/motion/BackToTop';
+import WordRotator from './components/motion/WordRotator';
 import TrustStrip from './components/ui/TrustStrip';
 import FeaturedWork from './components/ui/FeaturedWork';
 import ServicesSection from './components/ui/ServicesSection';
@@ -106,9 +107,23 @@ export default function App() {
                 </div>
 
                 {/* 2. Client-Focused Headline */}
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#20201E] leading-[1.08] tracking-tight mb-6">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#20201E] leading-[1.08] tracking-tight mb-4">
                   Your business deserves more than a basic website.
                 </h1>
+
+                {/* Restrained Rotating Service Focus (Zero layout shift) */}
+                <div className="flex items-center gap-2 mb-6 font-mono text-xs sm:text-sm text-[#72706A]">
+                  <span>Specializing in:</span>
+                  <WordRotator
+                    words={[
+                      "Business websites",
+                      "Web applications",
+                      "AI and workflow automation"
+                    ]}
+                    interval={2600}
+                    accentClassName="text-[#C65D35] font-bold"
+                  />
+                </div>
 
                 {/* 3. Supporting Copy */}
                 <p className="text-base sm:text-lg text-[#575550] leading-relaxed max-w-2xl mb-8 font-normal">
@@ -218,9 +233,9 @@ export default function App() {
         {/* SECTION 06 — ENGAGEMENT MODELS & PRICING (WARM IVORY #F5F0E8)               */}
         {/* ========================================================================= */}
         <PricingSection 
-          engagementModels={siteContent.engagementModels} 
-          onSelectPlan={(planTitle) => {
-            setInquiryScope(`Engagement Model: ${planTitle}`);
+          pricing={siteContent.pricing} 
+          onSelectPlan={(serviceTitle) => {
+            setInquiryScope(`Service Interest: ${serviceTitle}`);
             playClick();
           }}
         />

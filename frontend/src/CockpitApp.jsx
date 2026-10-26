@@ -68,7 +68,7 @@ export default function App() {
       } else {
         setActionStatus(`❌ ${actionName} failed: ${data.error || 'Unknown error'}`);
       }
-    } catch (err) {
+    } catch {
       setActionStatus(`❌ Connection error running ${actionName}`);
     } finally {
       setActionLoading(false);
