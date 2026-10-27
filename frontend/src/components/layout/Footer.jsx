@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUp, Mail, MessageCircle, MapPin, Terminal } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, InstagramIcon } from '../ui/Icons';
 import { siteContent } from '../../content/siteContent';
+import BrandMark from '../ui/BrandMark';
 
 export default function Footer({ onSwitchToCockpit }) {
   const scrollToTop = () => {
@@ -17,11 +18,7 @@ export default function Footer({ onSwitchToCockpit }) {
           {/* Brand & Identity */}
           <div className="md:col-span-5">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-[#C65D35] flex items-center justify-center text-white shadow-xs">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 18L10 6L14 18L20 6" />
-                </svg>
-              </div>
+              <BrandMark size="md" />
               <span className="font-display font-bold text-xl text-[#F5F0E8]">
                 Neural Flow
               </span>

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /cockpit
+Disallow: /#cockpit
 
-Sitemap: https://anubhav-portfolio-wine.vercel.app/sitemap.xml
+Sitemap: https://anubhav-portfolio-neural-flow.vercel.app/sitemap.xml

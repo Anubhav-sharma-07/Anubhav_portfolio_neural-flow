@@ -103,7 +103,7 @@ export const siteContent = {
       title: "Cliniva",
       subtitle: "Healthcare & Dental Clinic",
       category: "Healthcare & Dental Clinic",
-      badgeType: "Live Website",
+      badgeType: "Live Practice Website",
       purpose: "A modern website for a healthcare and dental clinic with easy appointment booking.",
       summary: "A modern website for a healthcare and dental clinic with easy appointment booking, transparent procedure guides, and doctor credential profiles.",
       challenge: "Local healthcare practices lose patients through antiquated, slow websites that lack clear treatment guides or easy mobile appointment booking.",
@@ -127,7 +127,7 @@ export const siteContent = {
       title: "SpendLens",
       subtitle: "Credex Audit",
       category: "Financial Analytics Platform",
-      badgeType: "Live Website",
+      badgeType: "Production SaaS",
       purpose: "A clean, informative platform that presents financial insights and reports.",
       summary: "A production SaaS application that audits team AI subscription spend, tracks active developer seats, and generates automated saving recommendations.",
       challenge: "Tech teams overspend on duplicate AI subscriptions, unassigned developer seats, and recurring licenses without clear usage visibility.",
@@ -151,7 +151,7 @@ export const siteContent = {
       title: "Aura",
       subtitle: "Interview Platform",
       category: "Interview Platform",
-      badgeType: "Live Website",
+      badgeType: "Open-Source Prototype",
       purpose: "A modern platform for interview preparation with a clean and focused user experience.",
       summary: "An interactive browser-based platform enabling engineering candidates to practice technical and behavioral mock interviews with real-time speech capture and evaluation rubrics.",
       challenge: "Software engineering candidates struggle to practice real-time technical interviews with structured rubric feedback.",
@@ -175,7 +175,7 @@ export const siteContent = {
       title: "SOCIO",
       subtitle: "Restaurant & Bar",
       category: "Restaurant & Bar",
-      badgeType: "Live Website",
+      badgeType: "Live Hospitality Site",
       purpose: "A stylish website for a café and bar with menu, ambience and booking details.",
       summary: "An aesthetic web experience for a premier rooftop dining destination in Pune, featuring interactive menus, Sunday brunch showcases, and a mobile reservation portal.",
       challenge: "Upscale hospitality venues need a digital presence that matches their physical atmosphere and converts visitors into table bookings.",
@@ -277,31 +277,36 @@ export const siteContent = {
       number: "01",
       title: "Discover",
       description: "Understand your goals, requirements and audience.",
-      detail: "We clarify the business context, audience expectations, deliverable milestones, and technical constraints."
+      detail: "We clarify the business context, audience expectations, deliverable milestones, and technical constraints.",
+      milestone: "Goal & Audience Brief"
     },
     {
       number: "02",
       title: "Plan",
       description: "Build a clear scope, feature list and timeline.",
-      detail: "Define the exact page count, features, integrations, and milestones before writing production code."
+      detail: "Define the exact page count, features, integrations, and milestones before writing production code.",
+      milestone: "Scope & Timeline Roadmap"
     },
     {
       number: "03",
       title: "Design",
       description: "Create wireframes and visual designs for your approval.",
-      detail: "Develop clean layouts, typography, and interactive directions reviewed against agreed requirements."
+      detail: "Develop clean layouts, typography, and interactive directions reviewed against agreed requirements.",
+      milestone: "Approved Designs & Layouts"
     },
     {
       number: "04",
       title: "Develop",
       description: "Build, test and refine with regular updates.",
-      detail: "Implement responsive code, test interactions across phones and desktop, and fix issues in focused sprints."
+      detail: "Implement responsive code, test interactions across phones and desktop, and fix issues in focused sprints.",
+      milestone: "Staging Sprints & QA Demos"
     },
     {
       number: "05",
       title: "Launch",
       description: "Deliver your project and provide ongoing support.",
-      detail: "Deploy the verified build, provide full source code handover, and clarify post-launch warranty support."
+      detail: "Deploy the verified build, provide full source code handover, and clarify post-launch warranty support.",
+      milestone: "Deploy & Source Handover"
     }
   ],
   processNote: "Timelines depend on scope, feedback turnaround, and required third-party integrations.",

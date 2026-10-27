@@ -13,7 +13,8 @@ export default function CountUp({
   suffix = '',
   className = ''
 }) {
-  const [displayValue, setDisplayValue] = useState(0);
+  const target = typeof value === 'number' ? value : parseInt(value, 10) || 0;
+  const [displayValue, setDisplayValue] = useState(target);
   const ref = useRef(null);
   const hasAnimated = useRef(false);
 

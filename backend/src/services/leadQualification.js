@@ -85,15 +85,19 @@ Respond ONLY with a valid raw JSON object, without any markdown fences (like \`\
   }
 
   // Determine qualification status based on score threshold (>= 6)
+  // CRITICAL SAFETY BOUNDARY: Qualified leads are marked 'Pending Approval', NEVER auto-sent!
   const isQualified = parsedResult.score >= 6;
-  const newStatus = isQualified ? 'Qualified' : 'Rejected';
+  const newStatus = isQualified ? 'Pending Approval' : 'Rejected';
 
   const updateData = {
     status: newStatus,
     score: parsedResult.score,
     message: parsedResult.message,
     subject: parsedResult.subject,
-    reasoning: parsedResult.reasoning
+    reasoning: parsedResult.reasoning,
+    human_approved: 'FALSE',
+    qualification_model: process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022',
+    qualified_at: new Date().toISOString()
   };
 
   try {

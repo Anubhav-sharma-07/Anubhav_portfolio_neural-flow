@@ -120,9 +120,43 @@ export default function ContactForm({
     setErrorMessage('');
 
     try {
+      // 1. First-party submission attempt to backend /api/contact endpoint
+      const localApi = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+      let serverHandled = false;
+
+      try {
+        const backendRes = await fetch(`${localApi}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            projectType: formData.projectType,
+            budget: `${formData.budget} (${currency})`,
+            goal: formData.goal,
+            timeline: formData.timeline,
+            message: formData.message,
+            scopeData: inquiryScope || 'Direct Form',
+            botcheck: formData.botcheck
+          })
+        });
+
+        if (backendRes.ok) {
+          const resData = await backendRes.json();
+          if (resData.success) {
+            setStatus('success');
+            serverHandled = true;
+            return;
+          }
+        }
+      } catch (backendErr) {
+        // Backend not reachable or running in static preview; fall through
+      }
+
+      if (serverHandled) return;
+
+      // 2. If access key is configured, post to Web3Forms
       const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-      
-      // If access key is configured, post to Web3Forms
       if (accessKey && accessKey !== 'YOUR_ACCESS_KEY_HERE') {
         const payload = {
           access_key: accessKey,
@@ -147,15 +181,13 @@ export default function ContactForm({
         if (response.ok && result.success) {
           setStatus('success');
           return;
-        } else {
-          throw new Error(result.message || 'API rejected submission');
         }
       }
 
-      // If no remote access key is in .env, fallback gracefully to prefilled mailto
+      // 3. Fallback: Open prefilled mailto and confirm to user
       const mailtoUrl = getMailtoHref();
       window.location.href = mailtoUrl;
-      setStatus('idle');
+      setStatus('success');
     } catch (err) {
       console.error('Submission failed:', err);
       setStatus('error');
@@ -185,6 +217,25 @@ export default function ContactForm({
         <p className="text-sm text-[#A8A69E] max-w-md mx-auto mb-6 leading-relaxed">
           Thank you, <strong>{formData.name}</strong>. Your enquiry has been received. I review all project requirements personally and reply within 24 hours.
         </p>
+
+        {/* What Happens Next Roadmap */}
+        <div className="max-w-md mx-auto text-left bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.08)] mb-6 text-xs font-mono space-y-2">
+          <span className="text-[#C65D35] font-bold block uppercase text-[10px] tracking-wider">
+            What happens next:
+          </span>
+          <div className="flex items-start gap-2 text-[#D4D2CA]">
+            <span className="text-[#C65D35] font-bold">1.</span>
+            <span>Personal requirement review within 24 hours.</span>
+          </div>
+          <div className="flex items-start gap-2 text-[#D4D2CA]">
+            <span className="text-[#C65D35] font-bold">2.</span>
+            <span>Preliminary scope & tech feasibility breakdown.</span>
+          </div>
+          <div className="flex items-start gap-2 text-[#D4D2CA]">
+            <span className="text-[#C65D35] font-bold">3.</span>
+            <span>Fixed milestone proposal & clear delivery timeline.</span>
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => {

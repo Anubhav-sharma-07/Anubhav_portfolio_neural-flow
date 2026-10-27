@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Menu, Volume2, VolumeX } from 'lucide-react';
+import BrandMark from '../ui/BrandMark';
 
 export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) {
   const [scrolled, setScrolled] = useState(false);
@@ -48,12 +49,8 @@ export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) 
           className="group flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35] rounded-lg p-1"
           aria-label="Neural Flow Homepage"
         >
-          {/* Burnt Orange Geometric Mark */}
-          <div className="w-8 h-8 rounded-lg bg-[#C65D35] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 18L10 6L14 18L20 6" />
-            </svg>
-          </div>
+          {/* Authentic Neural Flow Emblem */}
+          <BrandMark size="md" className="group-hover:scale-105 transition-transform" />
           <div className="flex flex-col">
             <span className="font-display text-base font-bold tracking-tight text-[#20201E] flex items-center gap-1.5 leading-none">
               Neural Flow

@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { discoverLeads } from '../services/leadDiscovery.js';
 import { qualifyAllNewLeads } from '../services/leadQualification.js';
 import { syncDashboardMetrics } from '../services/dashboardMetrics.js';
-import { sendAllInitialOutreach, checkRepliesAndFollowUp } from '../services/emailOutreach.js';
+import { getApprovalQueue, checkRepliesAndFollowUp } from '../services/emailOutreach.js';
 import { syncManualQueue } from '../services/manualQueue.js';
 import icpConfig from '../config/icp.config.js';
 import axios from 'axios';
@@ -80,15 +80,18 @@ export function initScheduler() {
     }
   });
 
-  // Initial Email Outreach Campaign job: Every 15 minutes (offset by 5 mins to run after qualification)
-  cron.schedule('5,20,35,50 * * * *', async () => {
-    console.log('[Scheduler] Running scheduled initial email outreach...');
+  // Human Review & Approval Alert: Hourly check for drafts awaiting approval
+  // CRITICAL SAFETY BOUNDARY: No automated cold outreach is sent without explicit human review!
+  cron.schedule('0 * * * *', async () => {
+    console.log('[Scheduler] Checking for drafts awaiting human review and approval...');
     try {
-      await sendAllInitialOutreach();
-      console.log('[Scheduler] Initial email outreach campaign finished successfully.');
+      const pending = await getApprovalQueue();
+      if (pending && pending.length > 0) {
+        console.log(`[Scheduler] ${pending.length} lead draft(s) awaiting human approval in Cockpit.`);
+        await sendTelegramAlert(`📋 NeuralFlow Review Alert: ${pending.length} lead draft(s) awaiting your manual review and approval in Cockpit.`);
+      }
     } catch (error) {
-      console.error('[Scheduler] Initial email outreach failed:', error);
-      await sendTelegramAlert(`Scheduled Initial Email Outreach job failed: ${error.message}`);
+      console.error('[Scheduler] Draft approval check error:', error.message);
     }
   });
 
@@ -119,5 +122,5 @@ export function initScheduler() {
     }
   });
 
-  console.log('✅ Scheduler running. Scheduled: Lead Discovery (daily 9am), Lead Qualification (every 15m), Initial Email Outreach (every 15m), Reply Check & Follow-Up (daily 10am), Manual Queue Sync (every 15m), Dashboard Sync (hourly).');
+  console.log('✅ Scheduler running. Scheduled: Lead Discovery (daily 9am), Lead Qualification (every 15m), Approval Queue Monitor (hourly), Reply Check & Follow-Up (daily 10am), Manual Queue Sync (every 15m), Dashboard Sync (hourly). (Auto-send disabled for safety).');
 }

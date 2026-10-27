@@ -1,25 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { ExternalLink, ArrowUpRight, CheckCircle2, X, Eye } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ExternalLink, ArrowUpRight, CheckCircle2, X, Eye, Code2 } from 'lucide-react';
 import { GithubIcon } from './Icons';
 
 export default function FeaturedWork({ projects = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
+  const modalRef = useRef(null);
+  const previousActiveElement = useRef(null);
 
+  // Handle URL hash deep-linking on mount & hashchange
+  useEffect(() => {
+    const handleHashCheck = () => {
+      if (typeof window === 'undefined') return;
+      const hash = window.location.hash.toLowerCase().replace('#', '');
+      if (hash) {
+        const matched = projects.find(
+          (p) => p.id.toLowerCase() === hash || `case-${p.id.toLowerCase()}` === hash
+        );
+        if (matched) {
+          setSelectedProject(matched);
+        }
+      }
+    };
+
+    handleHashCheck();
+    window.addEventListener('hashchange', handleHashCheck);
+    return () => window.removeEventListener('hashchange', handleHashCheck);
+  }, [projects]);
+
+  // Modal open/close side effects: lock body scroll, manage focus, handle Escape key
   useEffect(() => {
     if (selectedProject) {
+      previousActiveElement.current = document.activeElement;
       document.body.style.overflow = 'hidden';
+
+      // Focus modal on next frame
+      requestAnimationFrame(() => {
+        if (modalRef.current) {
+          modalRef.current.focus();
+        }
+      });
+
       const handleKeyDown = (e) => {
-        if (e.key === 'Escape') setSelectedProject(null);
+        if (e.key === 'Escape') {
+          handleCloseModal();
+        }
       };
+
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = '';
         window.removeEventListener('keydown', handleKeyDown);
+        if (previousActiveElement.current?.focus) {
+          previousActiveElement.current.focus();
+        }
       };
     } else {
       document.body.style.overflow = '';
     }
   }, [selectedProject]);
+
+  const handleOpenProject = (project) => {
+    setSelectedProject(project);
+    if (window.history?.pushState) {
+      window.history.pushState(null, '', `#case-${project.id}`);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProject(null);
+    if (window.history?.pushState) {
+      window.history.pushState(null, '', `${window.location.pathname}#projects`);
+    }
+  };
 
   return (
     <section 
@@ -27,6 +79,7 @@ export default function FeaturedWork({ projects = [] }) {
       className="py-24 sm:py-32 bg-[#20201E] text-[#F5F0E8] border-t border-[rgba(245,240,232,0.08)] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
@@ -36,8 +89,8 @@ export default function FeaturedWork({ projects = [] }) {
             <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#F5F0E8] tracking-tight mb-3">
               Featured Work
             </h2>
-            <p className="text-base text-[#A8A69E] max-w-xl">
-              Real projects. Practical solutions. Built for business.
+            <p className="text-base text-[#A8A69E] max-w-xl font-normal">
+              Real projects, verified architectures, and practical business deliverables.
             </p>
           </div>
 
@@ -50,56 +103,74 @@ export default function FeaturedWork({ projects = [] }) {
           </a>
         </div>
 
-        {/* 4 Project Cards Grid (1 col on mobile, 2 cols on tablet, 4 cols on desktop) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 4 Project Cards Grid (2 cols on tablet & desktop for rich studio presentation) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
             <div
               key={project.id}
               className="group rounded-2xl bg-[#272725] border border-[rgba(245,240,232,0.08)] hover:border-[#C65D35]/60 flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <div>
-                {/* Screenshot Frame with Browser Bar */}
-                <div className="relative aspect-[16/10] bg-[#1A1A18] overflow-hidden border-b border-[rgba(245,240,232,0.06)]">
+                {/* Browser Window Chrome */}
+                <div className="px-4 py-2.5 bg-[#1F1F1D] border-b border-[rgba(245,240,232,0.06)] flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+                  </div>
+                  <span className="font-mono text-[10px] text-[#72706A] tracking-wider truncate max-w-[200px]">
+                    {project.links?.live?.replace('https://', '') || `${project.id}.neuralflow.dev`}
+                  </span>
+                  <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded bg-[#20201E] text-[#E07A52] border border-[#C65D35]/30">
+                    {project.badgeType}
+                  </span>
+                </div>
+
+                {/* Screenshot Frame */}
+                <div className="relative aspect-[16/10] bg-[#161614] overflow-hidden border-b border-[rgba(245,240,232,0.06)]">
                   <img
                     src={project.image}
                     alt={`${project.title} — ${project.category}`}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/40 to-transparent pointer-events-none" />
-                  
-                  {/* Status Tag */}
-                  <div className="absolute top-3 right-3">
-                    <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded bg-[#20201E]/80 backdrop-blur-md text-[#E07A52] border border-[#C65D35]/30 shadow-xs">
-                      {project.badgeType}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/30 to-transparent pointer-events-none" />
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <div className="flex items-baseline justify-between gap-2 mb-1">
-                    <h3 className="font-display font-bold text-xl text-[#F5F0E8] group-hover:text-[#C65D35] transition-colors">
+                <div className="p-6 sm:p-7">
+                  <div className="flex items-baseline justify-between gap-3 mb-1">
+                    <h3 className="font-display font-bold text-2xl text-[#F5F0E8] group-hover:text-[#C65D35] transition-colors">
                       {project.title}
                     </h3>
+                    <span className="font-mono text-xs text-[#A8A69E] shrink-0">
+                      {project.category}
+                    </span>
                   </div>
 
-                  <span className="font-mono text-xs text-[#A8A69E] block mb-3 font-medium">
-                    {project.category}
-                  </span>
-
-                  <p className="text-xs text-[#D4D2CA] leading-relaxed mb-4 line-clamp-3">
+                  <p className="text-sm text-[#D4D2CA] leading-relaxed mb-5 font-normal">
                     {project.purpose || project.summary}
                   </p>
 
-                  {/* Key Features Bullet List */}
+                  {/* Highlights */}
                   {project.highlights && (
-                    <div className="space-y-1.5 pt-3 border-t border-[rgba(245,240,232,0.06)] mb-4">
+                    <div className="space-y-1.5 pt-4 border-t border-[rgba(245,240,232,0.06)] mb-5">
                       {project.highlights.slice(0, 2).map((item, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-[11px] text-[#A8A69E]">
+                        <div key={idx} className="flex items-start gap-2 text-xs text-[#A8A69E]">
                           <span className="text-[#C65D35] font-bold shrink-0">•</span>
-                          <span className="line-clamp-1">{item}</span>
+                          <span>{item}</span>
                         </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Tech Stack Pills */}
+                  {project.stack && (
+                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[rgba(245,240,232,0.06)] mb-2">
+                      {project.stack.map((tech, i) => (
+                        <span key={i} className="font-mono text-[10px] px-2.5 py-0.5 rounded bg-[#20201E] text-[#D8CFC1] border border-[rgba(245,240,232,0.08)]">
+                          {tech}
+                        </span>
                       ))}
                     </div>
                   )}
@@ -107,32 +178,32 @@ export default function FeaturedWork({ projects = [] }) {
               </div>
 
               {/* Action Links */}
-              <div className="p-5 pt-0 flex items-center justify-between border-t border-[rgba(245,240,232,0.06)] mt-auto">
+              <div className="p-6 sm:p-7 pt-0 flex items-center justify-between border-t border-[rgba(245,240,232,0.06)] mt-auto">
                 <button
                   type="button"
-                  onClick={() => setSelectedProject(project)}
-                  className="font-mono text-xs font-semibold text-[#C65D35] hover:text-[#E07A52] flex items-center gap-1 transition-colors cursor-pointer py-2"
+                  onClick={() => handleOpenProject(project)}
+                  className="font-mono text-xs font-semibold text-[#C65D35] hover:text-[#E07A52] flex items-center gap-1.5 transition-colors cursor-pointer py-2 focus-visible:outline-none focus-visible:underline"
                 >
-                  <span>Case Study</span>
-                  <Eye className="w-3.5 h-3.5" />
+                  <Eye className="w-4 h-4" />
+                  <span>Read Case Study</span>
                 </button>
 
-                {project.links.live ? (
+                {project.links?.live ? (
                   <a
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs text-[#F5F0E8] hover:text-[#C65D35] flex items-center gap-1 transition-colors py-2"
+                    className="font-mono text-xs font-semibold px-4 py-2 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>View Project</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
-                ) : project.links.github ? (
+                ) : project.links?.github ? (
                   <a
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs text-[#A8A69E] hover:text-[#F5F0E8] flex items-center gap-1 transition-colors py-2"
+                    className="font-mono text-xs font-semibold px-4 py-2 rounded-lg bg-[#20201E] text-[#A8A69E] border border-[rgba(245,240,232,0.12)] hover:text-[#F5F0E8] flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>View Code</span>
                     <GithubIcon className="w-3.5 h-3.5" />
@@ -146,16 +217,19 @@ export default function FeaturedWork({ projects = [] }) {
         </div>
       </div>
 
-      {/* Deep Case Study Modal (Step 6 Mandate) */}
+      {/* Deep Case Study Modal with Accessible Focus Management */}
       {selectedProject && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
-          onClick={() => setSelectedProject(null)}
+          onClick={handleCloseModal}
           role="dialog"
           aria-modal="true"
+          aria-labelledby="case-study-title"
         >
           <div 
-            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#272725] border border-[rgba(245,240,232,0.15)] p-6 sm:p-10 text-[#F5F0E8] shadow-2xl relative"
+            ref={modalRef}
+            tabIndex={-1}
+            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#272725] border border-[rgba(245,240,232,0.15)] p-6 sm:p-10 text-[#F5F0E8] shadow-2xl relative outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -170,15 +244,15 @@ export default function FeaturedWork({ projects = [] }) {
                     {selectedProject.category}
                   </span>
                 </div>
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#F5F0E8]">
+                <h3 id="case-study-title" className="font-display font-bold text-2xl sm:text-3xl text-[#F5F0E8]">
                   {selectedProject.title}
                 </h3>
               </div>
               <button
                 type="button"
-                onClick={() => setSelectedProject(null)}
-                className="w-9 h-9 rounded-lg bg-[#20201E] border border-[rgba(245,240,232,0.1)] hover:border-[#C65D35] flex items-center justify-center text-[#F5F0E8] transition-colors"
-                aria-label="Close modal"
+                onClick={handleCloseModal}
+                className="w-9 h-9 rounded-lg bg-[#20201E] border border-[rgba(245,240,232,0.1)] hover:border-[#C65D35] flex items-center justify-center text-[#F5F0E8] transition-colors cursor-pointer"
+                aria-label="Close case study dialog"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -197,7 +271,7 @@ export default function FeaturedWork({ projects = [] }) {
             <div className="space-y-6 text-sm text-[#D4D2CA] leading-relaxed mb-8">
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  The Challenge
+                  The Problem & Business Context
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)]">
                   {selectedProject.challenge}
@@ -206,7 +280,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  The Approach & Architecture
+                  The Technical Approach & Architecture
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)]">
                   {selectedProject.approach}
@@ -215,13 +289,13 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  What Was Built & Technology
+                  What Was Built & Technology Stack
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] mb-3">
                   {selectedProject.whatWasBuilt}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {selectedProject.stack.map((t, idx) => (
+                  {selectedProject.stack?.map((t, idx) => (
                     <span key={idx} className="font-mono text-xs px-2.5 py-1 rounded bg-[#20201E] border border-[rgba(245,240,232,0.08)] text-[#A8A69E]">
                       {t}
                     </span>
@@ -231,7 +305,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  Demonstrable Result
+                  Demonstrable Result & Deliverable
                 </h4>
                 <div className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] flex items-start gap-2.5 text-xs text-[#F5F0E8]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -243,18 +317,24 @@ export default function FeaturedWork({ projects = [] }) {
             {/* Modal Bottom Actions */}
             <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-[rgba(245,240,232,0.08)]">
               <div className="flex items-center gap-3">
-                {selectedProject.links.live && (
+                {selectedProject.links?.live ? (
                   <a
                     href={selectedProject.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-burnt-orange text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-1.5"
+                    className="btn-burnt-orange text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-1.5 shadow-xs"
                   >
                     <span>View Live Website</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
+                ) : (
+                  <div className="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-2 rounded-lg bg-[#20201E] border border-[rgba(245,240,232,0.08)] text-[#A8A69E]">
+                    <Code2 className="w-3.5 h-3.5 text-[#C65D35]" />
+                    <span>Prototype Repository Available</span>
+                  </div>
                 )}
-                {selectedProject.links.github && (
+
+                {selectedProject.links?.github && (
                   <a
                     href={selectedProject.links.github}
                     target="_blank"
@@ -262,17 +342,17 @@ export default function FeaturedWork({ projects = [] }) {
                     className="inline-flex items-center gap-1.5 text-xs font-mono px-4 py-2.5 rounded-lg bg-[#20201E] border border-[rgba(245,240,232,0.12)] text-[#F5F0E8] hover:border-[#C65D35] transition-colors"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
-                    <span>View Repository</span>
+                    <span>View Code</span>
                   </a>
                 )}
               </div>
 
               <button
                 type="button"
-                onClick={() => setSelectedProject(null)}
-                className="font-mono text-xs text-[#A8A69E] hover:text-[#F5F0E8] px-3 py-2 cursor-pointer"
+                onClick={handleCloseModal}
+                className="font-mono text-xs text-[#A8A69E] hover:text-[#F5F0E8] px-3 py-2 cursor-pointer transition-colors"
               >
-                Close
+                Close Case Study
               </button>
             </div>
           </div>
