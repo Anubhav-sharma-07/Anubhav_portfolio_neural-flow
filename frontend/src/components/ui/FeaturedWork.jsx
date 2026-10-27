@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, ArrowUpRight, CheckCircle2, X, Eye, Code2 } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, CheckCircle2, X, Eye, Code2, Sparkles, Layers, ShieldCheck, ArrowRight } from 'lucide-react';
 import { GithubIcon } from './Icons';
 
 export default function FeaturedWork({ projects = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const modalRef = useRef(null);
   const previousActiveElement = useRef(null);
+
+  // Identify flagship project (SpendLens) and secondary projects
+  const flagshipProject = projects.find(p => p.id === 'spendlens') || projects[0];
+  const secondaryProjects = projects.filter(p => p.id !== flagshipProject?.id);
 
   // Handle URL hash deep-linking on mount & hashchange
   useEffect(() => {
@@ -83,14 +87,15 @@ export default function FeaturedWork({ projects = [] }) {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
-            <span className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider block mb-2">
-              SELECTED PROJECTS
-            </span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#272725] border border-[rgba(245,240,232,0.1)] text-[#C65D35] font-mono text-xs font-bold mb-3 shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-[#C65D35] animate-pulse" />
+              <span>SELECTED CASE STUDIES & PRODUCTION BUILDS</span>
+            </div>
             <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#F5F0E8] tracking-tight mb-3">
               Featured Work
             </h2>
-            <p className="text-base text-[#A8A69E] max-w-xl font-normal">
-              Real projects, verified architectures, and practical business deliverables.
+            <p className="text-base text-[#A8A69E] max-w-xl font-normal leading-relaxed">
+              Real projects, verified architectures, and practical business deliverables. Every build is accompanied by an architectural breakdown.
             </p>
           </div>
 
@@ -103,9 +108,144 @@ export default function FeaturedWork({ projects = [] }) {
           </a>
         </div>
 
-        {/* 4 Project Cards Grid (2 cols on tablet & desktop for rich studio presentation) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
+        {/* =================================================================== */}
+        {/* 1. ASYMMETRIC FLAGSHIP SPOTLIGHT CARD (SpendLens SaaS)              */}
+        {/* =================================================================== */}
+        {flagshipProject && (
+          <div className="mb-10 rounded-3xl bg-[#272725] border border-[rgba(245,240,232,0.12)] overflow-hidden shadow-2xl hover:border-[#C65D35]/50 transition-all duration-300">
+            <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+              
+              {/* Left Column: Editorial Project Overview (col-span-5) */}
+              <div className="lg:col-span-5 p-7 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[rgba(245,240,232,0.08)]">
+                <div>
+                  {/* Top Badge & Platform */}
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#20201E] text-[#E07A52] border border-[#C65D35]/30">
+                      {flagshipProject.badgeType}
+                    </span>
+                    <span className="font-mono text-xs text-[#A8A69E]">
+                      {flagshipProject.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#F5F0E8] tracking-tight mb-3">
+                    {flagshipProject.title}
+                  </h3>
+
+                  {/* Purpose */}
+                  <p className="text-sm text-[#D4D2CA] leading-relaxed mb-6 font-normal">
+                    {flagshipProject.summary || flagshipProject.purpose}
+                  </p>
+
+                  {/* Verifiable Highlights */}
+                  {flagshipProject.highlights && (
+                    <div className="space-y-2 pt-5 border-t border-[rgba(245,240,232,0.06)] mb-6">
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#72706A] block mb-2">
+                        Engineering Highlights:
+                      </span>
+                      {flagshipProject.highlights.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 text-xs text-[#D4D2CA]">
+                          <CheckCircle2 className="w-4 h-4 text-[#C65D35] shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {flagshipProject.stack?.map((tech, i) => (
+                      <span key={i} className="font-mono text-[10px] px-2.5 py-1 rounded bg-[#20201E] text-[#D8CFC1] border border-[rgba(245,240,232,0.08)]">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Flagship CTAs */}
+                <div className="pt-6 border-t border-[rgba(245,240,232,0.08)] flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenProject(flagshipProject)}
+                    className="font-mono text-xs font-semibold px-4 py-2.5 rounded-lg bg-[#C65D35] text-white hover:bg-[#d46a42] transition-colors flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>Read Architectural Case Study</span>
+                  </button>
+
+                  {flagshipProject.links?.live && (
+                    <a
+                      href={flagshipProject.links.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-xs font-semibold px-4 py-2.5 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
+                    >
+                      <span>Live Product</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+
+                  {flagshipProject.links?.github && (
+                    <a
+                      href={flagshipProject.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-xs font-semibold px-3 py-2.5 rounded-lg bg-[#20201E] text-[#A8A69E] border border-[rgba(245,240,232,0.12)] hover:text-[#F5F0E8] flex items-center gap-1.5 transition-all"
+                      title="Inspect Source Code on GitHub"
+                    >
+                      <GithubIcon className="w-3.5 h-3.5" />
+                      <span>Code</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: Full Browser Window Canvas (col-span-7) */}
+              <div className="lg:col-span-7 bg-[#1A1A18] flex flex-col justify-between overflow-hidden relative group">
+                {/* Browser Window Chrome */}
+                <div className="px-4 py-3 bg-[#1F1F1D] border-b border-[rgba(245,240,232,0.08)] flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+                  </div>
+                  <span className="font-mono text-[10px] text-[#A8A69E] tracking-wider truncate max-w-xs">
+                    https://{flagshipProject.links?.live?.replace('https://', '') || 'credex-audit.neuralflow.dev'}
+                  </span>
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Live Telemetry</span>
+                  </div>
+                </div>
+
+                {/* Screenshot with subtle hover zoom */}
+                <div className="relative aspect-[16/10] sm:aspect-[16/11] bg-[#141412] overflow-hidden">
+                  <img
+                    src={flagshipProject.image}
+                    alt={flagshipProject.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/40 to-transparent pointer-events-none" />
+
+                  {/* Floating Result Metric Chip */}
+                  <div className="absolute bottom-4 right-4 px-3.5 py-2 rounded-xl bg-[#20201E]/95 backdrop-blur-md border border-[rgba(245,240,232,0.15)] shadow-xl flex items-center gap-2.5 text-xs font-mono">
+                    <span className="w-2 h-2 rounded-full bg-[#C65D35]" />
+                    <span className="text-[#F5F0E8] font-bold">Audits team spend in &lt; 2 minutes</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* =================================================================== */}
+        {/* 2. SECONDARY TRI-GRID (Cliniva, SOCIO, Aura Interview)             */}
+        {/* =================================================================== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {secondaryProjects.map((project) => (
             <div
               key={project.id}
               className="group rounded-2xl bg-[#272725] border border-[rgba(245,240,232,0.08)] hover:border-[#C65D35]/60 flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -118,10 +258,10 @@ export default function FeaturedWork({ projects = [] }) {
                     <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
                     <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
                   </div>
-                  <span className="font-mono text-[10px] text-[#72706A] tracking-wider truncate max-w-[200px]">
+                  <span className="font-mono text-[10px] text-[#72706A] tracking-wider truncate max-w-[140px]">
                     {project.links?.live?.replace('https://', '') || `${project.id}.neuralflow.dev`}
                   </span>
-                  <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded bg-[#20201E] text-[#E07A52] border border-[#C65D35]/30">
+                  <span className="font-mono text-[9px] font-semibold px-2 py-0.5 rounded bg-[#20201E] text-[#E07A52] border border-[#C65D35]/30">
                     {project.badgeType}
                   </span>
                 </div>
@@ -138,9 +278,9 @@ export default function FeaturedWork({ projects = [] }) {
                 </div>
 
                 {/* Content */}
-                <div className="p-6 sm:p-7">
+                <div className="p-6">
                   <div className="flex items-baseline justify-between gap-3 mb-1">
-                    <h3 className="font-display font-bold text-2xl text-[#F5F0E8] group-hover:text-[#C65D35] transition-colors">
+                    <h3 className="font-display font-bold text-xl text-[#F5F0E8] group-hover:text-[#C65D35] transition-colors">
                       {project.title}
                     </h3>
                     <span className="font-mono text-xs text-[#A8A69E] shrink-0">
@@ -148,17 +288,17 @@ export default function FeaturedWork({ projects = [] }) {
                     </span>
                   </div>
 
-                  <p className="text-sm text-[#D4D2CA] leading-relaxed mb-5 font-normal">
+                  <p className="text-xs text-[#D4D2CA] leading-relaxed mb-4 line-clamp-3 font-normal">
                     {project.purpose || project.summary}
                   </p>
 
                   {/* Highlights */}
                   {project.highlights && (
-                    <div className="space-y-1.5 pt-4 border-t border-[rgba(245,240,232,0.06)] mb-5">
+                    <div className="space-y-1 pt-3 border-t border-[rgba(245,240,232,0.06)] mb-4">
                       {project.highlights.slice(0, 2).map((item, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-xs text-[#A8A69E]">
+                        <div key={idx} className="flex items-start gap-1.5 text-[11px] text-[#A8A69E]">
                           <span className="text-[#C65D35] font-bold shrink-0">•</span>
-                          <span>{item}</span>
+                          <span className="line-clamp-1">{item}</span>
                         </div>
                       ))}
                     </div>
@@ -166,9 +306,9 @@ export default function FeaturedWork({ projects = [] }) {
 
                   {/* Tech Stack Pills */}
                   {project.stack && (
-                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[rgba(245,240,232,0.06)] mb-2">
+                    <div className="flex flex-wrap gap-1 pt-2 border-t border-[rgba(245,240,232,0.06)] mb-2">
                       {project.stack.map((tech, i) => (
-                        <span key={i} className="font-mono text-[10px] px-2.5 py-0.5 rounded bg-[#20201E] text-[#D8CFC1] border border-[rgba(245,240,232,0.08)]">
+                        <span key={i} className="font-mono text-[9px] px-2 py-0.5 rounded bg-[#20201E] text-[#D8CFC1] border border-[rgba(245,240,232,0.08)]">
                           {tech}
                         </span>
                       ))}
@@ -178,14 +318,14 @@ export default function FeaturedWork({ projects = [] }) {
               </div>
 
               {/* Action Links */}
-              <div className="p-6 sm:p-7 pt-0 flex items-center justify-between border-t border-[rgba(245,240,232,0.06)] mt-auto">
+              <div className="p-6 pt-0 flex items-center justify-between border-t border-[rgba(245,240,232,0.06)] mt-auto">
                 <button
                   type="button"
                   onClick={() => handleOpenProject(project)}
                   className="font-mono text-xs font-semibold text-[#C65D35] hover:text-[#E07A52] flex items-center gap-1.5 transition-colors cursor-pointer py-2 focus-visible:outline-none focus-visible:underline"
                 >
-                  <Eye className="w-4 h-4" />
-                  <span>Read Case Study</span>
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Case Study</span>
                 </button>
 
                 {project.links?.live ? (
@@ -193,20 +333,20 @@ export default function FeaturedWork({ projects = [] }) {
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs font-semibold px-4 py-2 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
+                    className="font-mono text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>View Project</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
+                    <ArrowUpRight className="w-3 h-3" />
                   </a>
                 ) : project.links?.github ? (
                   <a
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs font-semibold px-4 py-2 rounded-lg bg-[#20201E] text-[#A8A69E] border border-[rgba(245,240,232,0.12)] hover:text-[#F5F0E8] flex items-center gap-1.5 transition-all shadow-xs"
+                    className="font-mono text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#20201E] text-[#A8A69E] border border-[rgba(245,240,232,0.12)] hover:text-[#F5F0E8] flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>View Code</span>
-                    <GithubIcon className="w-3.5 h-3.5" />
+                    <GithubIcon className="w-3 h-3" />
                   </a>
                 ) : (
                   <span className="font-mono text-[10px] text-[#72706A]">Verified Build</span>
@@ -217,7 +357,9 @@ export default function FeaturedWork({ projects = [] }) {
         </div>
       </div>
 
-      {/* Deep Case Study Modal with Accessible Focus Management */}
+      {/* =================================================================== */}
+      {/* 3. DEEP ARCHITECTURAL CASE STUDY MODAL                              */}
+      {/* =================================================================== */}
       {selectedProject && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
@@ -271,7 +413,7 @@ export default function FeaturedWork({ projects = [] }) {
             <div className="space-y-6 text-sm text-[#D4D2CA] leading-relaxed mb-8">
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  The Problem & Business Context
+                  1. The Problem & Business Context
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)]">
                   {selectedProject.challenge}
@@ -280,7 +422,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  The Technical Approach & Architecture
+                  2. Technical Architecture & Decisions
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)]">
                   {selectedProject.approach}
@@ -289,7 +431,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  What Was Built & Technology Stack
+                  3. What Was Built & Technology Stack
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] mb-3">
                   {selectedProject.whatWasBuilt}
@@ -305,7 +447,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  Demonstrable Result & Deliverable
+                  4. Demonstrable Result & Deliverable
                 </h4>
                 <div className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] flex items-start gap-2.5 text-xs text-[#F5F0E8]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />

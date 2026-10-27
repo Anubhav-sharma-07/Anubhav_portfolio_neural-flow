@@ -14,6 +14,8 @@ import ScrollProgress from './components/motion/ScrollProgress';
 import LuminousBackdrop from './components/motion/LuminousBackdrop';
 import BackToTop from './components/motion/BackToTop';
 import WordRotator from './components/motion/WordRotator';
+import Reveal from './components/motion/Reveal';
+import HeroVisualStage from './components/ui/HeroVisualStage';
 import TrustStrip from './components/ui/TrustStrip';
 import FeaturedWork from './components/ui/FeaturedWork';
 import ServicesSection from './components/ui/ServicesSection';
@@ -169,24 +171,9 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Hero Laptop + Mobile Device Mockup */}
-              <div className="lg:col-span-5 flex items-center justify-center relative">
-                <div className="relative w-full max-w-lg lg:max-w-none group">
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-[#20201E]/10 bg-[#20201E]/5 transition-transform duration-500 hover:scale-[1.01]">
-                    <img
-                      src={siteContent.brand.heroMockup}
-                      alt="Modern responsive website demonstrated across laptop and mobile devices"
-                      className="w-full h-auto object-cover"
-                      width={800}
-                      height={600}
-                      loading="eager"
-                      fetchpriority="high"
-                    />
-                  </div>
-
-                  {/* Subtle Corner Accent */}
-                  <div className="absolute -bottom-3 -right-3 w-20 h-20 border-r-2 border-b-2 border-[#C65D35] pointer-events-none rounded-br-2xl opacity-60" />
-                </div>
+              {/* Right Column: Interactive 3D Perspective Visual Stage */}
+              <div className="lg:col-span-5 flex items-center justify-center relative w-full">
+                <HeroVisualStage />
               </div>
 
             </div>
