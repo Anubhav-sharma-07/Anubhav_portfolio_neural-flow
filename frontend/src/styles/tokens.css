@@ -8,6 +8,15 @@
   --color-supporting-stone: #D8CFC1;
   --color-supporting-stone-dark: #C4B9A7;
 
+  /* Agency High-Conversion Color Tokens */
+  --color-agency-ink: #0A0F24;
+  --color-agency-royal: #2B4BFF;
+  --color-agency-violet: #7B4DFF;
+  --color-agency-coral: #FF5C39;
+  --color-agency-mint: #1FD08A;
+  --color-agency-cloud: #F5F7FF;
+  --color-agency-slate: #5B6482;
+
   /* Charcoal Tonal Nuances (for Dark/Immersive Sections) */
   --charcoal-bg: #20201E;
   --charcoal-surface: #272725;

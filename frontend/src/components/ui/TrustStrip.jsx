@@ -2,24 +2,22 @@ import React from 'react';
 import CountUp from '../motion/CountUp';
 
 export default function TrustStrip({ brands, stats = [] }) {
-  const brandList = brands?.items || [
-    { id: "cliniva", name: "Cliniva", category: "Healthcare & Dental" },
-    { id: "credex", name: "CREDEX", category: "Spend Analytics" },
-    { id: "aura", name: "AURA", category: "Interview Platform" },
-    { id: "socio", name: "SOCIO", category: "Kitchen & Bar" },
-    { id: "nrs", name: "NRS", category: "Digital Solutions" }
-  ];
+  const brandList = brands?.items || [];
+
+  if (brandList.length === 0 && (!stats || stats.length === 0)) {
+    return null;
+  }
 
   return (
     <section 
-      aria-label="Verified projects and brand platforms"
+      aria-label="Projects I've built"
       className="py-12 bg-[#F5F0E8] border-b border-[rgba(32,32,30,0.08)] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Brand / Project Strip Header */}
         <div className="text-center mb-8">
           <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[#72706A]">
-            {brands?.heading || "Trusted by businesses across industries"}
+            {brands?.heading || "Projects I've built"}
           </p>
         </div>
 

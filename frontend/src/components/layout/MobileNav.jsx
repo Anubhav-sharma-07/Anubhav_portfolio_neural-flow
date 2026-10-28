@@ -26,7 +26,9 @@ export default function MobileNav({ isOpen, onClose }) {
     { name: 'Home', href: '#hero' },
     { name: 'Work', href: '#projects' },
     { name: 'Services', href: '#services' },
+    { name: 'Pricing & Estimator', href: '#estimator' },
     { name: 'Process', href: '#process' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -52,7 +54,7 @@ export default function MobileNav({ isOpen, onClose }) {
         <button
           type="button"
           onClick={onClose}
-          className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#2A2A28] border border-[rgba(245,240,232,0.1)] text-[#F5F0E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35]"
+          className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center bg-[#2A2A28] border border-[rgba(245,240,232,0.1)] text-[#F5F0E8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35] cursor-pointer"
           aria-label="Close navigation"
         >
           <X className="w-5 h-5" />

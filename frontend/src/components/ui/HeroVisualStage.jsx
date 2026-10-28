@@ -1,50 +1,59 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Activity, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export default function HeroVisualStage() {
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const stageRef = useRef(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
-  const [canTilt, setCanTilt] = useState(false);
 
   const previewProjects = [
     {
-      id: 'spendlens',
-      title: 'SpendLens SaaS',
-      url: 'credex-audit.neuralflow.dev',
-      image: '/projects/spendlens.webp',
-      badge: 'Production SaaS',
-      stack: 'Next.js 14 • Groq AI • Supabase'
-    },
-    {
       id: 'cliniva',
-      title: 'Cliniva Practice',
-      url: 'cliniva.neuralflow.dev',
+      title: 'Cliniva Dental',
+      url: 'neuralflow-cliniva-preview.vercel.app',
       image: '/projects/cliniva.webp',
-      badge: 'Live Clinic Website',
-      stack: 'React 19 • Tailwind • Sub-sec LCP'
+      badge: 'Client project',
+      stack: 'React • Mobile patient booking'
     },
     {
       id: 'socio',
       title: 'SOCIO Venue',
-      url: 'socio-bar.neuralflow.dev',
+      url: 'cafe-bar-self.vercel.app',
       image: '/projects/socio-bar.webp',
-      badge: 'Live Venue Website',
-      stack: 'React • Editorial UI • Booking Flow'
+      badge: 'Client project',
+      stack: 'React • Food & drinks menu'
+    },
+    {
+      id: 'spendlens',
+      title: 'SpendLens Tool',
+      url: 'credex-audit-eight.vercel.app',
+      image: '/projects/spendlens.webp',
+      badge: 'My product',
+      stack: 'Next.js • Team spend analytics'
     }
   ];
 
   const currentProject = previewProjects[activeProjectIdx];
 
+  // Auto-rotate preview tabs every 4s (pause on hover or reduced-motion)
   useEffect(() => {
-    // Only enable 3D pointer tilt if fine pointer device (mouse) and no reduced motion
+    if (isHovered) return;
+    const isReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    const interval = setInterval(() => {
+      setActiveProjectIdx((prev) => (prev + 1) % previewProjects.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, previewProjects.length]);
+
+  useEffect(() => {
+    // 2.5D Spring Tilt (±8 deg, perspective 1000)
     const pointerFine = window.matchMedia('(pointer: fine)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (pointerFine && !reducedMotion) {
-      setCanTilt(true);
-    }
 
     if (!pointerFine || reducedMotion) return;
 
@@ -61,9 +70,9 @@ export default function HeroVisualStage() {
       const normX = (e.clientX - centerX) / (rect.width / 2);
       const normY = (e.clientY - centerY) / (rect.height / 2);
 
-      // Max tilt angles: X: -6 to 6 deg, Y: -8 to 8 deg
+      // Max tilt angles: X: -8 to 8 deg, Y: -8 to 8 deg
       mousePos.current = {
-        x: Math.max(-1, Math.min(1, normY)) * -6,
+        x: Math.max(-1, Math.min(1, normY)) * -8,
         y: Math.max(-1, Math.min(1, normX)) * 8
       };
     };
@@ -104,17 +113,19 @@ export default function HeroVisualStage() {
   return (
     <div 
       ref={stageRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="relative w-full max-w-xl mx-auto lg:max-w-none select-none"
-      style={{ perspective: '1200px' }}
+      style={{ perspective: '1000px' }}
     >
       {/* 3D Perspective Stage Container */}
       <div 
         className="perspective-stage-inner relative transition-transform duration-300 ease-out will-change-transform"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        {/* Ambient Burnt Orange & Charcoal Floor Glow */}
+        {/* Soft Blue-Violet Glow behind mockup (Tokens: royal #2B4BFF & violet #7B4DFF) */}
         <div 
-          className="absolute -inset-4 bg-gradient-to-tr from-[#C65D35]/20 via-[#20201E]/5 to-transparent rounded-3xl blur-2xl -z-10 pointer-events-none"
+          className="absolute -inset-6 bg-gradient-to-tr from-[#7B4DFF]/25 via-[#2B4BFF]/20 to-[#FF5C39]/15 rounded-3xl blur-3xl -z-10 pointer-events-none"
           style={{ transform: 'translateZ(-40px)' }}
         />
 
@@ -182,29 +193,29 @@ export default function HeroVisualStage() {
               className="w-full h-full object-cover object-top"
               loading="eager"
             />
-            <div className="absolute bottom-2 left-2 right-2 p-1.5 rounded bg-[#20201E]/95 backdrop-blur-md border border-white/10 text-[9px] font-mono text-center text-[#F5F0E8]">
-              <span className="text-[#E07A52] font-bold">100% Mobile</span> UX
+            <div className="absolute bottom-2 left-2 right-2 px-2 py-1.5 rounded bg-[#20201E]/95 backdrop-blur-md border border-white/10 text-[10px] font-mono text-center text-[#F5F0E8] shadow-sm">
+              <span className="text-[#E07A52] font-semibold">Mobile View</span>
             </div>
           </div>
         </div>
 
         {/* ================================================================= */}
-        {/* LAYER 3: FLOATING PERFORMANCE TELEMETRY BADGE (translateZ: 75px) */}
+        {/* LAYER 3: FLOATING CLIENT GUARANTEE BADGE (translateZ: 75px)       */}
         {/* ================================================================= */}
         <div 
           className="absolute -top-5 -left-4 sm:-left-6 px-4 py-2.5 rounded-xl bg-[#20201E]/95 backdrop-blur-md border border-[rgba(245,240,232,0.15)] shadow-xl flex items-center gap-3 transition-transform duration-500 hover:scale-105"
           style={{ transform: 'translateZ(75px)' }}
         >
           <div className="w-8 h-8 rounded-lg bg-[#C65D35] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-            <Zap className="w-4 h-4 fill-current" />
+            <ShieldCheck className="w-4 h-4 fill-current" />
           </div>
           <div className="text-left font-mono">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#F5F0E8]">
-              <span>99+ Speed Score</span>
+              <span>100% Code Ownership</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             </div>
             <span className="text-[10px] text-[#A8A69E] block">
-              Sub-second LCP • Zero Bloat
+              Direct developer contact • Zero lock-in
             </span>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Menu, Volume2, VolumeX } from 'lucide-react';
+import { ArrowUpRight, Menu } from 'lucide-react';
 import BrandMark from '../ui/BrandMark';
 
-export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) {
+export default function Navbar({ onOpenMobileMenu }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
@@ -31,7 +31,9 @@ export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) 
     { name: 'Home', href: '#hero', id: 'hero' },
     { name: 'Work', href: '#projects', id: 'projects' },
     { name: 'Services', href: '#services', id: 'services' },
+    { name: 'Pricing', href: '#estimator', id: 'estimator' },
     { name: 'Process', href: '#process', id: 'process' },
+    { name: 'FAQ', href: '#faq', id: 'faq' },
     { name: 'About', href: '#about', id: 'about' },
     { name: 'Contact', href: '#contact', id: 'contact' },
   ];
@@ -83,34 +85,6 @@ export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) 
 
         {/* Right Action Cluster */}
         <div className="flex items-center gap-2.5">
-          {/* Subtle Sound Toggle */}
-          {toggleSound && (
-            <button
-              type="button"
-              onClick={toggleSound}
-              className={`h-9 px-2.5 rounded-lg flex items-center gap-1.5 border transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35] ${
-                soundEnabled
-                  ? 'bg-[#C65D35]/15 border-[#C65D35] text-[#C65D35]'
-                  : 'bg-white/80 border-[#20201E]/10 text-[#87847C] hover:text-[#20201E]'
-              }`}
-              title={soundEnabled ? 'Haptic Sound: Enabled' : 'Haptic Sound: Muted'}
-              aria-label="Toggle haptic audio feedback"
-            >
-              {soundEnabled ? (
-                <>
-                  <Volume2 className="w-4 h-4 shrink-0" />
-                  <div className="flex items-end gap-0.5 h-3.5 px-0.5">
-                    <span className="w-0.5 bg-[#C65D35] rounded-full animate-eq-1" />
-                    <span className="w-0.5 bg-[#C65D35] rounded-full animate-eq-2" />
-                    <span className="w-0.5 bg-[#C65D35] rounded-full animate-eq-3" />
-                  </div>
-                </>
-              ) : (
-                <VolumeX className="w-4 h-4" />
-              )}
-            </button>
-          )}
-
           {/* Primary CTA Button */}
           <a
             href="#contact"
@@ -124,10 +98,10 @@ export default function Navbar({ onOpenMobileMenu, soundEnabled, toggleSound }) 
           <button
             type="button"
             onClick={onOpenMobileMenu}
-            className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center bg-white/80 border border-[#20201E]/10 text-[#20201E] hover:border-[#C65D35] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35]"
+            className="md:hidden w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center bg-white/80 border border-[#20201E]/10 text-[#20201E] hover:border-[#C65D35] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35] cursor-pointer"
             aria-label="Open mobile navigation"
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
       </div>

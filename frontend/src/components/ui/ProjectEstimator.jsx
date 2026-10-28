@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Calendar, Check, ArrowRight, HelpCircle, Sparkles, Layers, Sliders } from 'lucide-react';
+import { Calendar, Check, ArrowRight, ShieldCheck, FileCheck } from 'lucide-react';
+import { Analytics } from '../../utils/analytics';
 
 export default function ProjectEstimator({ onSelectScope }) {
   const [currency, setCurrency] = useState('INR'); // 'INR' | 'USD'
-  const [activeStep, setActiveStep] = useState(1); // 1: Platform, 2: Scope, 3: Integrations
   const [platformType, setPlatformType] = useState('business');
   const [selectedFeatures, setSelectedFeatures] = useState([
     'landing',
@@ -19,38 +19,38 @@ export default function ProjectEstimator({ onSelectScope }) {
       baseDays: 7, 
       baseInr: 5999, 
       baseUsd: 89,
-      audience: 'Clinics, services, manufacturing, consulting & local businesses',
-      summary: 'High-converting multi-device website to build trust and capture enquiries'
+      audience: 'Clinics, cafes, coaching centres, and local businesses',
+      summary: 'Clean, mobile-friendly website that brings you real customer enquiries'
     },
     { 
       id: 'webapp', 
-      name: 'Web Application', 
+      name: 'Custom Web Application', 
       baseDays: 14, 
       baseInr: 18000, 
       baseUsd: 249,
-      audience: 'Founders, agencies & teams needing custom portals or SaaS frontend',
-      summary: 'Custom React 19 / Next.js interfaces with state and database integration'
+      audience: 'Founders and businesses needing customer portals or custom tools',
+      summary: 'Custom screens built around your business with database setup'
     },
     { 
       id: 'ai-automation', 
-      name: 'AI & Workflow Automation', 
+      name: 'Chatbot & Work Automation', 
       baseDays: 10, 
       baseInr: 15000, 
       baseUsd: 199,
-      audience: 'Businesses seeking to eliminate repetitive manual work & speed up replies',
-      summary: 'Automated lead processing, CRM sync, and Claude/Groq LLM pipelines'
+      audience: 'Businesses wanting to cut daily manual tasks and answer customers fast',
+      summary: 'Chatbot that answers customers, saves leads, and updates your spreadsheets'
     }
   ];
 
   const featureOptions = [
     // Scope & Pages
-    { id: 'landing', name: 'High-Converting Landing Page', days: 2, inr: 1500, usd: 25, category: 'scope', plainDesc: 'Structured value proposition, social proof, and mobile hero' },
-    { id: 'service-pages', name: 'Multi-Page Service Directory', days: 3, inr: 2500, usd: 35, category: 'scope', plainDesc: 'Detailed service or treatment pages with pricing clarity' },
-    { id: 'contact-form', name: 'Validated Enquiry Intake', days: 1, inr: 1000, usd: 15, category: 'scope', plainDesc: 'Anti-spam protection, input validation, and direct email alerts' },
-    { id: 'whatsapp', name: '1-Click WhatsApp Quick Route', days: 1, inr: 500, usd: 10, category: 'integrations', plainDesc: 'Instant mobile messaging with prefilled consultation notes' },
-    { id: 'cms', name: 'Custom Database & CMS (Supabase)', days: 4, inr: 4500, usd: 60, category: 'integrations', plainDesc: 'Dynamic content editing without touching code' },
-    { id: 'ai-assistant', name: 'AI Lead Qualification Pipeline', days: 4, inr: 5000, usd: 70, category: 'integrations', plainDesc: 'Groq or Claude AI scoring and intelligent draft generation' },
-    { id: 'seo', name: 'Search Engine Optimization (SEO)', days: 2, inr: 1500, usd: 20, category: 'integrations', plainDesc: 'Structured JSON-LD schema, meta tags, and sitemap generation' }
+    { id: 'landing', name: 'High-Converting Home Page', days: 2, inr: 1500, usd: 25, category: 'scope', plainDesc: 'Clear value proposition, service highlights, and mobile hero' },
+    { id: 'service-pages', name: 'Individual Service Pages', days: 3, inr: 2500, usd: 35, category: 'scope', plainDesc: 'Dedicated pages for each service or treatment with transparent pricing' },
+    { id: 'contact-form', name: 'Contact form that blocks spam', days: 1, inr: 1000, usd: 15, category: 'scope', plainDesc: 'Blocks spam bots and delivers enquiries straight to your email' },
+    { id: 'whatsapp', name: 'WhatsApp button on every page', days: 1, inr: 500, usd: 10, category: 'integrations', plainDesc: 'Lets customers message you in one click with a prefilled greeting' },
+    { id: 'cms', name: 'Edit your own content without calling me', days: 4, inr: 4500, usd: 60, category: 'integrations', plainDesc: 'Easily update text, prices, and photos from a simple dashboard' },
+    { id: 'ai-assistant', name: 'Chatbot that answers customers and collects leads', days: 4, inr: 5000, usd: 70, category: 'integrations', plainDesc: 'Answers common questions 24/7 and saves customer contact details' },
+    { id: 'seo', name: 'Set up so Google can find you', days: 2, inr: 1500, usd: 20, category: 'integrations', plainDesc: 'Proper search tags, descriptions, and sitemap for search engines' }
   ];
 
   const toggleFeature = (id) => {
@@ -83,6 +83,8 @@ export default function ProjectEstimator({ onSelectScope }) {
     : `$${totalPrice.toLocaleString('en-US')}`;
 
   const handleRequestEstimate = () => {
+    Analytics.estimatorTransfer(currentPlatform.name, estimatedDays);
+
     const selectedFeatureNames = selectedFeatures
       .map((id) => featureOptions.find((f) => f.id === id)?.name)
       .filter(Boolean)
@@ -248,26 +250,26 @@ export default function ProjectEstimator({ onSelectScope }) {
               </div>
             </div>
 
-            {/* Inclusions & Clear Boundaries */}
-            <div className="p-4 rounded-2xl bg-[#F5F0E8] border border-[#20201E]/10 space-y-2 text-xs font-mono">
-              <span className="font-bold text-[#20201E] block uppercase text-[10px] tracking-wider">
+            {/* Inclusions & Guarantees */}
+            <div className="p-5 rounded-2xl bg-[#F5F0E8] border border-[#20201E]/10 space-y-3 text-xs font-mono">
+              <span className="font-bold text-[#20201E] block uppercase text-[11px] tracking-wider">
                 What Every Project Includes:
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#575550]">
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[#575550]">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-[#C65D35] shrink-0" />
                   <span>100% full source code ownership</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
-                  <span>Tested sub-second load times</span>
+                <div className="flex items-center gap-2">
+                  <FileCheck className="w-4 h-4 text-[#C65D35] shrink-0" />
+                  <span>Written milestone agreement</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
-                  <span>Cross-device phone & tablet QA</span>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-[#C65D35] shrink-0" />
+                  <span>Fast, mobile-friendly design</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>14-day post-launch warranty</span>
                 </div>
               </div>

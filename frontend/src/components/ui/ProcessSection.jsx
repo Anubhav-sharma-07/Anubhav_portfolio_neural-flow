@@ -101,7 +101,7 @@ export default function ProcessSection({ steps = [], note }) {
                     <div className="w-12 h-12 rounded-full bg-[#20201E] border-2 border-[#C65D35] flex items-center justify-center font-mono text-sm font-bold text-[#F5F0E8] group-hover:bg-[#C65D35] group-hover:text-white transition-all shadow-md">
                       {step.number}
                     </div>
-                    <span className="font-mono text-[10px] text-[#72706A] uppercase tracking-widest">
+                    <span className="font-mono text-xs text-[#A8A69E] uppercase tracking-wider">
                       Step {idx + 1}
                     </span>
                   </div>
@@ -112,15 +112,24 @@ export default function ProcessSection({ steps = [], note }) {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-xs text-[#D4D2CA] leading-relaxed font-normal mb-4">
+                  <p className="text-sm text-[#D4D2CA] leading-relaxed font-normal mb-4">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Specific Verifiable Milestone Outcome */}
-                <div className="pt-4 mt-4 border-t border-[rgba(245,240,232,0.06)] flex items-center gap-1.5 text-[11px] font-mono text-[#E07A52]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C65D35] shrink-0" />
-                  <span className="truncate">{step.milestone || "Milestone Verified"}</span>
+                {/* Specific Verifiable Milestone Outcome (wrapped, no ellipsis) */}
+                <div className="pt-4 mt-4 border-t border-[rgba(245,240,232,0.06)] flex flex-col gap-1 text-xs font-mono text-[#E07A52]">
+                  <div className="flex items-start gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#C65D35] shrink-0 mt-0.5" />
+                    <span className="text-wrap break-words leading-tight text-[#F5F0E8] font-medium">
+                      {step.milestone || "Milestone Verified"}
+                    </span>
+                  </div>
+                  {step.timeEstimate && (
+                    <span className="text-[11px] text-[#A8A69E] pl-5">
+                      ~ {step.timeEstimate}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
