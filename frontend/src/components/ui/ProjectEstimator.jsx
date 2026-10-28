@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Calendar, Check, ArrowRight, HelpCircle, Sparkles, Layers, Sliders } from 'lucide-react';
+import { Calendar, Check, ArrowRight } from 'lucide-react';
 
 export default function ProjectEstimator({ onSelectScope }) {
   const [currency, setCurrency] = useState('INR'); // 'INR' | 'USD'
-  const [activeStep, setActiveStep] = useState(1); // 1: Platform, 2: Scope, 3: Integrations
   const [platformType, setPlatformType] = useState('business');
   const [selectedFeatures, setSelectedFeatures] = useState([
     'landing',
@@ -19,38 +18,38 @@ export default function ProjectEstimator({ onSelectScope }) {
       baseDays: 7, 
       baseInr: 5999, 
       baseUsd: 89,
-      audience: 'Clinics, services, manufacturing, consulting & local businesses',
-      summary: 'High-converting multi-device website to build trust and capture enquiries'
+      audience: 'Clinics, cafes, coaching centres, and local businesses',
+      summary: 'Clean, mobile-friendly website that brings you real customer enquiries'
     },
     { 
       id: 'webapp', 
-      name: 'Web Application', 
+      name: 'Custom Web Application', 
       baseDays: 14, 
       baseInr: 18000, 
       baseUsd: 249,
-      audience: 'Founders, agencies & teams needing custom portals or SaaS frontend',
-      summary: 'Custom React 19 / Next.js interfaces with state and database integration'
+      audience: 'Founders and businesses needing customer portals or custom tools',
+      summary: 'Custom screens built around your business with database setup'
     },
     { 
       id: 'ai-automation', 
-      name: 'AI & Workflow Automation', 
+      name: 'Chatbot & Work Automation', 
       baseDays: 10, 
       baseInr: 15000, 
       baseUsd: 199,
-      audience: 'Businesses seeking to eliminate repetitive manual work & speed up replies',
-      summary: 'Automated lead processing, CRM sync, and Claude/Groq LLM pipelines'
+      audience: 'Businesses wanting to cut daily manual tasks and answer customers fast',
+      summary: 'Chatbot that answers customers, saves leads, and updates your spreadsheets'
     }
   ];
 
   const featureOptions = [
     // Scope & Pages
-    { id: 'landing', name: 'High-Converting Landing Page', days: 2, inr: 1500, usd: 25, category: 'scope', plainDesc: 'Structured value proposition, social proof, and mobile hero' },
-    { id: 'service-pages', name: 'Multi-Page Service Directory', days: 3, inr: 2500, usd: 35, category: 'scope', plainDesc: 'Detailed service or treatment pages with pricing clarity' },
-    { id: 'contact-form', name: 'Validated Enquiry Intake', days: 1, inr: 1000, usd: 15, category: 'scope', plainDesc: 'Anti-spam protection, input validation, and direct email alerts' },
-    { id: 'whatsapp', name: '1-Click WhatsApp Quick Route', days: 1, inr: 500, usd: 10, category: 'integrations', plainDesc: 'Instant mobile messaging with prefilled consultation notes' },
-    { id: 'cms', name: 'Custom Database & CMS (Supabase)', days: 4, inr: 4500, usd: 60, category: 'integrations', plainDesc: 'Dynamic content editing without touching code' },
-    { id: 'ai-assistant', name: 'AI Lead Qualification Pipeline', days: 4, inr: 5000, usd: 70, category: 'integrations', plainDesc: 'Groq or Claude AI scoring and intelligent draft generation' },
-    { id: 'seo', name: 'Search Engine Optimization (SEO)', days: 2, inr: 1500, usd: 20, category: 'integrations', plainDesc: 'Structured JSON-LD schema, meta tags, and sitemap generation' }
+    { id: 'landing', name: 'High-Converting Home Page', days: 2, inr: 1500, usd: 25, category: 'scope', plainDesc: 'Clear value proposition, service highlights, and mobile hero' },
+    { id: 'service-pages', name: 'Individual Service Pages', days: 3, inr: 2500, usd: 35, category: 'scope', plainDesc: 'Dedicated pages for each service or treatment with transparent pricing' },
+    { id: 'contact-form', name: 'Contact form that blocks spam', days: 1, inr: 1000, usd: 15, category: 'scope', plainDesc: 'Blocks spam bots and delivers enquiries straight to your email' },
+    { id: 'whatsapp', name: 'WhatsApp button on every page', days: 1, inr: 500, usd: 10, category: 'integrations', plainDesc: 'Lets customers message you in one click with a prefilled greeting' },
+    { id: 'cms', name: 'Edit your own content without calling me', days: 4, inr: 4500, usd: 60, category: 'integrations', plainDesc: 'Easily update text, prices, and photos from a simple dashboard' },
+    { id: 'ai-assistant', name: 'Chatbot that answers customers and collects leads', days: 4, inr: 5000, usd: 70, category: 'integrations', plainDesc: 'Answers common questions 24/7 and saves customer contact details' },
+    { id: 'seo', name: 'Set up so Google can find you', days: 2, inr: 1500, usd: 20, category: 'integrations', plainDesc: 'Proper search tags, descriptions, and sitemap for search engines' }
   ];
 
   const toggleFeature = (id) => {

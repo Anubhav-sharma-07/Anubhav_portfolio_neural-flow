@@ -154,16 +154,16 @@ export default function Footer({ onSwitchToCockpit }) {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Secret Cockpit Mode toggle */}
+            {/* Internal studio cockpit link (explained for owner access) */}
             {onSwitchToCockpit && (
               <button
                 type="button"
                 onClick={onSwitchToCockpit}
                 className="hover:text-[#A8A69E] transition-colors flex items-center gap-1.5 opacity-60 hover:opacity-100"
-                title="Open Automation Cockpit"
+                title="Internal lead management cockpit (Password protected)"
               >
                 <Terminal className="w-3.5 h-3.5" />
-                <span>Cockpit</span>
+                <span>Studio Admin</span>
               </button>
             )}
 

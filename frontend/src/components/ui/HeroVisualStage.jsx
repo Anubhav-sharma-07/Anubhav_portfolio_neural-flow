@@ -1,37 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Activity, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export default function HeroVisualStage() {
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
   const stageRef = useRef(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
-  const [canTilt, setCanTilt] = useState(false);
 
   const previewProjects = [
     {
-      id: 'spendlens',
-      title: 'SpendLens SaaS',
-      url: 'credex-audit.neuralflow.dev',
-      image: '/projects/spendlens.webp',
-      badge: 'Production SaaS',
-      stack: 'Next.js 14 • Groq AI • Supabase'
-    },
-    {
       id: 'cliniva',
-      title: 'Cliniva Practice',
-      url: 'cliniva.neuralflow.dev',
+      title: 'Cliniva Dental',
+      url: 'neuralflow-cliniva-preview.vercel.app',
       image: '/projects/cliniva.webp',
-      badge: 'Live Clinic Website',
-      stack: 'React 19 • Tailwind • Sub-sec LCP'
+      badge: 'Client project',
+      stack: 'React • Mobile patient booking'
     },
     {
       id: 'socio',
       title: 'SOCIO Venue',
-      url: 'socio-bar.neuralflow.dev',
+      url: 'cafe-bar-self.vercel.app',
       image: '/projects/socio-bar.webp',
-      badge: 'Live Venue Website',
-      stack: 'React • Editorial UI • Booking Flow'
+      badge: 'Client project',
+      stack: 'React • Food & drinks menu'
+    },
+    {
+      id: 'spendlens',
+      title: 'SpendLens Tool',
+      url: 'credex-audit-eight.vercel.app',
+      image: '/projects/spendlens.webp',
+      badge: 'My product',
+      stack: 'Next.js • Team spend analytics'
     }
   ];
 
@@ -41,10 +40,6 @@ export default function HeroVisualStage() {
     // Only enable 3D pointer tilt if fine pointer device (mouse) and no reduced motion
     const pointerFine = window.matchMedia('(pointer: fine)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (pointerFine && !reducedMotion) {
-      setCanTilt(true);
-    }
 
     if (!pointerFine || reducedMotion) return;
 
@@ -182,29 +177,29 @@ export default function HeroVisualStage() {
               className="w-full h-full object-cover object-top"
               loading="eager"
             />
-            <div className="absolute bottom-2 left-2 right-2 p-1.5 rounded bg-[#20201E]/95 backdrop-blur-md border border-white/10 text-[9px] font-mono text-center text-[#F5F0E8]">
-              <span className="text-[#E07A52] font-bold">100% Mobile</span> UX
+            <div className="absolute bottom-2 left-2 right-2 px-2 py-1.5 rounded bg-[#20201E]/95 backdrop-blur-md border border-white/10 text-[10px] font-mono text-center text-[#F5F0E8] shadow-sm">
+              <span className="text-[#E07A52] font-semibold">Mobile View</span>
             </div>
           </div>
         </div>
 
         {/* ================================================================= */}
-        {/* LAYER 3: FLOATING PERFORMANCE TELEMETRY BADGE (translateZ: 75px) */}
+        {/* LAYER 3: FLOATING CLIENT GUARANTEE BADGE (translateZ: 75px)       */}
         {/* ================================================================= */}
         <div 
           className="absolute -top-5 -left-4 sm:-left-6 px-4 py-2.5 rounded-xl bg-[#20201E]/95 backdrop-blur-md border border-[rgba(245,240,232,0.15)] shadow-xl flex items-center gap-3 transition-transform duration-500 hover:scale-105"
           style={{ transform: 'translateZ(75px)' }}
         >
           <div className="w-8 h-8 rounded-lg bg-[#C65D35] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-            <Zap className="w-4 h-4 fill-current" />
+            <ShieldCheck className="w-4 h-4 fill-current" />
           </div>
           <div className="text-left font-mono">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#F5F0E8]">
-              <span>99+ Speed Score</span>
+              <span>100% Code Ownership</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             </div>
             <span className="text-[10px] text-[#A8A69E] block">
-              Sub-second LCP • Zero Bloat
+              Direct developer contact • Zero lock-in
             </span>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, ArrowUpRight, CheckCircle2, X, Eye, Code2, Sparkles, Layers, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, X, Eye } from 'lucide-react';
 import { GithubIcon } from './Icons';
 
 export default function FeaturedWork({ projects = [] }) {
@@ -89,13 +89,13 @@ export default function FeaturedWork({ projects = [] }) {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#272725] border border-[rgba(245,240,232,0.1)] text-[#C65D35] font-mono text-xs font-bold mb-3 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-[#C65D35] animate-pulse" />
-              <span>SELECTED CASE STUDIES & PRODUCTION BUILDS</span>
+              <span>REAL PROJECTS & PROVEN RESULTS</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-display font-bold text-[#F5F0E8] tracking-tight mb-3">
               Featured Work
             </h2>
-            <p className="text-base text-[#A8A69E] max-w-xl font-normal leading-relaxed">
-              Real projects, verified architectures, and practical business deliverables. Every build is accompanied by an architectural breakdown.
+            <p className="text-base text-[#D4D2CA] max-w-xl font-normal leading-relaxed">
+              Clean websites and custom web tools built for real businesses. Every project has a live link or open code so you can test it yourself.
             </p>
           </div>
 
@@ -171,7 +171,7 @@ export default function FeaturedWork({ projects = [] }) {
                     className="font-mono text-xs font-semibold px-4 py-2.5 rounded-lg bg-[#C65D35] text-white hover:bg-[#d46a42] transition-colors flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
                   >
                     <Eye className="w-4 h-4" />
-                    <span>Read Architectural Case Study</span>
+                    <span>See how I built it</span>
                   </button>
 
                   {flagshipProject.links?.live && (
@@ -181,7 +181,7 @@ export default function FeaturedWork({ projects = [] }) {
                       rel="noopener noreferrer"
                       className="font-mono text-xs font-semibold px-4 py-2.5 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
                     >
-                      <span>Live Product</span>
+                      <span>Visit live site</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </a>
                   )}
@@ -195,7 +195,7 @@ export default function FeaturedWork({ projects = [] }) {
                       title="Inspect Source Code on GitHub"
                     >
                       <GithubIcon className="w-3.5 h-3.5" />
-                      <span>Code</span>
+                      <span>View code</span>
                     </a>
                   )}
                 </div>
@@ -215,7 +215,7 @@ export default function FeaturedWork({ projects = [] }) {
                   </span>
                   <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Live Telemetry</span>
+                    <span>Live product</span>
                   </div>
                 </div>
 
@@ -277,7 +277,7 @@ export default function FeaturedWork({ projects = [] }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/30 to-transparent pointer-events-none" />
                 </div>
 
-                {/* Content */}
+                {/* Content: Outcome-Led Format */}
                 <div className="p-6">
                   <div className="flex items-baseline justify-between gap-3 mb-1">
                     <h3 className="font-display font-bold text-xl text-[#F5F0E8] group-hover:text-[#C65D35] transition-colors">
@@ -288,21 +288,21 @@ export default function FeaturedWork({ projects = [] }) {
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#D4D2CA] leading-relaxed mb-4 line-clamp-3 font-normal">
+                  <p className="text-xs text-[#D4D2CA] leading-relaxed mb-4 line-clamp-2 font-normal">
                     {project.purpose || project.summary}
                   </p>
 
-                  {/* Highlights */}
-                  {project.highlights && (
-                    <div className="space-y-1 pt-3 border-t border-[rgba(245,240,232,0.06)] mb-4">
-                      {project.highlights.slice(0, 2).map((item, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-[11px] text-[#A8A69E]">
-                          <span className="text-[#C65D35] font-bold shrink-0">•</span>
-                          <span className="line-clamp-1">{item}</span>
-                        </div>
-                      ))}
+                  {/* Outcome-Led Breakdown: Problem & Result */}
+                  <div className="space-y-2.5 pt-3 border-t border-[rgba(245,240,232,0.06)] text-xs mb-4">
+                    <div className="text-[#A8A69E]">
+                      <span className="font-mono text-[10px] text-[#C65D35] uppercase font-bold block mb-0.5">Problem:</span>
+                      <p className="text-[11px] text-[#D4D2CA] line-clamp-2 leading-relaxed">{project.challenge}</p>
                     </div>
-                  )}
+                    <div className="text-[#D4D2CA]">
+                      <span className="font-mono text-[10px] text-emerald-400 uppercase font-bold block mb-0.5">Result:</span>
+                      <p className="text-[11px] text-[#F5F0E8] line-clamp-2 font-medium leading-relaxed">{project.result}</p>
+                    </div>
+                  </div>
 
                   {/* Tech Stack Pills */}
                   {project.stack && (
@@ -325,7 +325,7 @@ export default function FeaturedWork({ projects = [] }) {
                   className="font-mono text-xs font-semibold text-[#C65D35] hover:text-[#E07A52] flex items-center gap-1.5 transition-colors cursor-pointer py-2 focus-visible:outline-none focus-visible:underline"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  <span>Case Study</span>
+                  <span>See how I built it</span>
                 </button>
 
                 {project.links?.live ? (
@@ -335,7 +335,7 @@ export default function FeaturedWork({ projects = [] }) {
                     rel="noopener noreferrer"
                     className="font-mono text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#20201E] text-[#F5F0E8] border border-[rgba(245,240,232,0.12)] hover:border-[#C65D35] hover:text-[#C65D35] flex items-center gap-1.5 transition-all shadow-xs"
                   >
-                    <span>View Project</span>
+                    <span>Visit live site</span>
                     <ArrowUpRight className="w-3 h-3" />
                   </a>
                 ) : project.links?.github ? (
@@ -345,7 +345,7 @@ export default function FeaturedWork({ projects = [] }) {
                     rel="noopener noreferrer"
                     className="font-mono text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#20201E] text-[#A8A69E] border border-[rgba(245,240,232,0.12)] hover:text-[#F5F0E8] flex items-center gap-1.5 transition-all shadow-xs"
                   >
-                    <span>View Code</span>
+                    <span>View code</span>
                     <GithubIcon className="w-3 h-3" />
                   </a>
                 ) : (
@@ -422,7 +422,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  2. Technical Architecture & Decisions
+                  2. What I Did & How I Approached It
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)]">
                   {selectedProject.approach}
@@ -431,7 +431,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  3. What Was Built & Technology Stack
+                  3. What Was Built & Tools Used
                 </h4>
                 <p className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] mb-3">
                   {selectedProject.whatWasBuilt}
@@ -447,7 +447,7 @@ export default function FeaturedWork({ projects = [] }) {
 
               <div>
                 <h4 className="font-mono text-xs font-bold text-[#C65D35] uppercase tracking-wider mb-2">
-                  4. Demonstrable Result & Deliverable
+                  4. The Verified Result
                 </h4>
                 <div className="bg-[#20201E] p-4 rounded-xl border border-[rgba(245,240,232,0.06)] flex items-start gap-2.5 text-xs text-[#F5F0E8]">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />

@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  ArrowRight, 
-  Globe, 
-  Layers, 
-  Cpu
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { siteContent } from './data/siteContent';
 import Navbar from './components/layout/Navbar';
 import MobileNav from './components/layout/MobileNav';
@@ -14,7 +9,6 @@ import ScrollProgress from './components/motion/ScrollProgress';
 import LuminousBackdrop from './components/motion/LuminousBackdrop';
 import BackToTop from './components/motion/BackToTop';
 import WordRotator from './components/motion/WordRotator';
-import Reveal from './components/motion/Reveal';
 import HeroVisualStage from './components/ui/HeroVisualStage';
 import TrustStrip from './components/ui/TrustStrip';
 import FeaturedWork from './components/ui/FeaturedWork';
@@ -32,7 +26,7 @@ export default function App() {
   const [showCockpit, setShowCockpit] = useState(false);
   const [inquiryScope, setInquiryScope] = useState('');
   
-  const { soundEnabled, toggleSound, playClick } = useAudioFeedback();
+  const { playClick } = useAudioFeedback();
 
   // Audience CTA actions
   const handleAudienceClick = (audienceType) => {
@@ -78,11 +72,7 @@ export default function App() {
       <ScrollProgress />
       
       {/* Navigation */}
-      <Navbar 
-        onOpenMobileMenu={() => setMobileMenuOpen(true)} 
-        soundEnabled={soundEnabled}
-        toggleSound={toggleSound}
-      />
+      <Navbar onOpenMobileMenu={() => setMobileMenuOpen(true)} />
       <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
       <main id="main-content" className="flex-1">
@@ -108,32 +98,33 @@ export default function App() {
                   <span>{siteContent.brand.eyebrow}</span>
                 </div>
 
-                {/* 2. Client-Focused Headline */}
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#20201E] leading-[1.08] tracking-tight mb-4">
-                  Your business deserves more than a basic website.
+                {/* 2. Outcome Headline with Rotating Specialty inside Headline */}
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#20201E] leading-[1.14] tracking-tight mb-5">
+                  I build custom{' '}
+                  <span className="inline-block relative text-[#C65D35]">
+                    {/* First word in static HTML for SEO crawlers and noscript fallback */}
+                    <span className="sr-only">websites</span>
+                    <WordRotator
+                      words={[
+                        "websites",
+                        "booking pages",
+                        "chatbots",
+                        "automations"
+                      ]}
+                      interval={2600}
+                      accentClassName="text-[#C65D35] underline decoration-[#C65D35]/30 underline-offset-4"
+                    />
+                  </span>{' '}
+                  that bring your business more customers.
                 </h1>
-
-                {/* Restrained Rotating Service Focus (Zero layout shift) */}
-                <div className="flex items-center gap-2 mb-6 font-mono text-xs sm:text-sm text-[#72706A]">
-                  <span>Specializing in:</span>
-                  <WordRotator
-                    words={[
-                      "Business websites",
-                      "Web applications",
-                      "AI and workflow automation"
-                    ]}
-                    interval={2600}
-                    accentClassName="text-[#C65D35] font-bold"
-                  />
-                </div>
 
                 {/* 3. Supporting Copy */}
                 <p className="text-base sm:text-lg text-[#575550] leading-relaxed max-w-2xl mb-8 font-normal">
                   {siteContent.brand.subtext}
                 </p>
 
-                {/* 4. Dual Audience Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto mb-10">
+                {/* 4. Dual Audience Action Buttons + Secondary Text Link */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto mb-8">
                   <button
                     type="button"
                     onClick={() => handleAudienceClick('business')}
@@ -150,24 +141,22 @@ export default function App() {
                   >
                     <span>{siteContent.brand.audiencePaths.partner.ctaLabel}</span>
                   </button>
+
+                  <a
+                    href="#projects"
+                    className="inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold text-[#575550] hover:text-[#C65D35] underline underline-offset-4 transition-colors px-2 py-3"
+                  >
+                    See my work →
+                  </a>
                 </div>
 
-                {/* 5. Capability Badge Pills */}
-                <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-[#20201E]/10 w-full">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-[#20201E]/10 text-xs font-mono text-[#20201E] shadow-2xs">
-                    <Globe className="w-3.5 h-3.5 text-[#C65D35]" />
-                    <span>Business Websites</span>
-                  </div>
-
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-[#20201E]/10 text-xs font-mono text-[#20201E] shadow-2xs">
-                    <Layers className="w-3.5 h-3.5 text-[#C65D35]" />
-                    <span>Web Applications</span>
-                  </div>
-
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-[#20201E]/10 text-xs font-mono text-[#20201E] shadow-2xs">
-                    <Cpu className="w-3.5 h-3.5 text-[#C65D35]" />
-                    <span>AI & Automation</span>
-                  </div>
+                {/* 5. Reduced Single Row of Target Audience Chips */}
+                <div className="flex flex-wrap items-center gap-2 pt-6 border-t border-[#20201E]/10 w-full text-xs text-[#575550]">
+                  <span className="font-mono text-[11px] text-[#72706A] uppercase font-bold mr-1">Built for:</span>
+                  <span className="px-3 py-1 rounded-full bg-white border border-[#20201E]/10 font-medium text-[#20201E] shadow-2xs">Clinics & Doctors</span>
+                  <span className="px-3 py-1 rounded-full bg-white border border-[#20201E]/10 font-medium text-[#20201E] shadow-2xs">Cafes & Dining</span>
+                  <span className="px-3 py-1 rounded-full bg-white border border-[#20201E]/10 font-medium text-[#20201E] shadow-2xs">Coaching Centres</span>
+                  <span className="px-3 py-1 rounded-full bg-white border border-[#20201E]/10 font-medium text-[#20201E] shadow-2xs">Local Businesses</span>
                 </div>
               </div>
 
