@@ -31,7 +31,9 @@ export default function Navbar({ onOpenMobileMenu }) {
     { name: 'Home', href: '#hero', id: 'hero' },
     { name: 'Work', href: '#projects', id: 'projects' },
     { name: 'Services', href: '#services', id: 'services' },
+    { name: 'Pricing', href: '#estimator', id: 'estimator' },
     { name: 'Process', href: '#process', id: 'process' },
+    { name: 'FAQ', href: '#faq', id: 'faq' },
     { name: 'About', href: '#about', id: 'about' },
     { name: 'Contact', href: '#contact', id: 'contact' },
   ];

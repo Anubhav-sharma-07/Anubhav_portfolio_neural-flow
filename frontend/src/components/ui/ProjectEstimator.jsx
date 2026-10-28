@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Calendar, Check, ArrowRight } from 'lucide-react';
+import { Calendar, Check, ArrowRight, ShieldCheck, FileCheck } from 'lucide-react';
+import { Analytics } from '../../utils/analytics';
 
 export default function ProjectEstimator({ onSelectScope }) {
   const [currency, setCurrency] = useState('INR'); // 'INR' | 'USD'
@@ -82,6 +83,8 @@ export default function ProjectEstimator({ onSelectScope }) {
     : `$${totalPrice.toLocaleString('en-US')}`;
 
   const handleRequestEstimate = () => {
+    Analytics.estimatorTransfer(currentPlatform.name, estimatedDays);
+
     const selectedFeatureNames = selectedFeatures
       .map((id) => featureOptions.find((f) => f.id === id)?.name)
       .filter(Boolean)
@@ -247,26 +250,26 @@ export default function ProjectEstimator({ onSelectScope }) {
               </div>
             </div>
 
-            {/* Inclusions & Clear Boundaries */}
-            <div className="p-4 rounded-2xl bg-[#F5F0E8] border border-[#20201E]/10 space-y-2 text-xs font-mono">
-              <span className="font-bold text-[#20201E] block uppercase text-[10px] tracking-wider">
+            {/* Inclusions & Guarantees */}
+            <div className="p-5 rounded-2xl bg-[#F5F0E8] border border-[#20201E]/10 space-y-3 text-xs font-mono">
+              <span className="font-bold text-[#20201E] block uppercase text-[11px] tracking-wider">
                 What Every Project Includes:
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#575550]">
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[#575550]">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-[#C65D35] shrink-0" />
                   <span>100% full source code ownership</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
-                  <span>Tested sub-second load times</span>
+                <div className="flex items-center gap-2">
+                  <FileCheck className="w-4 h-4 text-[#C65D35] shrink-0" />
+                  <span>Written milestone agreement</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
-                  <span>Cross-device phone & tablet QA</span>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-[#C65D35] shrink-0" />
+                  <span>Fast, mobile-friendly design</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#C65D35]" />
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>14-day post-launch warranty</span>
                 </div>
               </div>

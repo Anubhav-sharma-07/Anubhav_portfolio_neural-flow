@@ -4,8 +4,10 @@ import {
   CheckCircle2, 
   AlertCircle, 
   Loader2, 
-  RotateCcw
+  RotateCcw,
+  MessageCircle
 } from 'lucide-react';
+import { Analytics } from '../../utils/analytics';
 
 export default function ContactForm({ 
   contactEmail = 'anubhavsharma8210@gmail.com',
@@ -144,12 +146,13 @@ export default function ContactForm({
         if (backendRes.ok) {
           const resData = await backendRes.json();
           if (resData.success) {
+            Analytics.formSubmit(formData.projectType);
             setStatus('success');
             serverHandled = true;
             return;
           }
         }
-      } catch (backendErr) {
+      } catch (_backendErr) {
         // Backend not reachable or running in static preview; fall through
       }
 
@@ -179,6 +182,7 @@ export default function ContactForm({
 
         const result = await response.json();
         if (response.ok && result.success) {
+          Analytics.formSubmit(formData.projectType);
           setStatus('success');
           return;
         }
@@ -501,27 +505,40 @@ export default function ContactForm({
         </div>
       )}
 
-      {/* Submit Action */}
-      <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="btn-burnt-orange w-full sm:w-auto text-xs font-semibold px-8 py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-50"
-        >
-          {status === 'loading' ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Sending enquiry...</span>
-            </>
-          ) : (
-            <>
-              <span>Send Project Enquiry</span>
-              <ArrowRight className="w-4 h-4" />
-            </>
-          )}
-        </button>
+      {/* Submit Action & WhatsApp Quick Option */}
+      <div className="pt-2 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            className="btn-burnt-orange text-xs font-semibold px-8 py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-50"
+          >
+            {status === 'loading' ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Sending enquiry...</span>
+              </>
+            ) : (
+              <>
+                <span>Send Project Enquiry</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
 
-        <span className="font-mono text-[11px] text-[#A8A69E]">
+          <a
+            href="https://wa.me/918700774976?text=Hi%20Anubhav,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20website"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => Analytics.whatsAppClick('contact_form_fallback')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg bg-[#25D366]/15 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all text-xs font-semibold cursor-pointer active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4 fill-current shrink-0" />
+            <span>Prefer WhatsApp? Chat now</span>
+          </a>
+        </div>
+
+        <span className="font-mono text-[11px] text-[#A8A69E] text-center lg:text-right">
           Direct reply within 24 hours · No obligation
         </span>
       </div>

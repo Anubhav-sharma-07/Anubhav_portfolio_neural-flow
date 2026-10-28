@@ -486,5 +486,52 @@ export const siteContent = {
     ]
   },
 
+  // ----------------------------------------------------------------------------
+  // CALENDAR BOOKING (TODO: Anubhav to confirm phone number and provide Cal.com URL)
+  // ----------------------------------------------------------------------------
+  booking: {
+    enabled: false, // Set to true once Cal.com or Calendly URL is provided
+    calUrl: "", // TODO: Provide Cal.com link (e.g. "https://cal.com/anubhav/15min")
+    label: "Book a 15-minute call"
+  },
+
+  // ----------------------------------------------------------------------------
+  // FAQ (8 PLAIN-LANGUAGE QUESTIONS FOR NON-TECHNICAL CLIENTS)
+  // ----------------------------------------------------------------------------
+  faqs: [
+    {
+      q: "How much does a website cost?",
+      a: "Business websites start at ₹5,999 ($89 USD) for straightforward pages. More complex requirements like customer logins or custom online tools are quoted individually based on the exact features you need. You always get a fixed quote upfront with no surprise costs."
+    },
+    {
+      q: "How long will it take to build?",
+      a: "A typical business website takes about 7 to 10 days from initial brief to launch. Larger applications with custom databases or workflows usually take 2 to 3 weeks. You will receive private test links along the way so you can test progress on your phone."
+    },
+    {
+      q: "Who owns the website and code when we finish?",
+      a: "You do. You receive 100% ownership of all design files, source code, and domain settings upon final launch. You are never locked into any proprietary builder or monthly agency contract."
+    },
+    {
+      q: "Will the website work smoothly on mobile phones?",
+      a: "Yes. Every website is built mobile-first so it opens quickly, looks sharp, and allows your customers to tap to call, message on WhatsApp, or book an appointment without any pinching or zooming."
+    },
+    {
+      q: "What if I need changes or help after launch?",
+      a: "Every project comes with a 14-day post-launch warranty where I fix any bugs or small text adjustments for free. If you want to update content yourself later, I can set up a simple dashboard so you can edit text and prices anytime without calling me."
+    },
+    {
+      q: "Can I add a WhatsApp chat button or appointment booking?",
+      a: "Yes. A 1-click WhatsApp button with a pre-filled greeting and a mobile appointment form are two of the most popular features I build for clinics, cafes, and local businesses."
+    },
+    {
+      q: "How do we get started?",
+      a: "You can send a message using the enquiry form below or click the WhatsApp button. Tell me about your business, what pages you want, and your target date. I will reply within 24 hours with recommendations and a clear quote."
+    },
+    {
+      q: "What do you need from me before we begin?",
+      a: "Just your business name, contact details, a brief list of the services you offer, and any photos or logos you have. If you do not have written copy or photos yet, I will help you organize the content structure."
+    }
+  ],
+
   testimonials: []
 };

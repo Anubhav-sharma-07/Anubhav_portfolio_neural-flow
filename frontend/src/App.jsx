@@ -15,9 +15,12 @@ import FeaturedWork from './components/ui/FeaturedWork';
 import ServicesSection from './components/ui/ServicesSection';
 import ProcessSection from './components/ui/ProcessSection';
 import ProjectEstimator from './components/ui/ProjectEstimator';
-import PricingSection from './components/ui/PricingSection';
 import AboutSection from './components/ui/AboutSection';
+import FAQSection from './components/ui/FAQSection';
 import ContactSection from './components/ui/ContactSection';
+import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
+import MobileBottomBar from './components/ui/MobileBottomBar';
+import PrivacyModal from './components/ui/PrivacyModal';
 import { useAudioFeedback } from './hooks/useAudioFeedback';
 import CockpitApp from './CockpitApp';
 
@@ -25,6 +28,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showCockpit, setShowCockpit] = useState(false);
   const [inquiryScope, setInquiryScope] = useState('');
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   
   const { playClick } = useAudioFeedback();
 
@@ -196,7 +200,7 @@ export default function App() {
         <ProcessSection steps={siteContent.processSteps} note={siteContent.processNote} />
 
         {/* ========================================================================= */}
-        {/* SECTION 05 — PROJECT ESTIMATOR (WARM IVORY #F5F0E8)                        */}
+        {/* SECTION 05 — PRICING & PROJECT ESTIMATOR (WARM IVORY #F5F0E8)               */}
         {/* ========================================================================= */}
         <ProjectEstimator 
           onSelectScope={(scopeSummary) => {
@@ -206,20 +210,14 @@ export default function App() {
         />
 
         {/* ========================================================================= */}
-        {/* SECTION 06 — ENGAGEMENT MODELS & PRICING (WARM IVORY #F5F0E8)               */}
-        {/* ========================================================================= */}
-        <PricingSection 
-          pricing={siteContent.pricing} 
-          onSelectPlan={(serviceTitle) => {
-            setInquiryScope(`Service Interest: ${serviceTitle}`);
-            playClick();
-          }}
-        />
-
-        {/* ========================================================================= */}
-        {/* SECTION 07 — ABOUT ANUBHAV & NEURAL FLOW (WARM IVORY #F5F0E8)              */}
+        {/* SECTION 06 — ABOUT ANUBHAV & NEURAL FLOW (WARM IVORY #F5F0E8)              */}
         {/* ========================================================================= */}
         <AboutSection about={siteContent.about} />
+
+        {/* ========================================================================= */}
+        {/* SECTION 07 — FREQUENTLY ASKED QUESTIONS (WARM IVORY #F5F0E8)               */}
+        {/* ========================================================================= */}
+        <FAQSection faqs={siteContent.faqs} />
 
         {/* ========================================================================= */}
         {/* SECTION 08 — CONTACT & CONVERSION (CHARCOAL #20201E)                       */}
@@ -233,7 +231,28 @@ export default function App() {
       </main>
 
       {/* Footer (Charcoal #20201E) */}
-      <Footer onSwitchToCockpit={() => setShowCockpit(true)} />
+      <Footer 
+        onSwitchToCockpit={() => setShowCockpit(true)} 
+        onOpenPrivacy={() => setPrivacyOpen(true)}
+      />
+
+      {/* Floating WhatsApp Action (Desktop & Tablet) */}
+      <FloatingWhatsApp 
+        whatsappNumber={siteContent.socials.whatsappNumber}
+        whatsappLink={siteContent.socials.whatsapp}
+      />
+
+      {/* Mobile Sticky Bottom Conversion Bar */}
+      <MobileBottomBar 
+        whatsappNumber={siteContent.socials.whatsappNumber}
+        whatsappLink={siteContent.socials.whatsapp}
+      />
+
+      {/* Privacy Policy Modal */}
+      <PrivacyModal 
+        isOpen={privacyOpen}
+        onClose={() => setPrivacyOpen(false)}
+      />
 
       {/* Floating Back to Top Action */}
       <BackToTop onPlayClick={playClick} />

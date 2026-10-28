@@ -26,7 +26,9 @@ export default function MobileNav({ isOpen, onClose }) {
     { name: 'Home', href: '#hero' },
     { name: 'Work', href: '#projects' },
     { name: 'Services', href: '#services' },
+    { name: 'Pricing & Estimator', href: '#estimator' },
     { name: 'Process', href: '#process' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];

@@ -4,7 +4,7 @@ import { GithubIcon, LinkedinIcon, InstagramIcon } from '../ui/Icons';
 import { siteContent } from '../../content/siteContent';
 import BrandMark from '../ui/BrandMark';
 
-export default function Footer({ onSwitchToCockpit }) {
+export default function Footer({ onSwitchToCockpit, onOpenPrivacy }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -12,7 +12,7 @@ export default function Footer({ onSwitchToCockpit }) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[rgba(245,240,232,0.08)] bg-[#20201E] text-[#F5F0E8] pt-16 pb-12">
+    <footer className="border-t border-[rgba(245,240,232,0.08)] bg-[#20201E] text-[#F5F0E8] pt-16 pb-20 sm:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[rgba(245,240,232,0.08)]">
           {/* Brand & Identity */}
@@ -145,11 +145,23 @@ export default function Footer({ onSwitchToCockpit }) {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright, Cockpit Link & Scroll to Top */}
+        {/* Bottom Bar: Copyright, Privacy Link, Cockpit Link & Scroll to Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#72706A]">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
             <span>© {currentYear} Neural Flow · Anubhav Sharma</span>
             <span>•</span>
+            {onOpenPrivacy && (
+              <>
+                <button
+                  type="button"
+                  onClick={onOpenPrivacy}
+                  className="hover:text-[#F5F0E8] underline transition-colors cursor-pointer"
+                >
+                  Privacy Policy
+                </button>
+                <span>•</span>
+              </>
+            )}
             <span>All rights reserved</span>
           </div>
 
