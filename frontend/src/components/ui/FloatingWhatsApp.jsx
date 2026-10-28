@@ -20,7 +20,7 @@ export default function FloatingWhatsApp({ whatsappNumber = '+91 87007 74976', w
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleClick}
-        className="group flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#25D366] text-white shadow-xl hover:shadow-2xl hover:bg-[#20ba59] transition-all hover:scale-105 active:scale-95 border border-white/20"
+        className="group min-h-[44px] flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#25D366] text-white shadow-xl hover:shadow-2xl hover:bg-[#20ba59] transition-all hover:scale-105 active:scale-95 border border-white/20"
         aria-label="Chat directly with Anubhav on WhatsApp"
       >
         <div className="relative">

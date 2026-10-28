@@ -98,10 +98,10 @@ export default function Navbar({ onOpenMobileMenu }) {
           <button
             type="button"
             onClick={onOpenMobileMenu}
-            className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center bg-white/80 border border-[#20201E]/10 text-[#20201E] hover:border-[#C65D35] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35]"
+            className="md:hidden w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center bg-white/80 border border-[#20201E]/10 text-[#20201E] hover:border-[#C65D35] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C65D35] cursor-pointer"
             aria-label="Open mobile navigation"
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
       </div>

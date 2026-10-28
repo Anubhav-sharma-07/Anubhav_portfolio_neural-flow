@@ -28,7 +28,7 @@ export default function MobileBottomBar({ whatsappNumber = '+91 87007 74976', wh
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleWhatsAppClick}
-        className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#25D366] text-white font-display font-bold text-xs tracking-tight shadow-md active:scale-95 transition-transform"
+        className="flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#25D366] text-white font-display font-bold text-xs tracking-tight shadow-md active:scale-95 transition-transform"
         aria-label="Direct message on WhatsApp"
       >
         <MessageCircle className="w-4 h-4 fill-current shrink-0" />
@@ -39,7 +39,7 @@ export default function MobileBottomBar({ whatsappNumber = '+91 87007 74976', wh
       <button
         type="button"
         onClick={handleQuoteClick}
-        className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#C65D35] text-white font-display font-bold text-xs tracking-tight shadow-md active:scale-95 transition-transform cursor-pointer"
+        className="flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#C65D35] text-white font-display font-bold text-xs tracking-tight shadow-md active:scale-95 transition-transform cursor-pointer"
       >
         <Calculator className="w-4 h-4 shrink-0" />
         <span>Get a Quote</span>
