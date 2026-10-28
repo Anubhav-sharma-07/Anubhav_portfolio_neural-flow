@@ -3,6 +3,7 @@ import { ShieldCheck } from 'lucide-react';
 
 export default function HeroVisualStage() {
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const stageRef = useRef(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
@@ -36,8 +37,21 @@ export default function HeroVisualStage() {
 
   const currentProject = previewProjects[activeProjectIdx];
 
+  // Auto-rotate preview tabs every 4s (pause on hover or reduced-motion)
   useEffect(() => {
-    // Only enable 3D pointer tilt if fine pointer device (mouse) and no reduced motion
+    if (isHovered) return;
+    const isReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    const interval = setInterval(() => {
+      setActiveProjectIdx((prev) => (prev + 1) % previewProjects.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, previewProjects.length]);
+
+  useEffect(() => {
+    // 2.5D Spring Tilt (±8 deg, perspective 1000)
     const pointerFine = window.matchMedia('(pointer: fine)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -56,9 +70,9 @@ export default function HeroVisualStage() {
       const normX = (e.clientX - centerX) / (rect.width / 2);
       const normY = (e.clientY - centerY) / (rect.height / 2);
 
-      // Max tilt angles: X: -6 to 6 deg, Y: -8 to 8 deg
+      // Max tilt angles: X: -8 to 8 deg, Y: -8 to 8 deg
       mousePos.current = {
-        x: Math.max(-1, Math.min(1, normY)) * -6,
+        x: Math.max(-1, Math.min(1, normY)) * -8,
         y: Math.max(-1, Math.min(1, normX)) * 8
       };
     };
@@ -99,17 +113,19 @@ export default function HeroVisualStage() {
   return (
     <div 
       ref={stageRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="relative w-full max-w-xl mx-auto lg:max-w-none select-none"
-      style={{ perspective: '1200px' }}
+      style={{ perspective: '1000px' }}
     >
       {/* 3D Perspective Stage Container */}
       <div 
         className="perspective-stage-inner relative transition-transform duration-300 ease-out will-change-transform"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        {/* Ambient Burnt Orange & Charcoal Floor Glow */}
+        {/* Soft Blue-Violet Glow behind mockup (Tokens: royal #2B4BFF & violet #7B4DFF) */}
         <div 
-          className="absolute -inset-4 bg-gradient-to-tr from-[#C65D35]/20 via-[#20201E]/5 to-transparent rounded-3xl blur-2xl -z-10 pointer-events-none"
+          className="absolute -inset-6 bg-gradient-to-tr from-[#7B4DFF]/25 via-[#2B4BFF]/20 to-[#FF5C39]/15 rounded-3xl blur-3xl -z-10 pointer-events-none"
           style={{ transform: 'translateZ(-40px)' }}
         />
 

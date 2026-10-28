@@ -417,6 +417,8 @@ export const siteContent = {
     headline: "About Anubhav Sharma",
     intro: "I am an independent web developer based in Delhi, India. I build websites and digital tools for business owners who want reliable results without the slow communication or high fees of traditional agencies. When you work with Neural Flow, you talk directly with me from the first message to final launch.",
     avatar: "/images/anubhav-sharma.jpg",
+    // TODO: Anubhav to provide optional 30-45s mp4 intro video URL (e.g. "/videos/anubhav-intro.mp4"). Cleanly hides when null.
+    introVideo: null,
     values: [
       {
         title: "Direct communication with me",

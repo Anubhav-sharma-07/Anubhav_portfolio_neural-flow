@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, CheckCircle2, X, Eye } from 'lucide-react';
 import { GithubIcon } from './Icons';
+import HoverVideo from '../motion/HoverVideo';
 
 export default function FeaturedWork({ projects = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -219,13 +220,13 @@ export default function FeaturedWork({ projects = [] }) {
                   </div>
                 </div>
 
-                {/* Screenshot with subtle hover zoom */}
+                {/* Screenshot / Hover Video with subtle hover zoom */}
                 <div className="relative aspect-[16/10] sm:aspect-[16/11] bg-[#141412] overflow-hidden">
-                  <img
-                    src={flagshipProject.image}
+                  <HoverVideo
+                    posterSrc={flagshipProject.image}
+                    videoSrc={flagshipProject.video}
                     alt={flagshipProject.title}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
-                    loading="lazy"
+                    className="w-full h-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/40 to-transparent pointer-events-none" />
 
@@ -266,13 +267,13 @@ export default function FeaturedWork({ projects = [] }) {
                   </span>
                 </div>
 
-                {/* Screenshot Frame */}
+                {/* Screenshot / Hover Video Frame */}
                 <div className="relative aspect-[16/10] bg-[#161614] overflow-hidden border-b border-[rgba(245,240,232,0.06)]">
-                  <img
-                    src={project.image}
+                  <HoverVideo
+                    posterSrc={project.image}
+                    videoSrc={project.video}
                     alt={`${project.title} — ${project.category}`}
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
-                    loading="lazy"
+                    className="w-full h-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#20201E]/30 to-transparent pointer-events-none" />
                 </div>
@@ -467,11 +468,11 @@ export default function FeaturedWork({ projects = [] }) {
                     className="btn-burnt-orange text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-1.5 shadow-xs"
                   >
                     <span>View Live Website</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 ) : (
                   <div className="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-2 rounded-lg bg-[#20201E] border border-[rgba(245,240,232,0.08)] text-[#A8A69E]">
-                    <Code2 className="w-3.5 h-3.5 text-[#C65D35]" />
+                    <GithubIcon className="w-3.5 h-3.5 text-[#C65D35]" />
                     <span>Prototype Repository Available</span>
                   </div>
                 )}

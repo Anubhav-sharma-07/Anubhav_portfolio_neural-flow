@@ -45,7 +45,7 @@ export default function AboutSection({ about }) {
             </div>
 
             {/* Quick Facts Card */}
-            <div className="w-full max-w-sm bg-white rounded-2xl p-5 border border-[#20201E]/10 shadow-xs text-xs space-y-3 font-mono">
+            <div className="w-full max-w-sm bg-white rounded-2xl p-5 border border-[#20201E]/10 shadow-xs text-xs space-y-3 font-mono mb-4">
               <div className="flex items-center justify-between text-[#575550]">
                 <span>Location:</span>
                 <span className="font-semibold text-[#20201E]">Delhi, India</span>
@@ -62,6 +62,27 @@ export default function AboutSection({ about }) {
                 <span className="font-semibold text-[#20201E]">India, US, UK, Global</span>
               </div>
             </div>
+
+            {/* Optional Intro Video (Cleanly hides when empty per Hard Rule #2) */}
+            {about?.introVideo && (
+              <div className="w-full max-w-sm bg-white rounded-2xl p-3 border border-[#20201E]/10 shadow-xs">
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-black/90">
+                  <video
+                    src={about.introVideo}
+                    poster={about.avatar}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <p className="mt-2 text-[11px] font-mono text-[#575550] text-center">
+                  30s Intro: How I build for clients
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Natural Story & 3 Working-Style Points */}

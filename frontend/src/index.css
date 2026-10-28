@@ -88,30 +88,31 @@
   background: var(--ivory-surface-elevated);
 }
 
-/* Primary Burnt Orange Action Button */
+/* Primary High-Conversion Action Button (Coral with Ink Text for WCAG AAA Contrast) */
 .btn-burnt-orange {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: var(--color-burnt-orange);
-  color: #F5F0E8;
+  background-color: var(--color-agency-coral, #FF5C39);
+  color: var(--color-agency-ink, #0A0F24);
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.875rem;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(198, 93, 53, 0.25);
+  box-shadow: 0 4px 14px rgba(255, 92, 57, 0.3);
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
 
 .btn-burnt-orange:hover {
-  background-color: var(--color-burnt-orange-hover);
+  background-color: #FF7050;
+  color: #0A0F24;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(198, 93, 53, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 92, 57, 0.45);
 }
 
 .btn-burnt-orange:active {
