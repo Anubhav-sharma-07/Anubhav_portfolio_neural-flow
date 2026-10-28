@@ -493,7 +493,7 @@ export default function ContactForm({
               </a>
               <span className="text-red-400">or</span>
               <a
-                href="https://wa.me/918700774976"
+                href="https://wa.me/918210724256"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-emerald-400 hover:text-emerald-300 font-mono"
@@ -527,7 +527,7 @@ export default function ContactForm({
           </button>
 
           <a
-            href="https://wa.me/918700774976?text=Hi%20Anubhav,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20website"
+            href="https://wa.me/918210724256?text=Hi%20Anubhav,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20website"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => Analytics.whatsAppClick('contact_form_fallback')}

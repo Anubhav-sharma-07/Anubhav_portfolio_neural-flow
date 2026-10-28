@@ -5,8 +5,8 @@
  */
 
 export const CONTACT_EMAIL = 'anubhavsharma8210@gmail.com';
-export const WHATSAPP_NUMBER = '+91 87007 74976';
-export const WHATSAPP_LINK = 'https://wa.me/918700774976';
+export const WHATSAPP_NUMBER = '+91 82107 24256';
+export const WHATSAPP_LINK = 'https://wa.me/918210724256';
 
 // Configurable via environment variable VITE_SITE_URL
 export const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://anubhavsharma.dev';

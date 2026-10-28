@@ -2,7 +2,7 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { Analytics } from '../../utils/analytics';
 
-export default function FloatingWhatsApp({ whatsappNumber = '+91 87007 74976', whatsappLink }) {
+export default function FloatingWhatsApp({ whatsappNumber = '+91 82107 24256', whatsappLink }) {
   const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
   const prefilledMessage = encodeURIComponent(
     "Hi Anubhav, I saw your portfolio and would like to discuss a website for my business."

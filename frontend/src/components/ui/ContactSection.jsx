@@ -40,13 +40,13 @@ export default function ContactSection({
             </a>
 
             <a
-              href={contact?.whatsappLink || 'https://wa.me/918700774976'}
+              href={contact?.whatsappLink || 'https://wa.me/918210724256'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#272725] border border-[rgba(245,240,232,0.08)] hover:border-[#C65D35] text-[#F5F0E8] transition-colors"
             >
               <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span>{contact?.whatsappNumber || '+91 87007 74976'}</span>
+              <span>{contact?.whatsappNumber || '+91 82107 24256'}</span>
             </a>
 
             <div className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#272725] border border-[rgba(245,240,232,0.08)] text-[#A8A69E]">
